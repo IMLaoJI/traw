@@ -1,5 +1,9 @@
-import { Button } from "ui";
-import { Traw } from "@traw/traw";
+import dynamic from "next/dynamic";
+
+const DynamicTraw = dynamic(() => import("./TrawWrapper"), {
+  ssr: false,
+  loading: () => <p>Loading...</p>,
+});
 
 export default function Web() {
   return (
@@ -13,7 +17,7 @@ export default function Web() {
         display: "flex",
       }}
     >
-      <Traw />
+      <DynamicTraw />
     </div>
   );
 }

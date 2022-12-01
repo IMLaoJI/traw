@@ -11,6 +11,9 @@ export interface TrawProps {
 const Traw = ({ id }: TrawProps) => {
   console.log(id);
 
+  if (typeof window === "undefined") {
+    return null;
+  }
   return (
     <div className="flex flex-1 flex-col overflow-hidden">
       <div className="h-14">
