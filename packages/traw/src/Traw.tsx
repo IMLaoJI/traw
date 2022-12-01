@@ -28,4 +28,4 @@ const Traw = ({ id }: TrawProps) => {
   );
 };
 
-export default Traw;
+export { Traw };

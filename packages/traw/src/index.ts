@@ -1,4 +1,3 @@
-import TestComponent from "./TestComponent";
 import "./index.css";
 
-export { TestComponent };
+export * from "./Traw";

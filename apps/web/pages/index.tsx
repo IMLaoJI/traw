@@ -1,12 +1,19 @@
 import { Button } from "ui";
-import { TestComponent } from "@traw/traw"
+import { Traw } from "@traw/traw";
 
 export default function Web() {
   return (
-    <div>
-      <h1>Web</h1>
-      <Button />
-      <TestComponent heading="asdf" content="asdff" />
+    <div
+      style={{
+        position: "absolute",
+        top: 0,
+        bottom: 0,
+        right: 0,
+        left: 0,
+        display: "flex",
+      }}
+    >
+      <Traw />
     </div>
   );
 }
