@@ -1,15 +1,21 @@
-import { ComponentMeta, ComponentStory } from '@storybook/react';
-import React from 'react';
-import { Header } from './';
+import { ComponentMeta, ComponentStory } from "@storybook/react";
+import React from "react";
+import { Header } from "./";
 
 export default {
-  title: 'Traw/Header',
+  title: "Traw/Header",
   component: Header,
   argTypes: {},
   args: {},
 } as ComponentMeta<typeof Header>;
 
-const Template: ComponentStory<typeof Header> = () => <Header />;
+const Template: ComponentStory<typeof Header> = (props) => (
+  <Header {...props} />
+);
 export const Default = Template.bind({});
 
-Default.args = {};
+Default.args = {
+  title: "My Traw",
+  canEdit: true,
+  handleChangeTitle: (name: string) => {},
+};
