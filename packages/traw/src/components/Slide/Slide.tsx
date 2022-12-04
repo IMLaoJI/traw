@@ -11,10 +11,11 @@ const Slide = () => {
     if (!slideDomRef.current) return;
     const width = slideDomRef.current.clientWidth;
     const zoom = width / SLIDE_WIDTH;
-    app.setCamera([SLIDE_WIDTH / 2, SLIDE_HEIGHT / 2], zoom, "just");
+    app.setCamera([SLIDE_WIDTH / 2, SLIDE_HEIGHT / 2], zoom, "fixCamera");
   }, [app]);
 
   useEffect(() => {
+    handleResize();
     addEventListener("resize", handleResize);
     return () => {
       removeEventListener("resize", handleResize);

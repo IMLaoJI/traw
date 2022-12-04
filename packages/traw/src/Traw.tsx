@@ -6,30 +6,27 @@ import { TrawContext } from "./hooks/useTrawApp";
 import "./index.css";
 import { TrawApp } from "./state/TrawApp";
 import { TDShapeType } from "@tldraw/tldraw";
+import { Record } from "./types";
+import useRecord from "./hooks/useRecord";
 
 export interface TrawProps {
   id?: string;
+  records?: Record[];
+  onAddRecord?: (record: Record) => void;
 }
 
-const Traw = ({ id }: TrawProps) => {
+const Traw = ({ id, records = [], onAddRecord }: TrawProps) => {
   const [sId, setSId] = React.useState(id);
 
   // Create a new app when the component mounts.
   const [app, setApp] = React.useState(() => {
-    const app = new TrawApp(id, {});
+
+    const app = new TrawApp(id, { });
     app.selectTool(TDShapeType.Draw);
     return app;
   });
 
-  // Create a new app if the `id` prop changes.
-  React.useLayoutEffect(() => {
-    if (id === sId) return;
-    const newApp = new TrawApp(id, {});
-
-    setSId(id);
-
-    setApp(newApp);
-  }, [sId, id]);
+  useRecord(app, records, onAddRecord)
 
   React.useLayoutEffect(() => {
     if (typeof window === "undefined") return;
