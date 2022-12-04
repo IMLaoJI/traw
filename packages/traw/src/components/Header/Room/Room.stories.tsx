@@ -1,6 +1,7 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import React from "react";
 import Room from "./Room";
+import { OTHERS, MY_SELF } from "./testData";
 
 export default {
   title: "Traw/Header/Room",
@@ -14,7 +15,18 @@ export const Default = Template.bind({});
 
 Default.args = {
   inCallparticipants: [],
-  outCallparticipants: [<div key={1} />, <div key={2} />],
+  outCallparticipants: OTHERS,
+  isBrowser: true,
+  isMicMuted: false,
+  isInCall: false,
+  isConnecting: false,
+  canJoinCall: true,
+};
+
+export const InCall = Template.bind({});
+InCall.args = {
+  inCallparticipants: [...OTHERS, MY_SELF],
+  outCallparticipants: [],
   isBrowser: true,
   isMicMuted: false,
   isInCall: false,

@@ -13,9 +13,13 @@ export const MuteButton = memo(function MuteButton({
   return (
     <button
       onClick={onClick}
-      className="rounded-full bg-traw-grey pl-2 pr-3 py-1.5 flex justify-center items-center "
+      className="flex justify-center items-center rounded-full btn-grey"
     >
-      {isMuted ? <SvgMicOff /> : <SvgMic />}
+      {isMuted ? (
+        <SvgMicOff className="fill-current w-4 h-4" />
+      ) : (
+        <SvgMic className="fill-current w-4 h-4" />
+      )}
     </button>
   );
 });

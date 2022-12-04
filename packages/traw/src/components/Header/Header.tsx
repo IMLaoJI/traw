@@ -25,7 +25,7 @@ const Header = ({ title, canEdit, handleChangeTitle, Room }: HeaderProps) => {
           handleChangeTitle={handleChangeTitle}
         />
       </div>
-      <div className="flex flex-grow justify-end">{Room}</div>
+      <div className="flex flex-grow justify-end gap-1">{Room}</div>
     </div>
   );
 };

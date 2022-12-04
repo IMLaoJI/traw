@@ -1,4 +1,5 @@
 import React from "react";
+import Participants from "../Participants/Participants";
 import CallButton from "./CallButton";
 import CallControl from "./CallControl";
 import JoinCallButton from "./JoinCallButton";
@@ -33,7 +34,7 @@ const Room = ({
   return (
     <>
       {inCallparticipants.length > 0 && (
-        <div>
+        <div className="border border-traw-purple flex items-center justify-center gap-1 py-1 px-2 rounded-full w-fit ">
           {isInCall && (
             <CallControl
               isMicMuted={isMicMuted}
@@ -41,7 +42,7 @@ const Room = ({
               onToggleMic={onToggleMic}
             />
           )}
-          <div>
+          <div className="flex gap-1 items-center">
             {!isInCall && (
               <CallButton isConnecting={canJoinCall && isConnecting}>
                 <JoinCallButton
@@ -50,7 +51,10 @@ const Room = ({
                 />
               </CallButton>
             )}
-            Participants
+            <Participants
+              isBrowser={isBrowser}
+              participants={inCallparticipants}
+            />
           </div>
         </div>
       )}
@@ -60,7 +64,7 @@ const Room = ({
         </CallButton>
       )}
 
-      <div>Participants</div>
+      <Participants isBrowser={isBrowser} participants={outCallparticipants} />
     </>
   );
 };
