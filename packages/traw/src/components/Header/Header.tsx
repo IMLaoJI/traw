@@ -1,14 +1,18 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import Logo from "../../icons/Logo";
 import Title from "./Title";
 
-interface TitleProps {
+interface HeaderProps {
+  // Title
   title: string;
   canEdit: boolean;
-  handleChangeName: (name: string) => void;
+  handleChangeTitle: (name: string) => void;
+
+  // Room
+  Room: ReactNode;
 }
 
-const Header = ({ title, canEdit, handleChangeTitle }) => {
+const Header = ({ title, canEdit, handleChangeTitle, Room }: HeaderProps) => {
   return (
     <div className="flex flex-row h-14 pl-3 bg-white items-center">
       <button className="flex h-9 w-9 rounded-full bg-white items-center justify-center text-xl hover:bg-traw-sky">
@@ -21,6 +25,7 @@ const Header = ({ title, canEdit, handleChangeTitle }) => {
           handleChangeTitle={handleChangeTitle}
         />
       </div>
+      <div className="flex flex-grow justify-end">{Room}</div>
     </div>
   );
 };
