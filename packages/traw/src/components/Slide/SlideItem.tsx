@@ -2,11 +2,13 @@ import { Renderer } from "@tldraw/core";
 import React from "react";
 import { useTrawApp } from "../../hooks/useTrawApp";
 import { shapeUtils, TLDR, TDStatus } from "@tldraw/tldraw";
+import { useKeyboardShortcuts } from "../../hooks/useKeyboardShortcuts";
 
 const SlideItem = () => {
   const app = useTrawApp();
   const state = app.useStore();
   const id = "traw";
+  useKeyboardShortcuts();
 
   const { document, settings, appState, room } = state;
 
@@ -92,80 +94,82 @@ const SlideItem = () => {
     isInSession || !isSelecting || pageState.camera.zoom < 0.2;
 
   return (
-    <Renderer
-      id={id}
-      shapeUtils={shapeUtils}
-      page={page}
-      pageState={pageState}
-      assets={assets}
-      snapLines={appState.snapLines}
-      eraseLine={appState.eraseLine}
-      users={room?.users}
-      userId={room?.userId}
-      theme={theme}
-      meta={meta}
-      hideBounds={hideBounds}
-      hideHandles={hideHandles}
-      hideResizeHandles={isHideResizeHandlesShape}
-      hideIndicators={hideIndicators}
-      hideBindingHandles={!settings.showBindingHandles}
-      hideCloneHandles={hideCloneHandles}
-      hideRotateHandles={!settings.showRotateHandles}
-      hideGrid={!settings.showGrid}
-      showDashedBrush={showDashedBrush}
-      performanceMode={app.session?.performanceMode}
-      onPinchStart={app.onPinchStart}
-      onPinchEnd={app.onPinchEnd}
-      onPinch={app.onPinch}
-      onPan={app.onPan}
-      onZoom={app.onZoom}
-      onPointerDown={app.onPointerDown}
-      onPointerMove={app.onPointerMove}
-      onPointerUp={app.onPointerUp}
-      onPointCanvas={app.onPointCanvas}
-      onDoubleClickCanvas={app.onDoubleClickCanvas}
-      onRightPointCanvas={app.onRightPointCanvas}
-      onDragCanvas={app.onDragCanvas}
-      onReleaseCanvas={app.onReleaseCanvas}
-      onPointShape={app.onPointShape}
-      onDoubleClickShape={app.onDoubleClickShape}
-      onRightPointShape={app.onRightPointShape}
-      onDragShape={app.onDragShape}
-      onHoverShape={app.onHoverShape}
-      onUnhoverShape={app.onUnhoverShape}
-      onReleaseShape={app.onReleaseShape}
-      onPointBounds={app.onPointBounds}
-      onDoubleClickBounds={app.onDoubleClickBounds}
-      onRightPointBounds={app.onRightPointBounds}
-      onDragBounds={app.onDragBounds}
-      onHoverBounds={app.onHoverBounds}
-      onUnhoverBounds={app.onUnhoverBounds}
-      onReleaseBounds={app.onReleaseBounds}
-      onPointBoundsHandle={app.onPointBoundsHandle}
-      onDoubleClickBoundsHandle={app.onDoubleClickBoundsHandle}
-      onRightPointBoundsHandle={app.onRightPointBoundsHandle}
-      onDragBoundsHandle={app.onDragBoundsHandle}
-      onHoverBoundsHandle={app.onHoverBoundsHandle}
-      onUnhoverBoundsHandle={app.onUnhoverBoundsHandle}
-      onReleaseBoundsHandle={app.onReleaseBoundsHandle}
-      onPointHandle={app.onPointHandle}
-      onDoubleClickHandle={app.onDoubleClickHandle}
-      onRightPointHandle={app.onRightPointHandle}
-      onDragHandle={app.onDragHandle}
-      onHoverHandle={app.onHoverHandle}
-      onUnhoverHandle={app.onUnhoverHandle}
-      onReleaseHandle={app.onReleaseHandle}
-      onError={app.onError}
-      onRenderCountChange={app.onRenderCountChange}
-      onShapeChange={app.onShapeChange}
-      onShapeBlur={app.onShapeBlur}
-      onShapeClone={app.onShapeClone}
-      onBoundsChange={app.updateBounds}
-      onKeyDown={app.onKeyDown}
-      onKeyUp={app.onKeyUp}
-      onDragOver={app.onDragOver}
-      onDrop={app.onDrop}
-    />
+    <>
+      <Renderer
+        id={id}
+        shapeUtils={shapeUtils}
+        page={page}
+        pageState={pageState}
+        assets={assets}
+        snapLines={appState.snapLines}
+        eraseLine={appState.eraseLine}
+        users={room?.users}
+        userId={room?.userId}
+        theme={theme}
+        meta={meta}
+        hideBounds={hideBounds}
+        hideHandles={hideHandles}
+        hideResizeHandles={isHideResizeHandlesShape}
+        hideIndicators={hideIndicators}
+        hideBindingHandles={!settings.showBindingHandles}
+        hideCloneHandles={hideCloneHandles}
+        hideRotateHandles={!settings.showRotateHandles}
+        hideGrid={!settings.showGrid}
+        showDashedBrush={showDashedBrush}
+        performanceMode={app.session?.performanceMode}
+        onPinchStart={app.onPinchStart}
+        onPinchEnd={app.onPinchEnd}
+        onPinch={app.onPinch}
+        onPan={app.onPan}
+        onZoom={app.onZoom}
+        onPointerDown={app.onPointerDown}
+        onPointerMove={app.onPointerMove}
+        onPointerUp={app.onPointerUp}
+        onPointCanvas={app.onPointCanvas}
+        onDoubleClickCanvas={app.onDoubleClickCanvas}
+        onRightPointCanvas={app.onRightPointCanvas}
+        onDragCanvas={app.onDragCanvas}
+        onReleaseCanvas={app.onReleaseCanvas}
+        onPointShape={app.onPointShape}
+        onDoubleClickShape={app.onDoubleClickShape}
+        onRightPointShape={app.onRightPointShape}
+        onDragShape={app.onDragShape}
+        onHoverShape={app.onHoverShape}
+        onUnhoverShape={app.onUnhoverShape}
+        onReleaseShape={app.onReleaseShape}
+        onPointBounds={app.onPointBounds}
+        onDoubleClickBounds={app.onDoubleClickBounds}
+        onRightPointBounds={app.onRightPointBounds}
+        onDragBounds={app.onDragBounds}
+        onHoverBounds={app.onHoverBounds}
+        onUnhoverBounds={app.onUnhoverBounds}
+        onReleaseBounds={app.onReleaseBounds}
+        onPointBoundsHandle={app.onPointBoundsHandle}
+        onDoubleClickBoundsHandle={app.onDoubleClickBoundsHandle}
+        onRightPointBoundsHandle={app.onRightPointBoundsHandle}
+        onDragBoundsHandle={app.onDragBoundsHandle}
+        onHoverBoundsHandle={app.onHoverBoundsHandle}
+        onUnhoverBoundsHandle={app.onUnhoverBoundsHandle}
+        onReleaseBoundsHandle={app.onReleaseBoundsHandle}
+        onPointHandle={app.onPointHandle}
+        onDoubleClickHandle={app.onDoubleClickHandle}
+        onRightPointHandle={app.onRightPointHandle}
+        onDragHandle={app.onDragHandle}
+        onHoverHandle={app.onHoverHandle}
+        onUnhoverHandle={app.onUnhoverHandle}
+        onReleaseHandle={app.onReleaseHandle}
+        onError={app.onError}
+        onRenderCountChange={app.onRenderCountChange}
+        onShapeChange={app.onShapeChange}
+        onShapeBlur={app.onShapeBlur}
+        onShapeClone={app.onShapeClone}
+        onBoundsChange={app.updateBounds}
+        onKeyDown={app.onKeyDown}
+        onKeyUp={app.onKeyUp}
+        onDragOver={app.onDragOver}
+        onDrop={app.onDrop}
+      />
+    </>
   );
 };
 
