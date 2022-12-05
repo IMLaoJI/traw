@@ -2,6 +2,7 @@ import React, { useCallback, useEffect } from "react";
 import { SLIDE_HEIGHT, SLIDE_WIDTH } from "../../constants";
 import { useTrawApp } from "../../hooks/useTrawApp";
 import { SlideItem } from "./SlideItem";
+import SlideList from "./SlideList";
 
 const Slide = () => {
   const slideDomRef = React.useRef<HTMLDivElement>(null);
@@ -24,7 +25,9 @@ const Slide = () => {
 
   return (
     <div className="flex flex-1 items-center p-3 justify-center flex-col">
-      <div className="h-10">slidePage</div>
+      <div className="">
+        <SlideList />
+      </div>
       <div
         className="w-full aspect-video rounded-2xl shadow-3xl relative overflow-hidden"
         ref={slideDomRef}
