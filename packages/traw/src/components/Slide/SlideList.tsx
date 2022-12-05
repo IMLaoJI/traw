@@ -57,7 +57,10 @@ const SlideThumbnail = ({ page }: { page: TDPage }) => {
       meta={meta}
       pageState={{
         ...document.pageStates[page.id],
-        camera: { point: [SLIDE_WIDTH / 2, SLIDE_HEIGHT / 2], zoom: 160 / SLIDE_WIDTH },
+        camera: {
+          point: [SLIDE_WIDTH / 2, SLIDE_HEIGHT / 2],
+          zoom: 160 / SLIDE_WIDTH,
+        },
       }}
       assets={document.assets}
     />
@@ -73,14 +76,29 @@ const SlideList = () => {
 
   const pages = document.pages;
   return (
-    <div>
-      {Object.values(pages).map((page) => {
-        return (
-          <div key={page.id} className={`w-40 aspect-video rounded-2xl relative`}>
-            <SlideThumbnail page={page} />
-          </div>
-        );
-      })}
+    <div className="flex flex-row gap-3 overflow-hidden">
+      <div className="flex flex-col justify-between">
+        <button className="bg-traw-purple w-8 h-8 rounded-md text-white">
+          +
+        </button>
+        <button className="bg-traw-purple w-8 h-8 rounded-md text-white">
+          +
+        </button>
+      </div>
+      <div className="overflow-x-auto">
+        <div className="flex flex-row gap-3">
+          {Object.values(pages).map((page) => {
+            return (
+              <div
+                key={page.id}
+                className={`w-36 aspect-video rounded-2xl relative flex-auto flex-shrink-0 flex-grow-0`}
+              >
+                <SlideThumbnail page={page} />
+              </div>
+            );
+          })}
+        </div>
+      </div>
     </div>
   );
 };
