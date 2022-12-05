@@ -26,7 +26,7 @@ const Slide = () => {
   }, [handleResize]);
 
   return (
-    <div className="flex flex-1 items-center p-3 justify-center flex-col">
+    <div className="flex flex-1 items-center p-3 justify-center flex-col ">
       <div className="h-10">slidePage</div>
       <div
         className="w-full aspect-video rounded-2xl shadow-3xl relative overflow-hidden"
@@ -34,14 +34,16 @@ const Slide = () => {
       >
         {/* <SlideItem /> */}
       </div>
-      <ToolBox
-        currentTool={Tool.SELECTOR}
-        isUndoable={true}
-        isRedoable={true}
-        selectTool={console.log}
-        handleUndo={console.log}
-        handleRedo={console.log}
-      />
+      <div className="flex basis-[56px]">
+        <ToolBox
+          currentTool={Tool.SELECTOR}
+          isUndoable={true}
+          isRedoable={true}
+          selectTool={console.log}
+          handleUndo={console.log}
+          handleRedo={console.log}
+        />
+      </div>
     </div>
   );
 };

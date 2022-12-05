@@ -41,7 +41,7 @@ const ToolBox = memo(
     );
 
     return (
-      <div className="bg-white rounded-full py-1 px-3 flex h-auto w-fit items-center ">
+      <div className="flex bg-white rounded-full py-1 px-3  h-fit w-fit items-center ">
         {toolMenus.map((Tool, index) => (
           <ToolButton
             Tool={Tool}
