@@ -10,30 +10,32 @@ import { Record } from "./types";
 import useRecord from "./hooks/useRecord";
 
 export interface TrawProps {
+  app?: TrawApp;
   id?: string;
   records?: Record[];
   onAddRecord?: (record: Record) => void;
 }
 
-const Traw = ({ id, records = [], onAddRecord }: TrawProps) => {
+const Traw = ({ app, id, records = [], onAddRecord }: TrawProps) => {
   const [sId, setSId] = React.useState(id);
 
   // Create a new app when the component mounts.
-  const [app, setApp] = React.useState(() => {
+  const [trawApp, setTrawApp] = React.useState(() => {
+    if (app) return app;
 
-    const app = new TrawApp(id, { });
-    app.selectTool(TDShapeType.Draw);
-    return app;
+    const a = new TrawApp(id, { });
+    a.selectTool(TDShapeType.Draw);
+    return a;
   });
 
-  useRecord(app, records, onAddRecord)
+  useRecord(trawApp, records, onAddRecord)
 
   React.useLayoutEffect(() => {
     if (typeof window === "undefined") return;
     if (!window.document?.fonts) return;
 
     function refreshBoundingBoxes() {
-      app.refreshBoundingBoxes();
+      trawApp.refreshBoundingBoxes();
     }
     window.document.fonts.addEventListener("loadingdone", refreshBoundingBoxes);
     return () => {
@@ -42,11 +44,11 @@ const Traw = ({ id, records = [], onAddRecord }: TrawProps) => {
         refreshBoundingBoxes
       );
     };
-  }, [app]);
+  }, [trawApp]);
 
   // Use the `key` to ensure that new selector hooks are made when the id changes
   return (
-    <TrawContext.Provider value={app}>
+    <TrawContext.Provider value={trawApp}>
       <div className="flex flex-1 flex-col overflow-hidden">
         <div className="h-14">
           <Header />
