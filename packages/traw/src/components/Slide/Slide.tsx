@@ -1,6 +1,9 @@
 import React, { useCallback, useEffect } from "react";
 import { SLIDE_HEIGHT, SLIDE_WIDTH } from "../../constants";
 import { useTrawApp } from "../../hooks/useTrawApp";
+import ToolBox from "../ToolBox";
+import { Tool } from "../ToolBox/tools";
+
 import { SlideItem } from "./SlideItem";
 import SlideList from "./SlideList";
 
@@ -12,9 +15,9 @@ const Slide = () => {
     if (!slideDomRef.current) return;
     const width = slideDomRef.current.clientWidth;
     const zoom = width / SLIDE_WIDTH;
-    app.setCamera([SLIDE_WIDTH / 2, SLIDE_HEIGHT / 2], zoom, "fixCamera");
-  }, [app]);
-
+    // app.setCamera([SLIDE_WIDTH / 2, SLIDE_HEIGHT / 2], zoom, "fixCamera");
+  }, []);
+  console.log(Tool);
   useEffect(() => {
     handleResize();
     addEventListener("resize", handleResize);
@@ -32,9 +35,18 @@ const Slide = () => {
         className="w-full aspect-video rounded-2xl shadow-3xl relative overflow-hidden"
         ref={slideDomRef}
       >
-        <SlideItem />
+        {/* <SlideItem /> */}
       </div>
-      <div className="h-4">tool</div>
+      <div className="flex basis-[56px]">
+        <ToolBox
+          currentTool={Tool.SELECTOR}
+          isUndoable={true}
+          isRedoable={true}
+          selectTool={console.log}
+          handleUndo={console.log}
+          handleRedo={console.log}
+        />
+      </div>
     </div>
   );
 };

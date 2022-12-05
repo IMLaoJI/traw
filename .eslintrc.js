@@ -7,4 +7,7 @@ module.exports = {
       rootDir: ["apps/*/"],
     },
   },
+  rules: {
+    "@next/next/no-img-element": "off",
+  },
 };
