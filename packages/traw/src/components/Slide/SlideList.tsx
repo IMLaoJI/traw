@@ -1,86 +1,61 @@
 import React from "react";
 import { useTrawApp } from "../../hooks/useTrawApp";
-import { TDPage, shapeUtils, TDDocument } from "@tldraw/tldraw";
-import { TLPageState, Renderer } from "@tldraw/core";
-import { SLIDE_HEIGHT, SLIDE_WIDTH } from "../../constants";
 
-const SlideThumbnail = ({ page }: { page: TDPage }) => {
+import SvgGridView from "../../icons/grid-view";
+import SvgAdd from "../../icons/add";
+import SlideListItem, { SlideListItemState } from "./SlideListItem";
+
+interface SlideListProps {
+  canAddSlide: boolean;
+  handleAddSlide: () => void;
+  handleGridView: () => void;
+}
+const SlideList = ({
+  canAddSlide,
+  handleAddSlide,
+  handleGridView,
+}: SlideListProps) => {
   const app = useTrawApp();
   const state = app.useStore();
-
-  const { document, settings, appState, room } = state;
-  const theme = React.useMemo(() => {
-    const { selectByContain } = appState;
-    const { isDarkMode, isCadSelectMode } = settings;
-
-    if (isDarkMode) {
-      const brushBase = isCadSelectMode
-        ? selectByContain
-          ? "69, 155, 255"
-          : "105, 209, 73"
-        : "180, 180, 180";
-      return {
-        brushFill: `rgba(${brushBase}, ${isCadSelectMode ? 0.08 : 0.05})`,
-        brushStroke: `rgba(${brushBase}, ${isCadSelectMode ? 0.5 : 0.25})`,
-        brushDashStroke: `rgba(${brushBase}, .6)`,
-        selected: "rgba(38, 150, 255, 1.000)",
-        selectFill: "rgba(38, 150, 255, 0.05)",
-        background: "#212529",
-        foreground: "#49555f",
-      };
-    }
-
-    const brushBase = isCadSelectMode
-      ? selectByContain
-        ? "0, 89, 242"
-        : "51, 163, 23"
-      : "0,0,0";
-
-    return {
-      brushFill: `rgba(${brushBase}, ${isCadSelectMode ? 0.08 : 0.05})`,
-      brushStroke: `rgba(${brushBase}, ${isCadSelectMode ? 0.4 : 0.25})`,
-      brushDashStroke: `rgba(${brushBase}, .6)`,
-    };
-  }, [appState, settings]);
-
-  const meta = React.useMemo(() => {
-    return { isDarkMode: settings.isDarkMode };
-  }, [settings.isDarkMode]);
-
-  return (
-    <Renderer
-      id={document.id}
-      shapeUtils={shapeUtils}
-      page={page}
-      hideBounds={true}
-      theme={theme}
-      meta={meta}
-      pageState={{
-        ...document.pageStates[page.id],
-        camera: { point: [SLIDE_WIDTH / 2, SLIDE_HEIGHT / 2], zoom: 160 / SLIDE_WIDTH },
-      }}
-      assets={document.assets}
-    />
-  );
-};
-
-const SlideList = () => {
-  const app = useTrawApp();
-
-  const state = app.useStore();
-
-  const { document, appState } = state;
-
+  const { document } = state;
   const pages = document.pages;
+
+  // TODO
+  const viewerCount = 3;
+  const selectState = SlideListItemState.DEFAULT;
+
   return (
-    <div>
-      {Object.values(pages).map((page) => {
-        return (
-          <div key={page.id} className={`w-40 aspect-video rounded-2xl relative`}>
-            <SlideThumbnail page={page} />
-          </div>
-        );
-      })}
+    <div className="flex flex-row gap-3 overflow-hidden">
+      <div className="flex flex-col justify-between">
+        <button
+          className="flex items-center justify-center bg-traw-purple w-8 h-8 rounded-md text-white
+          disabled:bg-black/[.12] disabled:text-black/[.26]
+          "
+          disabled={!canAddSlide}
+          onClick={handleAddSlide}
+        >
+          <SvgAdd className="fill-current w-2 h-2" />
+        </button>
+        <button
+          className="flex items-center justify-center bg-traw-purple w-8 h-8 rounded-md text-white"
+          onClick={handleGridView}
+        >
+          <SvgGridView className="fill-current w-3 h-3" />
+        </button>
+      </div>
+      <div className="overflow-x-auto">
+        <div className="flex flex-row gap-3">
+          {Object.values(pages).map((page, index) => (
+            <SlideListItem
+              key={page.id}
+              index={index + 1}
+              page={page}
+              viewerCount={viewerCount}
+              selectState={selectState}
+            />
+          ))}
+        </div>
+      </div>
     </div>
   );
 };
