@@ -15,9 +15,11 @@ const useRecord = (
     const onCommand = (app, command) => {
       if (!onAddRecord) return;
 
+      const pageId = Object.keys(command.after.document.pages)[0];
       onAddRecord({
         type: command.id,
-        data: command.after,
+        data: command.after.document.pages[pageId],
+        slideId: pageId,
       } as Record);
     };
     app.onCommand = onCommand;
@@ -32,8 +34,15 @@ const useRecord = (
     records.forEach((record, i) => {
       if (i < pointer) return;
       console.log(record);
+      const { type, data, slideId } = record;
 
-      app.patchState(record.data);
+      app.patchState({
+        document: {
+          pages: {
+            [slideId]: data,
+          },
+        },
+      });
     });
     setPointer(records.length);
     // eslint-disable-next-line react-hooks/exhaustive-deps
