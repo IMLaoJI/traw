@@ -1,8 +1,6 @@
-import React from "react";
-import { useHotkeys } from "react-hotkeys-hook";
 import * as Tooltip from "@radix-ui/react-tooltip";
-import { Tool } from "./tools";
 import classNames from "classnames";
+import React from "react";
 
 interface ToolButtonProps {
   Tool: {
@@ -16,14 +14,14 @@ interface ToolButtonProps {
 }
 
 const ToolButton = ({ Tool, selectTool, selected }: ToolButtonProps) => {
-  useHotkeys(
-    `${Tool.shortcut[0]}, ${Tool.shortcut[1]}`,
-    (event) => {
-      event.preventDefault();
-      selectTool(Tool);
-    },
-    []
-  );
+  // useHotkeys(
+  //   `${Tool.shortcut[0]}, ${Tool.shortcut[1]}`,
+  //   (event) => {
+  //     event.preventDefault();
+  //     selectTool(Tool);
+  //   },
+  //   []
+  // );
 
   return (
     <Tooltip.Provider>

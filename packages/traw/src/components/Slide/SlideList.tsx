@@ -6,7 +6,7 @@ import { SLIDE_HEIGHT, SLIDE_WIDTH } from "../../constants";
 
 const SlideThumbnail = ({ page }: { page: TDPage }) => {
   const app = useTrawApp();
-  const state = app.useStore();
+  const state = app.useSlidesStore();
 
   const { document, settings, appState, room } = state;
   const theme = React.useMemo(() => {
@@ -67,7 +67,7 @@ const SlideThumbnail = ({ page }: { page: TDPage }) => {
 const SlideList = () => {
   const app = useTrawApp();
 
-  const state = app.useStore();
+  const state = app.useSlidesStore();
 
   const { document, appState } = state;
 

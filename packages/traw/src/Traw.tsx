@@ -23,8 +23,7 @@ const Traw = ({ app, id, records = [], onAddRecord }: TrawProps) => {
   const [trawApp, setTrawApp] = React.useState(() => {
     if (app) return app;
 
-    const a = new TrawApp(id, { });
-    a.selectTool(TDShapeType.Draw);
+    const a = new TrawApp();
     return a;
   });
 
@@ -35,7 +34,7 @@ const Traw = ({ app, id, records = [], onAddRecord }: TrawProps) => {
     if (!window.document?.fonts) return;
 
     function refreshBoundingBoxes() {
-      trawApp.refreshBoundingBoxes();
+      trawApp.app.refreshBoundingBoxes();
     }
     window.document.fonts.addEventListener("loadingdone", refreshBoundingBoxes);
     return () => {

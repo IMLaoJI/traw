@@ -6,7 +6,8 @@ import { useKeyboardShortcuts } from "../../hooks/useKeyboardShortcuts";
 
 const SlideItem = () => {
   const app = useTrawApp();
-  const state = app.useStore();
+  const tldrawApp = app.useTldrawApp();
+  const state = app.useSlidesStore();
   const id = "traw";
   useKeyboardShortcuts();
 
@@ -73,11 +74,11 @@ const SlideItem = () => {
     };
   }, [appState, settings]);
 
-  const isInSession = app.session !== undefined;
+  const isInSession = tldrawApp.session !== undefined;
 
   // Hide bounds when not using the select tool, or when the only selected shape has handles
   const hideBounds =
-    (isInSession && app.session?.constructor.name !== "BrushSession") ||
+    (isInSession && tldrawApp.session?.constructor.name !== "BrushSession") ||
     !isSelecting ||
     isHideBoundsShape ||
     !!pageState.editingId;
@@ -116,58 +117,58 @@ const SlideItem = () => {
         hideRotateHandles={!settings.showRotateHandles}
         hideGrid={!settings.showGrid}
         showDashedBrush={showDashedBrush}
-        performanceMode={app.session?.performanceMode}
-        onPinchStart={app.onPinchStart}
-        onPinchEnd={app.onPinchEnd}
-        onPinch={app.onPinch}
-        onPan={app.onPan}
-        onZoom={app.onZoom}
-        onPointerDown={app.onPointerDown}
-        onPointerMove={app.onPointerMove}
-        onPointerUp={app.onPointerUp}
-        onPointCanvas={app.onPointCanvas}
-        onDoubleClickCanvas={app.onDoubleClickCanvas}
-        onRightPointCanvas={app.onRightPointCanvas}
-        onDragCanvas={app.onDragCanvas}
-        onReleaseCanvas={app.onReleaseCanvas}
-        onPointShape={app.onPointShape}
-        onDoubleClickShape={app.onDoubleClickShape}
-        onRightPointShape={app.onRightPointShape}
-        onDragShape={app.onDragShape}
-        onHoverShape={app.onHoverShape}
-        onUnhoverShape={app.onUnhoverShape}
-        onReleaseShape={app.onReleaseShape}
-        onPointBounds={app.onPointBounds}
-        onDoubleClickBounds={app.onDoubleClickBounds}
-        onRightPointBounds={app.onRightPointBounds}
-        onDragBounds={app.onDragBounds}
-        onHoverBounds={app.onHoverBounds}
-        onUnhoverBounds={app.onUnhoverBounds}
-        onReleaseBounds={app.onReleaseBounds}
-        onPointBoundsHandle={app.onPointBoundsHandle}
-        onDoubleClickBoundsHandle={app.onDoubleClickBoundsHandle}
-        onRightPointBoundsHandle={app.onRightPointBoundsHandle}
-        onDragBoundsHandle={app.onDragBoundsHandle}
-        onHoverBoundsHandle={app.onHoverBoundsHandle}
-        onUnhoverBoundsHandle={app.onUnhoverBoundsHandle}
-        onReleaseBoundsHandle={app.onReleaseBoundsHandle}
-        onPointHandle={app.onPointHandle}
-        onDoubleClickHandle={app.onDoubleClickHandle}
-        onRightPointHandle={app.onRightPointHandle}
-        onDragHandle={app.onDragHandle}
-        onHoverHandle={app.onHoverHandle}
-        onUnhoverHandle={app.onUnhoverHandle}
-        onReleaseHandle={app.onReleaseHandle}
-        onError={app.onError}
-        onRenderCountChange={app.onRenderCountChange}
-        onShapeChange={app.onShapeChange}
-        onShapeBlur={app.onShapeBlur}
-        onShapeClone={app.onShapeClone}
-        onBoundsChange={app.updateBounds}
-        onKeyDown={app.onKeyDown}
-        onKeyUp={app.onKeyUp}
-        onDragOver={app.onDragOver}
-        onDrop={app.onDrop}
+        performanceMode={tldrawApp.session?.performanceMode}
+        onPinchStart={tldrawApp.onPinchStart}
+        onPinchEnd={tldrawApp.onPinchEnd}
+        onPinch={tldrawApp.onPinch}
+        onPan={tldrawApp.onPan}
+        onZoom={tldrawApp.onZoom}
+        onPointerDown={tldrawApp.onPointerDown}
+        onPointerMove={tldrawApp.onPointerMove}
+        onPointerUp={tldrawApp.onPointerUp}
+        onPointCanvas={tldrawApp.onPointCanvas}
+        onDoubleClickCanvas={tldrawApp.onDoubleClickCanvas}
+        onRightPointCanvas={tldrawApp.onRightPointCanvas}
+        onDragCanvas={tldrawApp.onDragCanvas}
+        onReleaseCanvas={tldrawApp.onReleaseCanvas}
+        onPointShape={tldrawApp.onPointShape}
+        onDoubleClickShape={tldrawApp.onDoubleClickShape}
+        onRightPointShape={tldrawApp.onRightPointShape}
+        onDragShape={tldrawApp.onDragShape}
+        onHoverShape={tldrawApp.onHoverShape}
+        onUnhoverShape={tldrawApp.onUnhoverShape}
+        onReleaseShape={tldrawApp.onReleaseShape}
+        onPointBounds={tldrawApp.onPointBounds}
+        onDoubleClickBounds={tldrawApp.onDoubleClickBounds}
+        onRightPointBounds={tldrawApp.onRightPointBounds}
+        onDragBounds={tldrawApp.onDragBounds}
+        onHoverBounds={tldrawApp.onHoverBounds}
+        onUnhoverBounds={tldrawApp.onUnhoverBounds}
+        onReleaseBounds={tldrawApp.onReleaseBounds}
+        onPointBoundsHandle={tldrawApp.onPointBoundsHandle}
+        onDoubleClickBoundsHandle={tldrawApp.onDoubleClickBoundsHandle}
+        onRightPointBoundsHandle={tldrawApp.onRightPointBoundsHandle}
+        onDragBoundsHandle={tldrawApp.onDragBoundsHandle}
+        onHoverBoundsHandle={tldrawApp.onHoverBoundsHandle}
+        onUnhoverBoundsHandle={tldrawApp.onUnhoverBoundsHandle}
+        onReleaseBoundsHandle={tldrawApp.onReleaseBoundsHandle}
+        onPointHandle={tldrawApp.onPointHandle}
+        onDoubleClickHandle={tldrawApp.onDoubleClickHandle}
+        onRightPointHandle={tldrawApp.onRightPointHandle}
+        onDragHandle={tldrawApp.onDragHandle}
+        onHoverHandle={tldrawApp.onHoverHandle}
+        onUnhoverHandle={tldrawApp.onUnhoverHandle}
+        onReleaseHandle={tldrawApp.onReleaseHandle}
+        onError={tldrawApp.onError}
+        onRenderCountChange={tldrawApp.onRenderCountChange}
+        onShapeChange={tldrawApp.onShapeChange}
+        onShapeBlur={tldrawApp.onShapeBlur}
+        onShapeClone={tldrawApp.onShapeClone}
+        onBoundsChange={tldrawApp.updateBounds}
+        onKeyDown={tldrawApp.onKeyDown}
+        onKeyUp={tldrawApp.onKeyUp}
+        onDragOver={tldrawApp.onDragOver}
+        onDrop={tldrawApp.onDrop}
       />
     </>
   );

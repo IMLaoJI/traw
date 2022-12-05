@@ -10,13 +10,14 @@ import SlideList from "./SlideList";
 const Slide = () => {
   const slideDomRef = React.useRef<HTMLDivElement>(null);
   const app = useTrawApp();
+  const tldrawApp = app.useTldrawApp();
 
   const handleResize = useCallback(() => {
     if (!slideDomRef.current) return;
     const width = slideDomRef.current.clientWidth;
     const zoom = width / SLIDE_WIDTH;
-    // app.setCamera([SLIDE_WIDTH / 2, SLIDE_HEIGHT / 2], zoom, "fixCamera");
-  }, []);
+    tldrawApp.setCamera([SLIDE_WIDTH / 2, SLIDE_HEIGHT / 2], zoom, "fixCamera");
+  }, [tldrawApp]);
   console.log(Tool);
   useEffect(() => {
     handleResize();
@@ -35,7 +36,7 @@ const Slide = () => {
         className="w-full aspect-video rounded-2xl shadow-3xl relative overflow-hidden"
         ref={slideDomRef}
       >
-        {/* <SlideItem /> */}
+        <SlideItem />
       </div>
       <div className="flex basis-[56px]">
         <ToolBox
