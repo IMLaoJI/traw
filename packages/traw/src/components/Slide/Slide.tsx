@@ -17,7 +17,7 @@ const Slide = () => {
     const zoom = width / SLIDE_WIDTH;
     // app.setCamera([SLIDE_WIDTH / 2, SLIDE_HEIGHT / 2], zoom, "fixCamera");
   }, []);
-  console.log(Tool);
+
   useEffect(() => {
     handleResize();
     addEventListener("resize", handleResize);
@@ -29,7 +29,11 @@ const Slide = () => {
   return (
     <div className="flex flex-1 items-center flex-col p-2">
       <div className="flex w-full bg-white rounded-2xl items-center px-4 mb-2 basis-[117px] pb-4 pt-4 ">
-        <SlideList />
+        <SlideList
+          canAddSlide={true}
+          handleAddSlide={console.log}
+          handleGridView={console.log}
+        />
       </div>
       <div
         className="w-full aspect-video rounded-2xl shadow-3xl relative overflow-hidden"
