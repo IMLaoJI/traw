@@ -36,8 +36,6 @@ export class TrawApp {
     this.app = new TrawCanvasApp("", {
       onSessionStart: this.setActionStartTime,
     });
-    console.log(this.app);
-    this.selectTool(TDShapeType.Draw);
 
     this.app.onCommand = this.recordCommand;
 

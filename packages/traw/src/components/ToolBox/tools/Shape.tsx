@@ -1,8 +1,8 @@
-import { Tool } from ".";
 import SvgShape from "../../../icons/shape";
+import { TDShapeType } from "@tldraw/tldraw";
 
 export const info = {
-  type: "SHAPE",
+  type: TDShapeType.Rectangle,
   Icon: SvgShape,
   cursor: "crosshair",
   label: "Rect (R or 4)",

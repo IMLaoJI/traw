@@ -1,10 +1,13 @@
 import * as Tooltip from "@radix-ui/react-tooltip";
+import { TDToolType } from "@tldraw/tldraw";
 import classNames from "classnames";
 import React from "react";
+import { useHotkeys } from "react-hotkeys-hook";
+import { useTrawApp } from "../../hooks/useTrawApp";
 
 interface ToolButtonProps {
   Tool: {
-    type: string;
+    type: TDToolType;
     Icon: any;
     label: string;
     shortcut: (string | number)[];
@@ -14,14 +17,17 @@ interface ToolButtonProps {
 }
 
 const ToolButton = ({ Tool, selectTool, selected }: ToolButtonProps) => {
-  // useHotkeys(
-  //   `${Tool.shortcut[0]}, ${Tool.shortcut[1]}`,
-  //   (event) => {
-  //     event.preventDefault();
-  //     selectTool(Tool);
-  //   },
-  //   []
-  // );
+  const trawApp = useTrawApp();
+  const app = trawApp.useTldrawApp();
+
+  useHotkeys(
+    `${Tool.shortcut[0]}, ${Tool.shortcut[1]}`,
+    (event) => {
+      event.preventDefault();
+      app.selectTool(Tool.type);
+    },
+    []
+  );
 
   return (
     <Tooltip.Provider>

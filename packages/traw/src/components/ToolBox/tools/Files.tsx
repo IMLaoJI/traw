@@ -1,4 +1,3 @@
-import { Tool } from ".";
 import SvgFiles from "../../../icons/files";
 
 export const info = {

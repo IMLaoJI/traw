@@ -48,104 +48,104 @@ export function useKeyboardShortcuts() {
 
   /* ---------------------- Tools --------------------- */
 
-  useHotkeys(
-    "v,1",
-    () => {
-      if (!canHandleEvent(true)) return;
-      app.selectTool("select");
-    },
-    [app]
-  );
+  // useHotkeys(
+  //   "v,1",
+  //   () => {
+  //     if (!canHandleEvent(true)) return;
+  //     app.selectTool("select");
+  //   },
+  //   [app]
+  // );
 
-  useHotkeys(
-    "d,p,2",
-    () => {
-      if (!canHandleEvent(true)) return;
-      app.selectTool(TDShapeType.Draw);
-    },
-    undefined,
-    [app]
-  );
+  // useHotkeys(
+  //   "d,p,2",
+  //   () => {
+  //     if (!canHandleEvent(true)) return;
+  //     app.selectTool(TDShapeType.Draw);
+  //   },
+  //   undefined,
+  //   [app]
+  // );
 
-  useHotkeys(
-    "e,3",
-    () => {
-      if (!canHandleEvent(true)) return;
-      app.selectTool("erase");
-    },
-    undefined,
-    [app]
-  );
+  // useHotkeys(
+  //   "e,3",
+  //   () => {
+  //     if (!canHandleEvent(true)) return;
+  //     app.selectTool("erase");
+  //   },
+  //   undefined,
+  //   [app]
+  // );
 
-  useHotkeys(
-    "r,4",
-    () => {
-      if (!canHandleEvent(true)) return;
-      app.selectTool(TDShapeType.Rectangle);
-    },
-    undefined,
-    [app]
-  );
+  // useHotkeys(
+  //   "r,4",
+  //   () => {
+  //     if (!canHandleEvent(true)) return;
+  //     app.selectTool(TDShapeType.Rectangle);
+  //   },
+  //   undefined,
+  //   [app]
+  // );
 
-  useHotkeys(
-    "o,5",
-    () => {
-      if (!canHandleEvent(true)) return;
-      app.selectTool(TDShapeType.Ellipse);
-    },
-    undefined,
-    [app]
-  );
+  // useHotkeys(
+  //   "o,5",
+  //   () => {
+  //     if (!canHandleEvent(true)) return;
+  //     app.selectTool(TDShapeType.Ellipse);
+  //   },
+  //   undefined,
+  //   [app]
+  // );
 
-  useHotkeys(
-    "g,6",
-    () => {
-      if (!canHandleEvent()) return;
-      app.selectTool(TDShapeType.Triangle);
-    },
-    undefined,
-    [app]
-  );
+  // useHotkeys(
+  //   "g,6",
+  //   () => {
+  //     if (!canHandleEvent()) return;
+  //     app.selectTool(TDShapeType.Triangle);
+  //   },
+  //   undefined,
+  //   [app]
+  // );
 
-  useHotkeys(
-    "l,7",
-    () => {
-      if (!canHandleEvent(true)) return;
-      app.selectTool(TDShapeType.Line);
-    },
-    undefined,
-    [app]
-  );
+  // useHotkeys(
+  //   "l,7",
+  //   () => {
+  //     if (!canHandleEvent(true)) return;
+  //     app.selectTool(TDShapeType.Line);
+  //   },
+  //   undefined,
+  //   [app]
+  // );
 
-  useHotkeys(
-    "a,8",
-    () => {
-      if (!canHandleEvent(true)) return;
-      app.selectTool(TDShapeType.Arrow);
-    },
-    undefined,
-    [app]
-  );
+  // useHotkeys(
+  //   "a,8",
+  //   () => {
+  //     if (!canHandleEvent(true)) return;
+  //     app.selectTool(TDShapeType.Arrow);
+  //   },
+  //   undefined,
+  //   [app]
+  // );
 
-  useHotkeys(
-    "t,9",
-    () => {
-      if (!canHandleEvent(true)) return;
-      app.selectTool(TDShapeType.Text);
-    },
-    undefined,
-    [app]
-  );
+  // useHotkeys(
+  //   "t,9",
+  //   () => {
+  //     if (!canHandleEvent(true)) return;
+  //     app.selectTool(TDShapeType.Text);
+  //   },
+  //   undefined,
+  //   [app]
+  // );
 
-  useHotkeys(
-    "s,0",
-    () => {
-      if (!canHandleEvent(true)) return;
-      app.selectTool(TDShapeType.Sticky);
-    },
-    undefined,
-    [app]
-  );
+  // useHotkeys(
+  //   "s,0",
+  //   () => {
+  //     if (!canHandleEvent(true)) return;
+  //     app.selectTool(TDShapeType.Sticky);
+  //   },
+  //   undefined,
+  //   [app]
+  // );
 
   /* ---------------------- Misc ---------------------- */
 

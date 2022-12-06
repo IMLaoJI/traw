@@ -1,8 +1,7 @@
-import { Tool } from ".";
 import SvgSelector from "../../../icons/selector";
 
 export const info = {
-  type: "SELECTOR",
+  type: "select",
   Icon: SvgSelector,
   cursor: "grab",
   enableAssetHandler: true,

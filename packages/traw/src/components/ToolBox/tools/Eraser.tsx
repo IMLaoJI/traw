@@ -1,9 +1,8 @@
 import SvgEraser from "../../../icons/eraser";
 import React, { Fragment } from "react";
-import { Tool } from ".";
 
 export const info = {
-  type: "ERASE",
+  type: "erase",
   Icon: SvgEraser,
   cursor: "url(/cursor/erasor.cur) 10 10, auto",
   label: "Eraser (E or 5)",

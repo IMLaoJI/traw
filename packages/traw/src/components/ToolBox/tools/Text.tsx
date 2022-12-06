@@ -1,8 +1,8 @@
-import { Tool } from ".";
+import { TDShapeType } from "@tldraw/tldraw";
 import SvgTextField from "../../../icons/text-field";
 
 export const info = {
-  type: "TEXT",
+  type: TDShapeType.Text,
   Icon: SvgTextField,
   cursor: "crosshair",
   label: "Text (T or 3)",

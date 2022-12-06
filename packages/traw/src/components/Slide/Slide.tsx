@@ -1,14 +1,14 @@
-import React, { useCallback, useEffect } from "react";
-import { SLIDE_HEIGHT, SLIDE_WIDTH } from "../../constants";
+import React from "react";
 import { useTrawApp } from "../../hooks/useTrawApp";
 import ToolBox from "../ToolBox";
-import { Tool } from "../ToolBox/tools";
 
 import { SlideItem } from "./SlideItem";
 import SlideList from "./SlideList";
 
 const Slide = () => {
   const app = useTrawApp();
+  const { appState } = app.useSlidesStore();
+  const { activeTool } = appState;
 
   const handleAddSlide = () => {
     app.createSlide();
@@ -28,7 +28,7 @@ const Slide = () => {
 
       <div className="flex basis-[56px]">
         <ToolBox
-          currentTool={Tool.SELECTOR}
+          currentTool={activeTool}
           isUndoable={true}
           isRedoable={true}
           selectTool={console.log}

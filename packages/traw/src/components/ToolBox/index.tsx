@@ -2,10 +2,11 @@ import React, { memo } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import TimeMachine from "./TimeMachine";
 import ToolButton from "./ToolButton";
-import { Tool, toolMenus } from "./tools";
+import { toolMenus } from "./tools";
+import { TDToolType } from "@tldraw/tldraw";
 
 interface ToolBoxProps {
-  currentTool: Tool;
+  currentTool: TDToolType;
   isUndoable: boolean;
   isRedoable: boolean;
   selectTool: (tool: any) => void;
