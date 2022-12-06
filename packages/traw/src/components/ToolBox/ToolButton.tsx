@@ -12,19 +12,22 @@ interface ToolButtonProps {
     label: string;
     shortcut: (string | number)[];
   };
-  selectTool: (tool: any) => void;
   selected: boolean;
 }
 
-const ToolButton = ({ Tool, selectTool, selected }: ToolButtonProps) => {
+const ToolButton = ({ Tool, selected }: ToolButtonProps) => {
   const trawApp = useTrawApp();
   const app = trawApp.useTldrawApp();
+
+  const selectTool = () => {
+    app.selectTool(Tool.type);
+  };
 
   useHotkeys(
     `${Tool.shortcut[0]}, ${Tool.shortcut[1]}`,
     (event) => {
       event.preventDefault();
-      app.selectTool(Tool.type);
+      selectTool();
     },
     []
   );
@@ -42,7 +45,7 @@ const ToolButton = ({ Tool, selectTool, selected }: ToolButtonProps) => {
               }
             )}
             onClick={() => {
-              selectTool(Tool);
+              selectTool();
             }}
             id={Tool.type}
           >

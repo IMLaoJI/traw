@@ -46,7 +46,6 @@ const ToolBox = memo(
         {toolMenus.map((Tool, index) => (
           <ToolButton
             Tool={Tool}
-            selectTool={selectTool}
             key={index}
             selected={currentTool === Tool.type}
           />
