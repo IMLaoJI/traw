@@ -60,6 +60,7 @@
   "dependencies": {
     "@radix-ui/react-tooltip": "^1.0.2",
     "@tldraw/tldraw": "^1.26.2",
-    "classnames": "^2.3.2"
+    "classnames": "^2.3.2",
+    "zustand": "^4.1.5"
   }
 }

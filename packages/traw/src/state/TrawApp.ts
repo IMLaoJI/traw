@@ -1,4 +1,6 @@
 import { TldrawApp, TDToolType, TDShapeType } from "@tldraw/tldraw";
+import createVanilla, { StoreApi } from "zustand/vanilla";
+import { Record, TrawSnapshot } from "../types";
 
 const ignoreFunc = () => {};
 
@@ -14,9 +16,35 @@ export class TrawCanvasApp extends TldrawApp {
 export class TrawApp {
   app: TrawCanvasApp;
 
+  /**
+   * A zustand store that also holds the state.
+   */
+  private store: StoreApi<TrawSnapshot>;
+
+  /**
+   * The current state.
+   */
+  private _state: TrawSnapshot;
+
+  /**
+   * The time the current action started.
+   * This is used to calculate the duration of the record.
+   */
+  private _actionStartTime: number;
+
   constructor() {
-    this.app = new TrawCanvasApp();
+    this.app = new TrawCanvasApp("", {
+      onSessionStart: this.setActionStartTime,
+    });
+    console.log(this.app);
     this.selectTool(TDShapeType.Draw);
+
+    this.app.onCommand = this.recordCommand;
+
+    this._state = {
+      records: [],
+    };
+    this.store = createVanilla(() => this._state);
   }
 
   selectTool(tool: TDToolType) {
@@ -30,4 +58,43 @@ export class TrawApp {
   useTldrawApp() {
     return this.app;
   }
+
+  setActionStartTime = (app, id) => {
+    this._actionStartTime = Date.now();
+  };
+
+  recordCommand = (app, command) => {
+    const pageId = Object.keys(command.after.document.pages)[0];
+
+    this.store.setState((state) => {
+      return {
+        ...state,
+        records: [
+          ...state.records,
+          {
+            type: command.id,
+            data: command.after.document.pages[pageId],
+            slideId: pageId,
+            start: this._actionStartTime ? this._actionStartTime : 0,
+            end: Date.now(),
+          } as Record,
+        ],
+      };
+    });
+    this._actionStartTime = 0;
+    console.log(this.store.getState());
+  };
+
+  addRecord = (record: Record) => {
+    console.log(record);
+    const { type, data, slideId } = record;
+
+    this.app.patchState({
+      document: {
+        pages: {
+          [slideId]: data,
+        },
+      },
+    });
+  };
 }

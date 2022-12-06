@@ -5,9 +5,7 @@ import { Slide } from "./components/Slide";
 import { TrawContext } from "./hooks/useTrawApp";
 import "./index.css";
 import { TrawApp } from "./state/TrawApp";
-import { TDShapeType } from "@tldraw/tldraw";
 import { Record } from "./types";
-import useRecord from "./hooks/useRecord";
 
 export interface TrawProps {
   app?: TrawApp;
@@ -26,8 +24,6 @@ const Traw = ({ app, id, records = [], onAddRecord }: TrawProps) => {
     const a = new TrawApp();
     return a;
   });
-
-  useRecord(trawApp, records, onAddRecord)
 
   React.useLayoutEffect(() => {
     if (typeof window === "undefined") return;

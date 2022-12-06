@@ -1,12 +1,12 @@
 export enum ActionType {
-  ADD = 'ADD',
-  REMOVE = 'REMOVE',
-  UPDATE = 'UPDATE',
-  ADD_SLIDE = 'ADD_SLIDE',
-  SORT_SLIDE = 'SORT_SLIDE',
-  DELETE_SLIDE = 'DELETE_SLIDE',
-  SELECT_SLIDE = 'SELECT_SLIDE',
-  SUBSCRIBE_SLIDE = 'SUBSCRIBE_SLIDE',
+  ADD = "ADD",
+  REMOVE = "REMOVE",
+  UPDATE = "UPDATE",
+  ADD_SLIDE = "ADD_SLIDE",
+  SORT_SLIDE = "SORT_SLIDE",
+  DELETE_SLIDE = "DELETE_SLIDE",
+  SELECT_SLIDE = "SELECT_SLIDE",
+  SUBSCRIBE_SLIDE = "SUBSCRIBE_SLIDE",
 }
 
 export type Record = {
@@ -18,4 +18,8 @@ export type Record = {
   start: number;
   end: number;
   origin: string;
+};
+
+export type TrawSnapshot = {
+  records: Record[];
 };
