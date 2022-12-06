@@ -44,7 +44,7 @@ const Traw = ({ app, id, records = [], onAddRecord }: TrawProps) => {
   // Use the `key` to ensure that new selector hooks are made when the id changes
   return (
     <TrawContext.Provider value={trawApp}>
-      <div className="flex flex-1 flex-col overflow-hidden">
+      <div className="flex flex-1 flex-col overflow-hidden bg-traw-sky ">
         <div className="h-14">
           <Header />
         </div>
