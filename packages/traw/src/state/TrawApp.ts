@@ -62,6 +62,7 @@ export class TrawApp {
   };
 
   recordCommand = (app, command) => {
+    console.log(command);
     switch (command.id) {
       case "change_page":
         break;

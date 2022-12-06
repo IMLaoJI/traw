@@ -44,9 +44,18 @@ const Traw = ({ app, id, records = [], onAddRecord }: TrawProps) => {
   // Use the `key` to ensure that new selector hooks are made when the id changes
   return (
     <TrawContext.Provider value={trawApp}>
-      <div className="flex flex-1 flex-col overflow-hidden">
+      <div
+        id="traw"
+        data-testid="traw"
+        className="flex flex-1 flex-col overflow-hidden"
+      >
         <div className="h-14">
-          <Header />
+          <Header
+            title={"Test Document"}
+            canEdit={true}
+            handleChangeTitle={() => null}
+            Room={<div />}
+          />
         </div>
         <div className="flex flex-row flex-1">
           <div className="flex-1 flex">

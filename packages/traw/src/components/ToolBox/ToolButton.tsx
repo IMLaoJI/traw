@@ -4,14 +4,10 @@ import classNames from "classnames";
 import React from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { useTrawApp } from "../../hooks/useTrawApp";
+import { TrawToolInfo } from "../../types";
 
 interface ToolButtonProps {
-  Tool: {
-    type: TDToolType;
-    Icon: any;
-    label: string;
-    shortcut: (string | number)[];
-  };
+  Tool: TrawToolInfo;
   selected: boolean;
 }
 
@@ -20,7 +16,7 @@ const ToolButton = ({ Tool, selected }: ToolButtonProps) => {
   const app = trawApp.useTldrawApp();
 
   const selectTool = () => {
-    app.selectTool(Tool.type);
+    if (Tool.type !== "file") app.selectTool(Tool.type);
   };
 
   useHotkeys(

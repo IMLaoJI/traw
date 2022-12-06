@@ -1,3 +1,5 @@
+import { TDToolType } from "@tldraw/tldraw";
+
 export enum ActionType {
   ADD = "ADD",
   REMOVE = "REMOVE",
@@ -8,6 +10,13 @@ export enum ActionType {
   SELECT_SLIDE = "SELECT_SLIDE",
   SUBSCRIBE_SLIDE = "SUBSCRIBE_SLIDE",
 }
+
+export type TrawToolInfo = {
+  type: TDToolType | "file";
+  Icon: any;
+  label: string;
+  shortcut: (string | number)[];
+};
 
 export type Record = {
   type: ActionType;
