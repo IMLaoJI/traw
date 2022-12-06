@@ -1,4 +1,5 @@
 import React from "react";
+import BlockItem from "./BlockItem";
 import PanelFooter from "./PanelFooter";
 import PanelHeader from "./PanelHeader";
 
@@ -14,39 +15,15 @@ const Panel = ({ handlePlayClick }: PanelProps) => {
           <PanelHeader handlePlayClick={handlePlayClick} />
           <div className="flex flex-col  mt-3 flex-[2_2_auto] w-full overflow-y-auto min-h-0 pl-3">
             <ul className="">
-              <li>Hello World</li>
-              <li>Hello World</li>
-              <li>Hello World</li>
-              <li>Hello World</li>
-              <li>Hello World</li>
-              <li>Hello World</li>
-              <li>Hello World</li>
-              <li>Hello World</li>
-              <li>Hello World</li>
-              <li>Hello World</li>
-              <li>Hello World</li>
-              <li>Hello World</li>
-              <li>Hello World</li>
-              <li>Hello World</li>
-              <li>Hello World</li>
-              <li>Hello World</li>
-              <li>Hello World</li>
-              <li>Hello World</li>
-              <li>Hello World</li>
-              <li>Hello World</li>
-              <li>Hello World</li>
-              <li>Hello World</li>
-              <li>Hello World</li>
-              <li>Hello World</li>
-              <li>Hello World</li>
-              <li>Hello World</li>
-              <li>Hello World</li>
-              <li>Hello World</li>
-              <li>Hello World</li>
-              <li>Hello World</li>
+              <BlockItem
+                userName="userName"
+                date="오전 10:00"
+                blockText="동구밖 과수원길 아카시아 꽃이 활짝폈네 "
+                handlePlayClick={handlePlayClick}
+              />
             </ul>
           </div>
-          <PanelFooter />
+          <PanelFooter onCreate={console.log} />
         </div>
       </div>
     </div>
