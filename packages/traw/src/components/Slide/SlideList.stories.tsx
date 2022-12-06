@@ -2,22 +2,23 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 import React from "react";
 import { TrawContext } from "../../hooks/useTrawApp";
 import { TrawApp } from "../../state/TrawApp";
-import { Slide } from "./";
+import SlideList from "./SlideList";
 
 export default {
-  title: "Traw/Slide",
-  component: Slide,
+  title: "Traw/Slide/SlideList",
+  component: SlideList,
   argTypes: {},
-  args: {},
-} as ComponentMeta<typeof Slide>;
+} as ComponentMeta<typeof SlideList>;
 
 const trawApp = new TrawApp("id", {});
 
-const Template: ComponentStory<typeof Slide> = () => (
+const Template: ComponentStory<typeof SlideList> = (props) => (
   <TrawContext.Provider value={trawApp}>
-    <Slide />;
+    <SlideList {...props} />
   </TrawContext.Provider>
 );
 export const Default = Template.bind({});
 
-Default.args = {};
+Default.args = {
+  canAddSlide: true,
+};
