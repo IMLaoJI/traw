@@ -28,15 +28,19 @@ const Slide = () => {
   }, [handleResize]);
 
   return (
-    <div className="flex flex-1 items-center p-3 justify-center flex-col">
-      <div className="">
-        <SlideList />
+    <div className="flex flex-1 items-center flex-col p-2">
+    <div className="flex w-full bg-white rounded-2xl items-center px-4 mb-2 basis-[117px] pb-4 pt-4 ">
+      <SlideList
+        canAddSlide={true}
+        handleAddSlide={console.log}
+        handleGridView={console.log}
+      />
       </div>
       <div
         className="w-full aspect-video rounded-2xl shadow-3xl relative overflow-hidden"
         ref={slideDomRef}
       >
-        {/* <SlideItem /> */}
+        <SlideItem />
       </div>
       <div className="flex basis-[56px]">
         <ToolBox
