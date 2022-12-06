@@ -9,6 +9,7 @@ module.exports = {
           purple: "#726EF6", //primary.main
           sky: "#E6EBFC", //divider
           pink: "#E983B2", //secondary.main
+          "grey-10": "#DCE0EC",
           "grey-50": "#DEDEE9",
           "grey-100": "#9B9EB5", //neutral.main
           "grey-200": "#8E93B8",

@@ -47,7 +47,7 @@ const Traw = ({ app, id, records = [], onAddRecord }: TrawProps) => {
       <div
         id="traw"
         data-testid="traw"
-        className="flex flex-1 flex-col overflow-hidden"
+        className="flex flex-1 flex-col overflow-hidden bg-traw-sky"
       >
         <div className="h-14">
           <Header
@@ -62,7 +62,7 @@ const Traw = ({ app, id, records = [], onAddRecord }: TrawProps) => {
             <Slide />
           </div>
           <div className="flex-0 flex">
-            <Panel />
+            <Panel handlePlayClick={() => null} />
           </div>
         </div>
       </div>
