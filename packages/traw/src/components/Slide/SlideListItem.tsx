@@ -1,6 +1,7 @@
 import { TDPage } from "@tldraw/tldraw";
 import classNames from "classnames";
 import React from "react";
+import { useTrawApp } from "../../hooks/useTrawApp";
 import SvgViewer from "../../icons/viewer";
 import SlideThumbnail from "./SlideThumbnail";
 
@@ -23,11 +24,18 @@ const SlideListItem = ({
   viewerCount,
   selectState,
 }: SlideListItemProps) => {
+  const app = useTrawApp();
+
+  const handleSelectSlide = () => {
+    app.selectSlide(page.id);
+  };
+
   return (
     <div
       key={page.id}
+      onClick={handleSelectSlide}
       className={classNames(
-        `w-[133px] outline-1 aspect-video rounded-2xl relative flex-auto flex-shrink-0 flex-grow-0 `,
+        `w-[133px] outline-1 aspect-video rounded-2xl relative flex-auto flex-shrink-0 flex-grow-0 cursor-pointer`,
         {
           "outline-black outline-offset-[-1px] ":
             selectState === SlideListItemState.DEFAULT,

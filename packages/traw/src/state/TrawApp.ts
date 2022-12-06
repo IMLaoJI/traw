@@ -64,25 +64,35 @@ export class TrawApp {
   };
 
   recordCommand = (app, command) => {
-    const pageId = Object.keys(command.after.document.pages)[0];
+    switch (command.id) {
+      case "change_page":
+        break;
+      case "create_page":
+        break;
+      case "delete_page":
+        break;
+      default:
+        const pageId = Object.keys(command.after.document.pages)[0];
 
-    this.store.setState((state) => {
-      return {
-        ...state,
-        records: [
-          ...state.records,
-          {
-            type: command.id,
-            data: command.after.document.pages[pageId],
-            slideId: pageId,
-            start: this._actionStartTime ? this._actionStartTime : 0,
-            end: Date.now(),
-          } as Record,
-        ],
-      };
-    });
-    this._actionStartTime = 0;
-    console.log(this.store.getState());
+        this.store.setState((state) => {
+          return {
+            ...state,
+            records: [
+              ...state.records,
+              {
+                type: command.id,
+                data: command.after.document.pages[pageId],
+                slideId: pageId,
+                start: this._actionStartTime ? this._actionStartTime : 0,
+                end: Date.now(),
+              } as Record,
+            ],
+          };
+        });
+        this._actionStartTime = 0;
+        console.log(this.store.getState());
+        break;
+    }
   };
 
   addRecord = (record: Record) => {
@@ -96,5 +106,17 @@ export class TrawApp {
         },
       },
     });
+  };
+
+  createSlide = () => {
+    this.app.createPage();
+  };
+
+  deleteSlide = () => {
+    this.app.deletePage();
+  };
+
+  selectSlide = (id: string) => {
+    this.app.changePage(id);
   };
 }

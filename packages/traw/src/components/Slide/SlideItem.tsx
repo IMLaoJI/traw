@@ -1,8 +1,9 @@
 import { Renderer } from "@tldraw/core";
-import React from "react";
+import React, { useCallback, useEffect } from "react";
 import { useTrawApp } from "../../hooks/useTrawApp";
 import { shapeUtils, TLDR, TDStatus } from "@tldraw/tldraw";
 import { useKeyboardShortcuts } from "../../hooks/useKeyboardShortcuts";
+import { SLIDE_HEIGHT, SLIDE_WIDTH } from "../../constants";
 
 const SlideItem = () => {
   const app = useTrawApp();
@@ -10,10 +11,32 @@ const SlideItem = () => {
   const state = app.useSlidesStore();
   const id = "traw";
   useKeyboardShortcuts();
+  const slideDomRef = React.useRef<HTMLDivElement>(null);
 
   const { document, settings, appState, room } = state;
 
   const page = document.pages[appState.currentPageId];
+  const { currentPageId } = appState;
+
+  const handleResize = useCallback(() => {
+    if (!slideDomRef.current) return;
+    const width = slideDomRef.current.clientWidth;
+    const zoom = width / SLIDE_WIDTH;
+    tldrawApp.setCamera([SLIDE_WIDTH / 2, SLIDE_HEIGHT / 2], zoom, "fixCamera");
+  }, [tldrawApp]);
+
+  useEffect(() => {
+    handleResize();
+  }, [currentPageId, handleResize])
+
+  useEffect(() => {
+    handleResize();
+    addEventListener("resize", handleResize);
+    return () => {
+      removeEventListener("resize", handleResize);
+    };
+  }, [handleResize]);
+
   const pageState = document.pageStates[page.id];
   const assets = document.assets;
   const { selectedIds } = pageState;
@@ -91,11 +114,11 @@ const SlideItem = () => {
     (isInSession && state.appState.status !== TDStatus.Brushing) ||
     !isSelecting;
 
-  const hideCloneHandles =
-    isInSession || !isSelecting || pageState.camera.zoom < 0.2;
-
   return (
-    <>
+    <div
+      className="w-full aspect-video rounded-2xl shadow-3xl relative overflow-hidden"
+      ref={slideDomRef}
+    >
       <Renderer
         id={id}
         shapeUtils={shapeUtils}
@@ -113,7 +136,6 @@ const SlideItem = () => {
         hideResizeHandles={isHideResizeHandlesShape}
         hideIndicators={hideIndicators}
         hideBindingHandles={!settings.showBindingHandles}
-        hideCloneHandles={hideCloneHandles}
         hideRotateHandles={!settings.showRotateHandles}
         hideGrid={!settings.showGrid}
         showDashedBrush={showDashedBrush}
@@ -170,7 +192,7 @@ const SlideItem = () => {
         onDragOver={tldrawApp.onDragOver}
         onDrop={tldrawApp.onDrop}
       />
-    </>
+    </div>
   );
 };
 

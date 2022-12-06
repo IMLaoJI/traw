@@ -4,7 +4,8 @@ import { useHotkeys } from "react-hotkeys-hook";
 import { useTrawApp } from "./useTrawApp";
 
 export function useKeyboardShortcuts() {
-  const app = useTrawApp();
+  const trawApp = useTrawApp();
+  const app = trawApp.useTldrawApp();
 
   const canHandleEvent = (ignoreMenus = false) => true;
 

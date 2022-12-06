@@ -12,40 +12,17 @@ const SLideThumbnail = ({ page }: SlideThumbnailProps) => {
   const app = useTrawApp();
   const state = app.useSlidesStore();
 
-  const { document, settings, appState, room } = state;
+  const { settings, appState, document } = state;
   const theme = React.useMemo(() => {
     const { selectByContain } = appState;
-    const { isDarkMode, isCadSelectMode } = settings;
-
-    if (isDarkMode) {
-      const brushBase = isCadSelectMode
-        ? selectByContain
-          ? "69, 155, 255"
-          : "105, 209, 73"
-        : "180, 180, 180";
-      return {
-        brushFill: `rgba(${brushBase}, ${isCadSelectMode ? 0.08 : 0.05})`,
-        brushStroke: `rgba(${brushBase}, ${isCadSelectMode ? 0.5 : 0.25})`,
-        brushDashStroke: `rgba(${brushBase}, .6)`,
-        selected: "rgba(38, 150, 255, 1.000)",
-        selectFill: "rgba(38, 150, 255, 0.05)",
-        background: "#212529",
-        foreground: "#49555f",
-      };
-    }
-
-    const brushBase = isCadSelectMode
-      ? selectByContain
-        ? "0, 89, 242"
-        : "51, 163, 23"
-      : "0,0,0";
+    const brushBase = selectByContain;
 
     return {
-      brushFill: `rgba(${brushBase}, ${isCadSelectMode ? 0.08 : 0.05})`,
-      brushStroke: `rgba(${brushBase}, ${isCadSelectMode ? 0.4 : 0.25})`,
+      brushFill: `rgba(${brushBase}, ${0.05})`,
+      brushStroke: `rgba(${brushBase}, ${0.25})`,
       brushDashStroke: `rgba(${brushBase}, .6)`,
     };
-  }, [appState, settings]);
+  }, [appState]);
 
   const meta = React.useMemo(() => {
     return { isDarkMode: settings.isDarkMode };
@@ -53,17 +30,17 @@ const SLideThumbnail = ({ page }: SlideThumbnailProps) => {
 
   return (
     <Renderer
-      id={document.id}
       shapeUtils={shapeUtils}
       page={page}
       hideBounds={true}
       theme={theme}
       meta={meta}
       pageState={{
-        ...document.pageStates[page.id],
+        id: page.id,
+        selectedIds: [],
         camera: {
           point: [SLIDE_WIDTH / 2, SLIDE_HEIGHT / 2],
-          zoom: 160 / SLIDE_WIDTH,
+          zoom: 133 / SLIDE_WIDTH,
         },
       }}
       assets={document.assets}

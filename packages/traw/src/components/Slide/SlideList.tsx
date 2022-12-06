@@ -16,7 +16,8 @@ const SlideList = ({
 }: SlideListProps) => {
   const app = useTrawApp();
   const state = app.useSlidesStore();
-  const { document } = state;
+  const { document, appState } = state;
+  const { currentPageId } = appState;
   const pages = document.pages;
 
   const viewerCount = 3;
@@ -49,7 +50,11 @@ const SlideList = ({
               index={index + 1}
               page={page}
               viewerCount={viewerCount}
-              selectState={selectState}
+              selectState={
+                page.id === currentPageId
+                  ? SlideListItemState.SELECTED
+                  : selectState
+              }
             />
           ))}
         </div>
