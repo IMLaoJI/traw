@@ -67,7 +67,7 @@ const SlideThumbnail = ({ page }: { page: TDPage }) => {
 const SlideList = () => {
   const app = useTrawApp();
 
-  const state = app.useStore();
+  const state = app.useSlidesStore();
 
   const { document, appState } = state;
 
