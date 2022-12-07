@@ -8,7 +8,11 @@ export type ActionType =
   | "SORT_SLIDE"
   | "DELETE_SLIDE"
   | "SELECT_SLIDE"
-  | "SUBSCRIBE_SLIDE";
+  | "SUBSCRIBE_SLIDE"
+  | "create_page"
+  | "change_page"
+  | "edit"
+  | "create_draw";
 
 export type TrawToolInfo = {
   type: TDToolType | "file";
