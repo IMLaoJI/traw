@@ -241,4 +241,50 @@ describe("Traw record migrate function", () => {
       origin: "doc-2/asset-2",
     });
   });
+
+  it("should convert UPDATE correctly", async () => {
+    const addRecord = {
+      id: "record-1",
+      blockId: "block-1",
+      slideId: "slide-1",
+      user: "user-1",
+      type: "UPDATE" as const,
+      data: {
+        type: "IMAGE",
+        data: {
+          x: 10,
+          y: 20,
+          width: 100,
+          height: 80,
+          text: "Test content",
+        },
+        assetId: "asset-1",
+      },
+      start: 1670205418616,
+      end: 1670205418616,
+      origin: "doc-2/asset-2",
+    };
+
+    const convertedRecord = migrateRecords([addRecord]);
+
+    expect(convertedRecord[0]).toEqual({
+      id: "record-1",
+      blockId: "block-1",
+      slideId: "slide-1",
+      user: "user-1",
+      type: "create" as const,
+      data: {
+        shapes: {
+          "asset-1": {
+            point: [-40, -20],
+            size: [100, 80],
+            text: "Test content",
+          },
+        },
+      },
+      start: 1670205418616,
+      end: 1670205418616,
+      origin: "doc-2/asset-2",
+    });
+  });
 });

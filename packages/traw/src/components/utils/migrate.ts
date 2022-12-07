@@ -25,8 +25,24 @@ export const getAssetFileUrl = (origin: string, assetId: string) => {
   }/file/redirect`;
 };
 
+const convertFontSize = (fontSize: number) => {
+  return fontSize > 50
+    ? FontSize.Large
+    : fontSize > 30
+    ? FontSize.Medium
+    : FontSize.Small;
+};
+
 export const migrateRecords = (records: Record[]): Record[] => {
   const result: Record[] = [];
+  const assetBoundMap: {
+    [key: string]: {
+      x: number;
+      y: number;
+      width?: number;
+      height?: number;
+    };
+  } = {};
   records.forEach((record) => {
     let newRecord: Record | undefined;
     switch (record.type) {
@@ -48,7 +64,7 @@ export const migrateRecords = (records: Record[]): Record[] => {
           },
         };
         break;
-      case "ADD":
+      case "ADD": {
         const { type, assetId, data } = record.data;
         switch (type) {
           case "TEXT":
@@ -68,12 +84,7 @@ export const migrateRecords = (records: Record[]): Record[] => {
                     text: data.text,
                     style: {
                       color: "black",
-                      size:
-                        data.fontSize > 50
-                          ? FontSize.Large
-                          : data.fontSize > 30
-                          ? FontSize.Medium
-                          : FontSize.Small,
+                      size: convertFontSize(data.fontSize),
                       isFilled: false,
                       dash: "draw",
                       scale: 1,
@@ -86,6 +97,10 @@ export const migrateRecords = (records: Record[]): Record[] => {
                   },
                 },
               },
+            };
+            assetBoundMap[assetId] = {
+              x: data.x,
+              y: data.y,
             };
             break;
           case "PATH":
@@ -133,6 +148,10 @@ export const migrateRecords = (records: Record[]): Record[] => {
                 },
               },
             };
+            assetBoundMap[assetId] = {
+              x: data.x || 0,
+              y: data.y || 0,
+            };
             break;
           case "IMAGE":
             newRecord = {
@@ -169,10 +188,65 @@ export const migrateRecords = (records: Record[]): Record[] => {
                 },
               },
             };
+            assetBoundMap[assetId] = {
+              x: data.x || 0,
+              y: data.y || 0,
+              width: data.width,
+              height: data.height,
+            };
           default:
             break;
         }
         break;
+      }
+      case "UPDATE": {
+        const { assetId, data } = record.data;
+        const newData = {};
+        if (data.text !== undefined) {
+          newData["text"] = data.text;
+        }
+        if (data.width || data.height) {
+          if (!assetBoundMap[assetId]) return false;
+          newData["size"] = [data.width, data.height];
+          newData["point"] = [
+            data.x - data.width / 2,
+            data.y - data.height / 2,
+          ];
+          assetBoundMap[assetId] = {
+            x: data.x || 0,
+            y: data.y || 0,
+            width: data.width,
+            height: data.height,
+          };
+        } else if (data.x || data.y) {
+          if (!assetBoundMap[assetId]) return false;
+          if (assetBoundMap[assetId].width) {
+            const bound = assetBoundMap[assetId];
+            newData["point"] = [
+              data.x - bound.width / 2,
+              data.y - bound.height / 2,
+            ];
+          } else {
+            newData["point"] = [data.x, data.y];
+          }
+        }
+        if (data.fontSize) {
+          newData["style"] = {
+            size: convertFontSize(data.fontSize),
+          };
+        }
+        console.log(newData);
+        newRecord = {
+          ...record,
+          type: "create",
+          data: {
+            shapes: {
+              [assetId]: newData,
+            },
+          },
+        };
+        break;
+      }
       default:
         return false;
     }
