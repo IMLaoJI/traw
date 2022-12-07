@@ -9,6 +9,8 @@ interface SlideThumbnailProps {
 }
 
 const SLideThumbnail = ({ page }: SlideThumbnailProps) => {
+  const slideDomRef = React.useRef<HTMLDivElement>(null);
+
   const app = useTrawApp();
   const state = app.useSlidesStore();
 
@@ -29,22 +31,27 @@ const SLideThumbnail = ({ page }: SlideThumbnailProps) => {
   }, [settings.isDarkMode]);
 
   return (
-    <Renderer
-      shapeUtils={shapeUtils}
-      page={page}
-      hideBounds={true}
-      theme={theme}
-      meta={meta}
-      pageState={{
-        id: page.id,
-        selectedIds: [],
-        camera: {
-          point: [SLIDE_WIDTH / 2, SLIDE_HEIGHT / 2],
-          zoom: 133 / SLIDE_WIDTH,
-        },
-      }}
-      assets={document.assets}
-    />
+    <div
+      className="w-full aspect-video rounded-xl relative overflow-hidden"
+      ref={slideDomRef}
+    >
+      <Renderer
+        shapeUtils={shapeUtils}
+        page={page}
+        hideBounds={true}
+        theme={theme}
+        meta={meta}
+        pageState={{
+          id: page.id,
+          selectedIds: [],
+          camera: {
+            point: [SLIDE_WIDTH / 2, SLIDE_HEIGHT / 2],
+            zoom: 133 / SLIDE_WIDTH,
+          },
+        }}
+        assets={document.assets}
+      />
+    </div>
   );
 };
 

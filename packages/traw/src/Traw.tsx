@@ -57,11 +57,12 @@ const Traw = ({ app, id, records = [], onAddRecord }: TrawProps) => {
             Room={<div />}
           />
         </div>
-        <div className="flex flex-row flex-1">
-          <div className="flex-1 flex">
+
+        <div className="flex flex-1 ">
+          <div className="flex flex-1 ">
             <Slide />
           </div>
-          <div className="flex-0 flex">
+          <div className="flex basis-[269px] m-2 ml-0  ">
             <Panel handlePlayClick={() => null} />
           </div>
         </div>
