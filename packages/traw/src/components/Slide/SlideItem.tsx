@@ -27,7 +27,7 @@ const SlideItem = () => {
 
   useEffect(() => {
     handleResize();
-  }, [currentPageId, handleResize])
+  }, [currentPageId, handleResize]);
 
   useEffect(() => {
     handleResize();

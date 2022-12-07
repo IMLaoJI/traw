@@ -35,28 +35,32 @@ const SlideListItem = ({
       key={page.id}
       onClick={handleSelectSlide}
       className={classNames(
-        `w-[133px] outline-1 aspect-video rounded-2xl relative flex-auto flex-shrink-0 flex-grow-0 cursor-pointer`,
-        {
-          "outline-black outline-offset-[-1px] ":
-            selectState === SlideListItemState.DEFAULT,
-          "outline-traw-purple ": selectState === SlideListItemState.SELECTED,
-          "outline-traw-grey ": selectState === SlideListItemState.TARGETED,
-        }
+        `flex basis-[133px]  aspect-video rounded-2xl relative cursor-pointer grow-0 shrink-0`
       )}
     >
-      <div className="absolute top-0 bottom-0 left-0 right-0 w-full h-full z-[101] flex flex-col justify-between">
+      <div
+        className={classNames(
+          "absolute top-0 bottom-0 left-0 right-0 w-full h-full z-[101] flex flex-col justify-between outline outline-1 outline-offset-[-1px] rounded-xl",
+          {
+            "outline-transparent ": selectState === SlideListItemState.DEFAULT,
+            "outline-traw-purple ": selectState === SlideListItemState.SELECTED,
+            "outline-traw-grey ": selectState === SlideListItemState.TARGETED,
+          }
+        )}
+      >
         <div
           className={classNames(
-            "flex items-center justify-between ml-auto w-14 rounded-bl-[10px] rounded-tr-[10px] text-right text-[10px] py-1 px-2 bg-traw-grey-50 text-traw-grey-100",
+            "flex items-center justify-center ml-auto w-10 rounded-bl-xl rounded-tr-xl text-right text-[10px] py-0.5 gap-1",
             {
-              "bg-traw-purple text-white ":
+              "bg-traw-purple text-white":
                 selectState === SlideListItemState.SELECTED,
               "bg-traw-grey-50 text-traw-grey-100 ":
-                selectState === SlideListItemState.DEFAULT,
+                selectState === SlideListItemState.DEFAULT ||
+                selectState === SlideListItemState.TARGETED,
             }
           )}
         >
-          <SvgViewer className="fill-current h-5 w-5" />
+          <SvgViewer className="fill-current h-3 w-4" />
           {viewerCount}
         </div>
         <div className="ml-auto text-[10px] text-traw-grey-100 pr-2 pb-1">

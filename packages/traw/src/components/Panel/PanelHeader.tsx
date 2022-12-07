@@ -9,10 +9,10 @@ const PanelHeader = ({ handlePlayClick }: PanelHeaderProps) => {
   return (
     <header className="flex mt-2 w-full gap-2 pl-2 items-center">
       <button
-        className="text-traw-purple text-xs rounded-full border  bg-white hover:bg-traw-purple hover:text-white p-0.5"
+        className="text-white text-xs rounded-full border bg-traw-purple hover:text-white w-5 h-5"
         onClick={handlePlayClick}
       >
-        <SvgPlayArrow className="fill-current w-4 h-4" />
+        <SvgPlayArrow className="fill-current w-full h-full" />
       </button>
       <div className="text-traw-grey-dark text-xs">00:00:00 / 00:00:00</div>
     </header>

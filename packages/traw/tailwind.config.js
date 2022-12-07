@@ -20,6 +20,9 @@ module.exports = {
       boxShadow: {
         "3xl": "0px 0px 60px 0px #bdbcf980",
       },
+      borderRadius: {
+        xl: "10px",
+      },
     },
   },
   plugins: [],
