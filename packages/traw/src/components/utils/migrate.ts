@@ -84,10 +84,19 @@ export const migrateRecords = (records: Record[]): Record[] => {
             break;
           case "PATH":
             const newPositions: number[][] = [];
+            let minX = Infinity;
+            let minY = Infinity;
+            for (let i = 0; i < data.positions.length; i += 3) {
+              const x = data.positions[i];
+              const y = data.positions[i + 1];
+              minX = Math.min(minX, x);
+              minY = Math.min(minY, y);
+            }
+
             for (let i = 0; i < data.positions.length; i += 3) {
               newPositions.push([
-                data.positions[i] - data.positions[0],
-                data.positions[i + 1] - data.positions[1],
+                data.positions[i] - minX,
+                data.positions[i + 1] - minY,
                 0.5,
               ]);
             }
@@ -103,7 +112,7 @@ export const migrateRecords = (records: Record[]): Record[] => {
                     name: "Draw",
                     parentId: record.slideId,
                     childIndex: 1,
-                    point: [data.positions[0], data.positions[1]],
+                    point: [minX, minY],
                     rotation: 0,
                     style: {
                       color: ColorMap[data.color],

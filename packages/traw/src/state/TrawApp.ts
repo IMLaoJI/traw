@@ -1,5 +1,6 @@
 import { TldrawApp, TDToolType, TDShapeType } from "@tldraw/tldraw";
 import createVanilla, { StoreApi } from "zustand/vanilla";
+import { migrateRecords } from "../components/utils/migrate";
 import { Record, TrawSnapshot } from "../types";
 
 const ignoreFunc = () => {};
@@ -43,6 +44,7 @@ export class TrawApp {
       records: [],
     };
     this.store = createVanilla(() => this._state);
+    console.log(this);
   }
 
   selectTool(tool: TDToolType) {
@@ -94,16 +96,51 @@ export class TrawApp {
     }
   };
 
-  addRecord = (record: Record) => {
-    console.log(record);
-    const { type, data, slideId } = record;
+  addRecords = (records: Record[]) => {
+    records = migrateRecords(records);
 
-    this.app.patchState({
-      document: {
-        pages: {
-          [slideId]: data,
-        },
-      },
+    records.forEach((record) => {
+      switch (record.type) {
+        case "create_page":
+          this.app.patchState({
+            document: {
+              pages: {
+                [record.data.id]: {
+                  id: record.data.id,
+                  name: "Page",
+                  childIndex: 2,
+                  shapes: {},
+                  bindings: {},
+                },
+              },
+            },
+          });
+          break;
+        case "change_page":
+          this.app.patchState({
+            document: {
+              pageStates: {
+                [record.data.id]: {
+                  id: record.data.id,
+                  selectedIds: [],
+                  camera: { point: [0, 0], zoom: 1 },
+                },
+              },
+            },
+          });
+          break;
+        default:
+          const { type, data, slideId } = record;
+
+          this.app.patchState({
+            document: {
+              pages: {
+                [slideId]: data,
+              },
+            },
+          });
+          break;
+      }
     });
   };
 

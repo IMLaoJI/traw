@@ -126,7 +126,7 @@ describe("Traw record migrate function", () => {
         data: {
           color: "PURPLE",
           thickness: 8,
-          positions: [1, 2, 0, 3, 4, 0],
+          positions: [0, 4, 0, 100, 96, 0],
         },
         assetId: "asset-1",
       },
@@ -151,7 +151,7 @@ describe("Traw record migrate function", () => {
             name: "Draw",
             parentId: "slide-1",
             childIndex: 1,
-            point: [1, 2],
+            point: [50, 50],
             rotation: 0,
             style: {
               color: "violet",
@@ -162,7 +162,7 @@ describe("Traw record migrate function", () => {
             },
             points: [
               [0, 0, 0.5],
-              [2, 2, 0.5],
+              [100, 92, 0.5],
             ],
             isComplete: true,
           },
