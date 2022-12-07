@@ -131,11 +131,17 @@ export class TrawApp {
           break;
         default:
           const { type, data, slideId } = record;
-
           this.app.patchState({
             document: {
               pages: {
-                [slideId]: data,
+                [slideId]: {
+                  shapes: {
+                    ...data.shapes,
+                  },
+                },
+              },
+              assets: {
+                ...data.assets,
               },
             },
           });

@@ -19,6 +19,12 @@ const ColorMap: { [key in LegacyColorType]: string } = {
   [LegacyColorType.GREY]: "gray",
 };
 
+export const getAssetFileUrl = (origin: string, assetId: string) => {
+  return `${"https://api.traw.io"}/documents/${origin.split("/")[0]}/records/${
+    origin.split("/")[1] || assetId
+  }/file/redirect`;
+};
+
 export const migrateRecords = (records: Record[]): Record[] => {
   const result: Record[] = [];
   records.forEach((record) => {
@@ -57,7 +63,7 @@ export const migrateRecords = (records: Record[]): Record[] => {
                     name: "Text",
                     parentId: record.slideId,
                     childIndex: 1,
-                    point: [data.x, data.y],
+                    point: [data.x, data.y - data.fontSize / 2],
                     rotation: 0,
                     text: data.text,
                     style: {
@@ -128,6 +134,41 @@ export const migrateRecords = (records: Record[]): Record[] => {
               },
             };
             break;
+          case "IMAGE":
+            newRecord = {
+              ...record,
+              type: "create",
+              data: {
+                shapes: {
+                  [assetId]: {
+                    id: assetId,
+                    assetId: assetId,
+                    type: "image",
+                    name: "Image",
+                    parentId: record.slideId,
+                    childIndex: 1,
+                    point: [data.x - data.width / 2, data.y - data.height / 2],
+                    rotation: 0,
+                    size: [data.width, data.height],
+                    style: {
+                      color: "black",
+                      size: "small",
+                      isFilled: false,
+                      dash: "draw",
+                      scale: 1,
+                    },
+                  },
+                },
+                assets: {
+                  [assetId]: {
+                    id: assetId,
+                    type: "image",
+                    name: "Image." + data.ext,
+                    src: getAssetFileUrl(record.origin, assetId),
+                  },
+                },
+              },
+            };
           default:
             break;
         }

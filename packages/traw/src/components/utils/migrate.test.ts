@@ -93,7 +93,7 @@ describe("Traw record migrate function", () => {
             name: "Text",
             parentId: "slide-1",
             childIndex: 1,
-            point: [4, 8],
+            point: [4, -12],
             rotation: 0,
             text: "Test content",
             style: {
@@ -151,7 +151,7 @@ describe("Traw record migrate function", () => {
             name: "Draw",
             parentId: "slide-1",
             childIndex: 1,
-            point: [50, 50],
+            point: [0, 4],
             rotation: 0,
             style: {
               color: "violet",
@@ -171,6 +171,74 @@ describe("Traw record migrate function", () => {
       start: 1670205418616,
       end: 1670205418616,
       origin: "doc-1",
+    });
+  });
+
+  it("should convert ADD IMAGE correctly", async () => {
+    const addRecord = {
+      id: "record-1",
+      blockId: "block-1",
+      slideId: "slide-1",
+      user: "user-1",
+      type: "ADD" as const,
+      data: {
+        type: "IMAGE",
+        data: {
+          ext: "webp",
+          scale: 1,
+          x: 0,
+          y: 0,
+          width: 100,
+          height: 80,
+        },
+        assetId: "asset-1",
+      },
+      start: 1670205418616,
+      end: 1670205418616,
+      origin: "doc-2/asset-2",
+    };
+
+    const convertedRecord = migrateRecords([addRecord]);
+
+    expect(convertedRecord[0]).toEqual({
+      id: "record-1",
+      blockId: "block-1",
+      slideId: "slide-1",
+      user: "user-1",
+      type: "create" as const,
+      data: {
+        shapes: {
+          "asset-1": {
+            id: "asset-1",
+            type: "image",
+            name: "Image",
+            parentId: "slide-1",
+            assetId: "asset-1",
+            childIndex: 1,
+            point: [-50, -40],
+            rotation: 0,
+            size: [100, 80],
+            style: {
+              color: "black",
+              size: "small",
+              isFilled: false,
+              dash: "draw",
+              scale: 1,
+            },
+          },
+        },
+        assets: {
+          "asset-1": {
+            id: "asset-1",
+            type: "image",
+            name: "Image.webp",
+            src: "https://api.traw.io/documents/doc-2/records/asset-2/file/redirect",
+          },
+        },
+      },
+      start: 1670205418616,
+      end: 1670205418616,
+      origin: "doc-2/asset-2",
     });
   });
 });

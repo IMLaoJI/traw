@@ -12,7 +12,8 @@ export type ActionType =
   | "create_page"
   | "change_page"
   | "edit"
-  | "create_draw";
+  | "create_draw"
+  | "create";
 
 export type TrawToolInfo = {
   type: TDToolType | "file";
