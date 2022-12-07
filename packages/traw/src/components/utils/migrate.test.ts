@@ -243,48 +243,107 @@ describe("Traw record migrate function", () => {
   });
 
   it("should convert UPDATE correctly", async () => {
-    const addRecord = {
-      id: "record-1",
-      blockId: "block-1",
-      slideId: "slide-1",
-      user: "user-1",
-      type: "UPDATE" as const,
-      data: {
-        type: "IMAGE",
+    const addRecords = [
+      {
+        id: "record-1",
+        blockId: "block-1",
+        slideId: "slide-1",
+        user: "user-1",
+        type: "ADD" as const,
         data: {
-          x: 10,
-          y: 20,
-          width: 100,
-          height: 80,
-          text: "Test content",
+          type: "TEXT",
+          data: {
+            x: 4,
+            y: 8,
+            fontSize: 40,
+            text: "Test content",
+            color: "#000000",
+            align: "left",
+          },
+          assetId: "asset-1",
         },
-        assetId: "asset-1",
+        start: 1670205418616,
+        end: 1670205418616,
+        origin: "doc-1",
       },
-      start: 1670205418616,
-      end: 1670205418616,
-      origin: "doc-2/asset-2",
-    };
-
-    const convertedRecord = migrateRecords([addRecord]);
-
-    expect(convertedRecord[0]).toEqual({
-      id: "record-1",
-      blockId: "block-1",
-      slideId: "slide-1",
-      user: "user-1",
-      type: "create" as const,
-      data: {
-        shapes: {
-          "asset-1": {
-            point: [-40, -20],
-            size: [100, 80],
+      {
+        id: "record-1",
+        blockId: "block-1",
+        slideId: "slide-1",
+        user: "user-1",
+        type: "UPDATE" as const,
+        data: {
+          type: "IMAGE",
+          data: {
+            x: 10,
+            y: 20,
+            width: 100,
+            height: 80,
             text: "Test content",
           },
+          assetId: "asset-1",
         },
+        start: 1670205418616,
+        end: 1670205418616,
+        origin: "doc-2/asset-2",
       },
-      start: 1670205418616,
-      end: 1670205418616,
-      origin: "doc-2/asset-2",
-    });
+    ];
+
+    const convertedRecord = migrateRecords(addRecords);
+
+    expect(convertedRecord).toEqual([
+      {
+        id: "record-1",
+        blockId: "block-1",
+        slideId: "slide-1",
+        user: "user-1",
+        type: "edit" as const,
+        data: {
+          shapes: {
+            "asset-1": {
+              id: "asset-1",
+              type: "text",
+              name: "Text",
+              parentId: "slide-1",
+              childIndex: 1,
+              point: [4, -12],
+              rotation: 0,
+              text: "Test content",
+              style: {
+                color: "black",
+                size: "medium",
+                isFilled: false,
+                dash: "draw",
+                scale: 1,
+                font: "sans",
+                textAlign: "start",
+              },
+            },
+          },
+        },
+        start: 1670205418616,
+        end: 1670205418616,
+        origin: "doc-1",
+      },
+      {
+        id: "record-1",
+        blockId: "block-1",
+        slideId: "slide-1",
+        user: "user-1",
+        type: "create" as const,
+        data: {
+          shapes: {
+            "asset-1": {
+              point: [-40, -20],
+              size: [100, 80],
+              text: "Test content",
+            },
+          },
+        },
+        start: 1670205418616,
+        end: 1670205418616,
+        origin: "doc-2/asset-2",
+      },
+    ]);
   });
 });

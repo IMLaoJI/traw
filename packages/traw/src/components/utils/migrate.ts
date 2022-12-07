@@ -235,7 +235,6 @@ export const migrateRecords = (records: Record[]): Record[] => {
             size: convertFontSize(data.fontSize),
           };
         }
-        console.log(newData);
         newRecord = {
           ...record,
           type: "create",
