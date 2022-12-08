@@ -1,4 +1,4 @@
-import { AlignStyle, FontSize } from "@tldraw/tldraw";
+import { AlignStyle, FontSize, SizeStyle } from "@tldraw/tldraw";
 import { Record } from "../../types";
 
 enum LegacyColorType {
@@ -28,9 +28,17 @@ export const getAssetFileUrl = (origin: string, assetId: string) => {
 const convertFontSize = (fontSize: number) => {
   return fontSize > 50
     ? FontSize.Large
-    : fontSize > 30
+    : fontSize > 34
     ? FontSize.Medium
     : FontSize.Small;
+};
+
+const convertThickness = (thickness: number) => {
+  return thickness >= 8
+    ? SizeStyle.Large
+    : thickness >= 4
+    ? SizeStyle.Medium
+    : SizeStyle.Small;
 };
 
 export const migrateRecords = (records: Record[]): Record[] => {
@@ -59,6 +67,15 @@ export const migrateRecords = (records: Record[]): Record[] => {
         newRecord = {
           ...record,
           type: "change_page",
+          data: {
+            id: record.data.id,
+          },
+        };
+        break;
+      case "DELETE_SLIDE":
+        newRecord = {
+          ...record,
+          type: "delete_page",
           data: {
             id: record.data.id,
           },
@@ -137,9 +154,9 @@ export const migrateRecords = (records: Record[]): Record[] => {
                     rotation: 0,
                     style: {
                       color: ColorMap[data.color],
-                      size: "small",
+                      size: convertThickness(data.thickness),
                       isFilled: false,
-                      dash: "draw",
+                      dash: "solid",
                       scale: 1,
                     },
                     points: newPositions,
@@ -151,6 +168,39 @@ export const migrateRecords = (records: Record[]): Record[] => {
             assetBoundMap[assetId] = {
               x: data.x || 0,
               y: data.y || 0,
+            };
+            break;
+          case "SHAPE":
+            newRecord = {
+              ...record,
+              type: "create",
+              data: {
+                shapes: {
+                  [assetId]: {
+                    id: assetId,
+                    type: "rectangle",
+                    name: "Rectangle",
+                    parentId: record.slideId,
+                    childIndex: 1,
+                    point: [data.x - data.width / 2, data.y - data.height / 2],
+                    rotation: 0,
+                    size: [data.width, data.height],
+                    style: {
+                      color: ColorMap[data.color],
+                      size: convertThickness(data.thickness),
+                      isFilled: false,
+                      dash: "solid",
+                      scale: 1,
+                    },
+                  },
+                },
+              },
+            };
+            assetBoundMap[assetId] = {
+              x: data.x,
+              y: data.y,
+              width: data.width,
+              height: data.height,
             };
             break;
           case "IMAGE":
@@ -246,7 +296,22 @@ export const migrateRecords = (records: Record[]): Record[] => {
         };
         break;
       }
+      case "REMOVE": {
+        const { id } = record.data;
+        if (!assetBoundMap[id]) return false;
+        newRecord = {
+          ...record,
+          type: "delete",
+          data: {
+            shapes: {
+              [id]: undefined,
+            },
+          },
+        };
+        break;
+      }
       default:
+        console.log(record);
         return false;
     }
     if (newRecord) {

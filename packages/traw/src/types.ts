@@ -11,7 +11,9 @@ export type ActionType =
   | "SUBSCRIBE_SLIDE"
   | "create_page"
   | "change_page"
+  | "delete_page"
   | "edit"
+  | "delete"
   | "create_draw"
   | "create";
 

@@ -129,6 +129,18 @@ export class TrawApp {
             },
           });
           break;
+        case "delete_page":
+          this.app.patchState({
+            document: {
+              pageStates: {
+                [record.data.id]: undefined,
+              },
+              pages: {
+                [record.data.id]: undefined,
+              },
+            },
+          });
+          break;
         default:
           const { type, data, slideId } = record;
           this.app.patchState({
