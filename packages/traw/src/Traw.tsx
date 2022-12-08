@@ -49,7 +49,7 @@ const Traw = ({ app, id, records = [], onAddRecord }: TrawProps) => {
         data-testid="traw"
         className="flex flex-1 flex-col overflow-hidden bg-traw-sky"
       >
-        <div className="h-14">
+        <div className="h-14 m-2 mb-0">
           <Header
             title={"Test Document"}
             canEdit={true}
