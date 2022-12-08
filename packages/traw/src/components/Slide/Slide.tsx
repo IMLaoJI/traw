@@ -16,7 +16,7 @@ const Slide = () => {
 
   return (
     <div className="flex flex-1 items-center flex-col p-2">
-      <div className="flex w-full bg-white rounded-2xl items-center px-4 mb-2 basis-[117px] ">
+      <div className="flex w-full bg-white rounded-2xl items-center px-3 sm:px-4 mb-2 basis-[76px] sm:basis-[117px] ">
         <SlideList
           canAddSlide={true}
           handleAddSlide={handleAddSlide}

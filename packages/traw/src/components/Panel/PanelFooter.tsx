@@ -31,7 +31,7 @@ const PanelFooter = ({ onCreate }: PanelFooterProps) => {
     <footer className="mt-2 mb-2 ">
       <div className="flex align-items border rounded-full border-traw-purple p-2">
         <input
-          className="w-full rounded-full  text-traw-grey-dark text-xs px-0.5 focus-visible:outline-0"
+          className="w-full rounded-full  text-traw-grey-dark text-xs px-0.5 focus-visible:outline-0 gap-2"
           placeholder="Enter messages here."
           value={text}
           onChange={handleInputChange}

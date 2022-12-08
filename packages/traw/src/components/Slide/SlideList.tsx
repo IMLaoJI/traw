@@ -42,9 +42,9 @@ const SlideList = ({
           ))}
         </div>
       </div>
-      <div className="flex flex-col justify-between basis-[35px]">
+      <div className="flex flex-col justify-between basis-[25px] sm:basis-[35px] py-1 sm:py-0">
         <button
-          className="flex items-center justify-center border border-traw-purple w-8 h-8 rounded-md text-traw-purple
+          className="flex items-center justify-center border border-traw-purple w-6 h-6 sm:w-8 sm:h-8 rounded-md text-traw-purple
            disabled:border-black/[.12] disabled:text-black/[.26]"
           disabled={!canAddSlide}
           onClick={handleAddSlide}
@@ -52,7 +52,7 @@ const SlideList = ({
           <SvgAdd className="fill-current w-2 h-2" />
         </button>
         <button
-          className="flex items-center justify-center border border-traw-purple w-8 h-8 rounded-md text-traw-purple "
+          className="flex items-center justify-center border border-traw-purple w-6 h-6 sm:w-8 sm:h-8 rounded-md text-traw-purple "
           onClick={handleGridView}
         >
           <SvgGridView className="fill-current w-3 h-3" />

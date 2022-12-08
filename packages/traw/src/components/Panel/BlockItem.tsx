@@ -20,7 +20,7 @@ const BlockItem = ({
   handlePlayClick,
 }: BlockItemProps) => {
   return (
-    <li className="rounded-[10px] bg-white p-2 w-full border border-traw-grey-10">
+    <li className="rounded-[10px] bg-white p-2 w-full border border-traw-grey-10 mb-2.5">
       <div className="flex flex-1 flex-row items-center w-full grow">
         <div className="flex relative">
           <UserAvatar avatarUrl={undefined} userName={userName} />
