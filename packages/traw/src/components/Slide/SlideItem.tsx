@@ -116,7 +116,7 @@ const SlideItem = () => {
 
   return (
     <div
-      className="w-full aspect-video rounded-2xl shadow-3xl relative overflow-hidden"
+      className="w-full aspect-video rounded-2xl relative overflow-hidden shadow-[0_10px_50px_rgba(189,188,249,0.5)]"
       ref={slideDomRef}
     >
       <Renderer
