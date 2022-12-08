@@ -58,11 +58,11 @@ const Traw = ({ app, id, records = [], onAddRecord }: TrawProps) => {
           />
         </div>
 
-        <div className="flex flex-1 ">
+        <div className="flex flex-1 flex-col sm:flex-row">
           <div className="flex flex-1 ">
             <Slide />
           </div>
-          <div className="flex basis-[269px] my-2.5 mr-2  ">
+          <div className="flex basis-[269px] m-2 sm:ml-0  ">
             <Panel handlePlayClick={() => null} />
           </div>
         </div>

@@ -11,8 +11,33 @@
 
   --heading-font-size: 40px;
 
-  font-family: "Avenir Next", Helvetica, Arial, sans-serif;
 }
+
+@font-face {
+  font-family: 'Lexend';
+  font-weight: 400;
+  src: url('static/fonts/lexend/Lexend-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Lexend';
+  font-weight: 700;
+  src: url('static/fonts/lexend/Lexend-Bold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'NanumSquare';
+  font-weight: 400;
+  src: url('static/fonts/nanum-square/NanumSquareR.ttf') format('truetype');
+}
+
+
+@font-face {
+  font-family: 'NanumSquare';
+  font-weight: 700;
+  src: url('static/fonts/nanum-square/NanumSquareB.ttf') format('truetype');
+}
+
 
 @media (prefers-color-scheme: dark) {
   :root {
@@ -30,4 +55,9 @@
     @apply py-1 px-1 bg-white text-traw-grey-100  hover:bg-black/[.04] focus:outline-none ;
   }
   
+}
+@layer base {
+  html {
+    font-family: 'Lexend', 'NanumSquare', 'sans-serif', system-ui, sans-serif;
+  }
 }

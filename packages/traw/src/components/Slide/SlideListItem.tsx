@@ -35,7 +35,7 @@ const SlideListItem = ({
       key={page.id}
       onClick={handleSelectSlide}
       className={classNames(
-        `flex basis-[133px]  aspect-video rounded-2xl relative cursor-pointer grow-0 shrink-0`
+        `flex basis-[112px] sm:basis-[133px] aspect-video rounded-2xl relative cursor-pointer grow-0 shrink-0`
       )}
     >
       <div
