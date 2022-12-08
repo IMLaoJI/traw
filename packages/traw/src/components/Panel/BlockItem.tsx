@@ -45,7 +45,7 @@ const BlockItem = ({
           </button>
         </div>
       </div>
-      <div className="mt-2 text-[13px] text-traw-gry p-1">{blockText}</div>
+      <div className="mt-2 text-[13px] text-traw-gry py-1">{blockText}</div>
     </li>
   );
 };

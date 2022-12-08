@@ -31,15 +31,17 @@ const Slide = () => {
             </div>
           </div>
 
-      <div className="flex basis-[56px] items-end">
-        <ToolBox
-          currentTool={activeTool}
-          isUndoable={true}
-          isRedoable={true}
-          selectTool={console.log}
-          handleUndo={console.log}
-          handleRedo={console.log}
-        />
+          <div className="flex basis-[56px] ">
+            <ToolBox
+              currentTool={activeTool}
+              isUndoable={true}
+              isRedoable={true}
+              selectTool={console.log}
+              handleUndo={console.log}
+              handleRedo={console.log}
+            />
+          </div>
+        </div>
       </div>
     </div>
   );
