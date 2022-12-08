@@ -26,7 +26,7 @@ const Slide = () => {
 
       <SlideItem />
 
-      <div className="flex basis-[56px]">
+      <div className="flex basis-[56px] items-end">
         <ToolBox
           currentTool={activeTool}
           isUndoable={true}
