@@ -6,7 +6,7 @@ import SlideListItem, { SlideListItemState } from "./SlideListItem";
 interface SlideGridViewProps {
   close: () => void;
   selectSlide: (slideId: string) => void;
-  pages: TDPage;
+  pages: Record<string, TDPage>;
   currentPageId: string;
 }
 
