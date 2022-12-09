@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { useTrawApp } from "../../hooks/useTrawApp";
-import SvgGridView from "../../icons/grid-view";
 import SvgAdd from "../../icons/add";
+import SvgGridView from "../../icons/grid-view";
 import SlideListItem, { SlideListItemState } from "./SlideListItem";
 
 interface SlideListProps {
@@ -14,6 +14,7 @@ const SlideList = ({
   handleAddSlide,
   handleGridView,
 }: SlideListProps) => {
+  const slideRef = useRef({});
   const app = useTrawApp();
   const state = app.useSlidesStore();
   const { document, appState } = state;
@@ -22,6 +23,20 @@ const SlideList = ({
 
   const viewerCount = 3;
   const selectState = SlideListItemState.DEFAULT;
+
+  const handleSlideClick = (slideId: string) => {
+    app.selectSlide(slideId);
+  };
+
+  useEffect(() => {
+    if (slideRef.current[currentPageId]) {
+      slideRef.current[currentPageId].scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+        inline: "center",
+      });
+    }
+  }, [currentPageId]);
 
   return (
     <div className="flex flex-row gap-3 overflow-hidden justify-between flex-1">
@@ -38,6 +53,11 @@ const SlideList = ({
                   ? SlideListItemState.SELECTED
                   : selectState
               }
+              size={{ mobile: "112px", tablet: "133px" }}
+              handleClick={handleSlideClick}
+              setRef={(ref) => {
+                slideRef.current[page.id] = ref;
+              }}
             />
           ))}
         </div>

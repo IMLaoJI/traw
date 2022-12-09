@@ -1,7 +1,6 @@
 import { TDPage } from "@tldraw/tldraw";
 import classNames from "classnames";
 import React from "react";
-import { useTrawApp } from "../../hooks/useTrawApp";
 import SvgViewer from "../../icons/viewer";
 import SlideThumbnail from "./SlideThumbnail";
 
@@ -16,6 +15,12 @@ interface SlideListItemProps {
   index: number;
   viewerCount: number;
   selectState: SlideListItemState;
+  size: {
+    mobile: string;
+    tablet: string;
+  };
+  setRef?: (ref: HTMLDivElement) => void;
+  handleClick: (slideId: string) => void;
 }
 
 const SlideListItem = ({
@@ -23,19 +28,23 @@ const SlideListItem = ({
   index,
   viewerCount,
   selectState,
+  size,
+  setRef,
+  handleClick,
 }: SlideListItemProps) => {
-  const app = useTrawApp();
-
   const handleSelectSlide = () => {
-    app.selectSlide(page.id);
+    handleClick(page.id);
   };
 
   return (
     <div
+      ref={(el: HTMLDivElement) => {
+        setRef && setRef(el);
+      }}
       key={page.id}
       onClick={handleSelectSlide}
       className={classNames(
-        `flex basis-[112px] sm:basis-[133px] aspect-video rounded-2xl relative cursor-pointer grow-0 shrink-0`
+        `flex basis-[${size.mobile}] sm:basis-[${size.tablet}] aspect-video rounded-2xl relative cursor-pointer grow-0 shrink-0`
       )}
     >
       <div
