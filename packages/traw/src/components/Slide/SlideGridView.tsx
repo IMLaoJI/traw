@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { TDPage } from "@tldraw/tldraw";
 import classNames from "classnames";
 import SlideListItem, { SlideListItemState } from "./SlideListItem";
@@ -21,17 +21,25 @@ const SlideGridView = ({
   currentPageId,
   selectSlide,
 }: SlideGridViewProps) => {
+  const slideRef = useRef({});
+
   const viewerCount = 3;
   const selectState = SlideListItemState.DEFAULT;
+
+  const handleClick = (slideId: string) => {
+    selectSlide(slideId);
+  };
+
   return (
-    <div className="flex bg-white  px-3 py-3 flex-1 rounded-2xl">
+    <div className="flex bg-white  px-3 py-5 flex-1 rounded-2xl ">
       <div className="flex realtive flex-1 overflow-y-auto">
         <div
-          className={`grid flex-1 p-2 grid-cols-1 sm:grid-cols-fill-240 gap-4 content-start`}
+          className={`grid flex-1 p-2 grid-cols-1 sm:grid-cols-fill-240 gap-4 content-start justify-center`}
         >
           {Object.values(pages).map((page, index) => {
             return (
               <SlideListItem
+                key={index}
                 page={page}
                 index={index + 1}
                 viewerCount={viewerCount}
@@ -41,6 +49,10 @@ const SlideGridView = ({
                     : selectState
                 }
                 size={slideSize}
+                handleClick={handleClick}
+                setRef={(ref) => {
+                  slideRef.current[page.id] = ref;
+                }}
               />
             );
           })}

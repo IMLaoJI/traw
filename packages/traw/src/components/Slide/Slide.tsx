@@ -23,8 +23,8 @@ const Slide = () => {
     setIsGridView(!isGridView);
   };
 
-  const handleSelectSlide = (id: string) => {
-    app.selectSlide(id);
+  const handleSelectSlide = (slideId: string) => {
+    app.selectSlide(slideId);
     setIsGridView(false);
   };
 
