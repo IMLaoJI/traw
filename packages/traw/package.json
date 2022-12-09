@@ -1,6 +1,6 @@
 {
   "name": "@traw/traw",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "build/index.js",
   "module": "build/index.esm.js",
   "files": [
@@ -19,8 +19,7 @@
     "storybook": "start-storybook -p 6006",
     "storybook:export": "build-storybook",
     "generate": "node ./util/create-component",
-    "prepublishOnly": "npm run build",
-    "publish": "npm publish --access=public"
+    "prepublishOnly": "npm run build"
   },
   "keywords": [
     "react",
