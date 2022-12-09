@@ -1,6 +1,6 @@
-import React, { ReactNode } from "react";
-import Logo from "../../icons/Logo";
-import Title from "./Title";
+import React, { ReactNode } from 'react';
+import Logo from '../../icons/Logo';
+import Title from './Title';
 
 interface HeaderProps {
   // Title
@@ -19,11 +19,7 @@ const Header = ({ title, canEdit, handleChangeTitle, Room }: HeaderProps) => {
         <Logo />
       </button>
       <div className="ml-2">
-        <Title
-          title={title}
-          canEdit={canEdit}
-          handleChangeTitle={handleChangeTitle}
-        />
+        <Title title={title} canEdit={canEdit} handleChangeTitle={handleChangeTitle} />
       </div>
       <div className="flex flex-grow justify-end gap-1">{Room}</div>
     </div>

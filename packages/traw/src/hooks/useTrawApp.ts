@@ -1,11 +1,5 @@
-import {
-  createContext,
-  useState,
-  useEffect,
-  useContext,
-  RefObject,
-} from "react";
-import { TrawApp } from "../state/TrawApp";
+import { createContext, useState, useEffect, useContext, RefObject } from 'react';
+import { TrawApp } from '../state/TrawApp';
 
 export const TrawContext = createContext<TrawApp>({} as TrawApp);
 

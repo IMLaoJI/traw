@@ -1,16 +1,13 @@
-import React from "react";
-import { memo, MouseEventHandler } from "react";
-import SvgHeadset from "../../../icons/Headset";
+import React from 'react';
+import { memo, MouseEventHandler } from 'react';
+import SvgHeadset from '../../../icons/Headset';
 
 export interface StartCallButtonProps {
   isBrowser?: boolean;
   onClick?: MouseEventHandler;
 }
 
-export const StartCallButton = memo(function StartCallButton({
-  isBrowser,
-  onClick,
-}: StartCallButtonProps) {
+export const StartCallButton = memo(function StartCallButton({ isBrowser, onClick }: StartCallButtonProps) {
   return (
     <button
       onClick={onClick}

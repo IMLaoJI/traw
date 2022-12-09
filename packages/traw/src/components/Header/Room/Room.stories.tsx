@@ -1,10 +1,10 @@
-import { ComponentMeta, ComponentStory } from "@storybook/react";
-import React from "react";
-import Room from "./Room";
-import { OTHERS, MY_SELF } from "./testData";
+import { ComponentMeta, ComponentStory } from '@storybook/react';
+import React from 'react';
+import Room from './Room';
+import { OTHERS, MY_SELF } from './testData';
 
 export default {
-  title: "Traw/Header/Room",
+  title: 'Traw/Header/Room',
   component: Room,
   argTypes: {},
   args: {},

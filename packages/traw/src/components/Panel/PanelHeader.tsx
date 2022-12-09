@@ -1,7 +1,7 @@
-import React from "react";
-import SvgPause from "../../icons/pause";
-import SvgPlayArrow from "../../icons/play-arrow";
-import classNames from "classnames";
+import React from 'react';
+import SvgPause from '../../icons/pause';
+import SvgPlayArrow from '../../icons/play-arrow';
+import classNames from 'classnames';
 
 interface PanelHeaderProps {
   handlePlayClick: () => void;
@@ -12,13 +12,10 @@ const PanelHeader = ({ handlePlayClick, isPlaying }: PanelHeaderProps) => {
   return (
     <header className="flex mt-2 w-full gap-2 pl-2 items-center">
       <button
-        className={classNames(
-          "text-white text-xs rounded-full  hover:text-white w-5 h-5",
-          {
-            "bg-traw-purple": !isPlaying,
-            "bg-traw-pink": isPlaying,
-          }
-        )}
+        className={classNames('text-white text-xs rounded-full  hover:text-white w-5 h-5', {
+          'bg-traw-purple': !isPlaying,
+          'bg-traw-pink': isPlaying,
+        })}
         onClick={handlePlayClick}
       >
         {isPlaying ? (

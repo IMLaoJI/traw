@@ -1,11 +1,11 @@
-import React from "react";
-import { Header } from "./components/Header";
-import { Panel } from "./components/Panel";
-import { Slide } from "./components/Slide";
-import { TrawContext } from "./hooks/useTrawApp";
-import "./index.css";
-import { TrawApp } from "./state/TrawApp";
-import { Record } from "./types";
+import React from 'react';
+import { Header } from './components/Header';
+import { Panel } from './components/Panel';
+import { Slide } from './components/Slide';
+import { TrawContext } from './hooks/useTrawApp';
+import './index.css';
+import { TrawApp } from './state/TrawApp';
+import { Record } from './types';
 
 export interface TrawProps {
   app?: TrawApp;
@@ -26,36 +26,24 @@ const Traw = ({ app, id, records = [], onAddRecord }: TrawProps) => {
   });
 
   React.useLayoutEffect(() => {
-    if (typeof window === "undefined") return;
+    if (typeof window === 'undefined') return;
     if (!window.document?.fonts) return;
 
     function refreshBoundingBoxes() {
       trawApp.app.refreshBoundingBoxes();
     }
-    window.document.fonts.addEventListener("loadingdone", refreshBoundingBoxes);
+    window.document.fonts.addEventListener('loadingdone', refreshBoundingBoxes);
     return () => {
-      window.document.fonts.removeEventListener(
-        "loadingdone",
-        refreshBoundingBoxes
-      );
+      window.document.fonts.removeEventListener('loadingdone', refreshBoundingBoxes);
     };
   }, [trawApp]);
 
   // Use the `key` to ensure that new selector hooks are made when the id changes
   return (
     <TrawContext.Provider value={trawApp}>
-      <div
-        id="traw"
-        data-testid="traw"
-        className="flex flex-1 flex-col overflow-hidden bg-traw-sky"
-      >
+      <div id="traw" data-testid="traw" className="flex flex-1 flex-col overflow-hidden bg-traw-sky">
         <div className="h-14 m-2 mb-0">
-          <Header
-            title={"Test Document"}
-            canEdit={true}
-            handleChangeTitle={() => null}
-            Room={<div />}
-          />
+          <Header title={'Test Document'} canEdit={true} handleChangeTitle={() => null} Room={<div />} />
         </div>
 
         <div className="flex flex-1 flex-col sm:flex-row">

@@ -1,11 +1,11 @@
-import { ComponentMeta, ComponentStory } from "@storybook/react";
-import React from "react";
+import { ComponentMeta, ComponentStory } from '@storybook/react';
+import React from 'react';
 
-import { Traw } from "./Traw";
-import { Record } from "./types";
+import { Traw } from './Traw';
+import { Record } from './types';
 
 export default {
-  title: "Traw/Traw",
+  title: 'Traw/Traw',
   component: Traw,
   argTypes: {},
   args: {},

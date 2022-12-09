@@ -1,12 +1,12 @@
-import { ComponentMeta, ComponentStory } from "@storybook/react";
-import React from "react";
-import ParticipantGroupOverflow from "./ParticipantGroupOverflow";
-import Participant, { ParticipantProps } from "./Participant";
-import { Default as ParticipantStory } from "./Participant.stories";
-import ParticipantName from "./ParticipantName";
+import { ComponentMeta, ComponentStory } from '@storybook/react';
+import React from 'react';
+import ParticipantGroupOverflow from './ParticipantGroupOverflow';
+import Participant, { ParticipantProps } from './Participant';
+import { Default as ParticipantStory } from './Participant.stories';
+import ParticipantName from './ParticipantName';
 
 export default {
-  title: "Traw/Header/ParticipantGroupOverflow",
+  title: 'Traw/Header/ParticipantGroupOverflow',
   component: ParticipantGroupOverflow,
   argTypes: {},
   args: {
@@ -27,9 +27,7 @@ export default {
   },
 } as ComponentMeta<typeof ParticipantGroupOverflow>;
 
-const Template: ComponentStory<typeof ParticipantGroupOverflow> = (props) => (
-  <ParticipantGroupOverflow {...props} />
-);
+const Template: ComponentStory<typeof ParticipantGroupOverflow> = (props) => <ParticipantGroupOverflow {...props} />;
 export const Default = Template.bind({});
 
 Default.args = {};

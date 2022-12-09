@@ -1,13 +1,13 @@
-import { ComponentMeta, ComponentStory } from "@storybook/react";
-import React from "react";
-import Participant from "./Participant";
+import { ComponentMeta, ComponentStory } from '@storybook/react';
+import React from 'react';
+import Participant from './Participant';
 
 export default {
-  title: "Traw/Header/Participant",
+  title: 'Traw/Header/Participant',
   component: Participant,
   argTypes: {
     followUser: {
-      action: "followUser",
+      action: 'followUser',
     },
   },
   args: {
@@ -17,14 +17,12 @@ export default {
   },
 } as ComponentMeta<typeof Participant>;
 
-const Template: ComponentStory<typeof Participant> = (props) => (
-  <Participant {...props} />
-);
+const Template: ComponentStory<typeof Participant> = (props) => <Participant {...props} />;
 export const Default = Template.bind({});
 
 Default.args = {
-  userId: "userId",
-  color: "purple",
+  userId: 'userId',
+  color: 'purple',
   isInCall: false,
   isMuted: false,
   isAudience: false,

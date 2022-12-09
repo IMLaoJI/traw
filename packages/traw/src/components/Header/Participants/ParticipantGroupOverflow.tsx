@@ -1,12 +1,10 @@
-import React, { Children, useState } from "react";
+import React, { Children, useState } from 'react';
 
 export interface ParticipantOverflowGroupProps {
   children: React.ReactNode;
 }
 
-export default function ParticipantGroupOverflow({
-  children,
-}: ParticipantOverflowGroupProps) {
+export default function ParticipantGroupOverflow({ children }: ParticipantOverflowGroupProps) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const isOpen = Boolean(anchorEl);
 

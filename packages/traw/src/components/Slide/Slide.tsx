@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import { useTrawApp } from "../../hooks/useTrawApp";
-import ToolBox from "../ToolBox";
-import SlideGridView from "./SlideGridView";
+import React, { useState } from 'react';
+import { useTrawApp } from '../../hooks/useTrawApp';
+import ToolBox from '../ToolBox';
+import SlideGridView from './SlideGridView';
 
-import { SlideItem } from "./SlideItem";
-import SlideList from "./SlideList";
+import { SlideItem } from './SlideItem';
+import SlideList from './SlideList';
 
 const Slide = () => {
   const [isGridView, setIsGridView] = useState(false);
@@ -41,11 +41,7 @@ const Slide = () => {
         </div>
       )}
       <div className="flex w-full bg-white rounded-2xl items-center px-3 sm:px-4 mb-2 basis-[76px] sm:basis-[117px] shadow-[0_10px_50px_rgba(189,188,249,0.5)]">
-        <SlideList
-          canAddSlide={true}
-          handleAddSlide={handleAddSlide}
-          handleGridView={handleToggleGridView}
-        />
+        <SlideList canAddSlide={true} handleAddSlide={handleAddSlide} handleGridView={handleToggleGridView} />
       </div>
       <div className="flex flex-1 w-full">
         <div className="flex w-full flex-col items-center">

@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from 'react';
 const SvgFiles = (props) => (
   <svg
     id="files_svg__Outline"
@@ -7,12 +7,12 @@ const SvgFiles = (props) => (
     y={0}
     viewBox="0 0 512 512"
     style={{
-      enableBackground: "new 0 0 512 512",
+      enableBackground: 'new 0 0 512 512',
     }}
     xmlSpace="preserve"
     {...props}
   >
-    <style>{".files_svg__st0{fill:#5b5f80}"}</style>
+    <style>{'.files_svg__st0{fill:#5b5f80}'}</style>
     <path
       className="files_svg__st0"
       d="M256 213.3c-47.1 0-85.3 38.2-85.3 85.3S208.9 384 256 384s85.3-38.2 85.3-85.3-38.2-85.4-85.3-85.4zm0 128c-23.6 0-42.7-19.1-42.7-42.7S232.4 256 256 256s42.7 19.1 42.7 42.7-19.1 42.6-42.7 42.6z"

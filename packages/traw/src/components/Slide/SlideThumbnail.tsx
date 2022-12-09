@@ -1,8 +1,8 @@
-import { Renderer } from "@tldraw/core";
-import { shapeUtils, TDPage } from "@tldraw/tldraw";
-import React from "react";
-import { SLIDE_HEIGHT, SLIDE_WIDTH } from "../../constants";
-import { useTrawApp } from "../../hooks/useTrawApp";
+import { Renderer } from '@tldraw/core';
+import { shapeUtils, TDPage } from '@tldraw/tldraw';
+import React from 'react';
+import { SLIDE_HEIGHT, SLIDE_WIDTH } from '../../constants';
+import { useTrawApp } from '../../hooks/useTrawApp';
 
 interface SlideThumbnailProps {
   page: TDPage;
@@ -31,10 +31,7 @@ const SLideThumbnail = ({ page }: SlideThumbnailProps) => {
   }, [settings.isDarkMode]);
 
   return (
-    <div
-      className="w-full aspect-video rounded-xl relative overflow-hidden"
-      ref={slideDomRef}
-    >
+    <div className="w-full aspect-video rounded-xl relative overflow-hidden" ref={slideDomRef}>
       <Renderer
         shapeUtils={shapeUtils}
         page={page}

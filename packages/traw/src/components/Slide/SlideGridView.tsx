@@ -1,7 +1,7 @@
-import React, { useRef } from "react";
-import { TDPage } from "@tldraw/tldraw";
-import classNames from "classnames";
-import SlideListItem, { SlideListItemState } from "./SlideListItem";
+import React, { useRef } from 'react';
+import { TDPage } from '@tldraw/tldraw';
+import classNames from 'classnames';
+import SlideListItem, { SlideListItemState } from './SlideListItem';
 
 interface SlideGridViewProps {
   close: () => void;
@@ -11,16 +11,11 @@ interface SlideGridViewProps {
 }
 
 const slideSize = {
-  mobile: "100%",
-  tablet: "240px",
+  mobile: '100%',
+  tablet: '240px',
 };
 
-const SlideGridView = ({
-  close,
-  pages,
-  currentPageId,
-  selectSlide,
-}: SlideGridViewProps) => {
+const SlideGridView = ({ close, pages, currentPageId, selectSlide }: SlideGridViewProps) => {
   const slideRef = useRef({});
 
   const viewerCount = 3;
@@ -33,9 +28,7 @@ const SlideGridView = ({
   return (
     <div className="flex bg-white  px-3 py-5 flex-1 rounded-2xl ">
       <div className="flex realtive flex-1 overflow-y-auto">
-        <div
-          className={`grid flex-1 p-2 grid-cols-1 sm:grid-cols-fill-240 gap-4 content-start justify-center`}
-        >
+        <div className={`grid flex-1 p-2 grid-cols-1 sm:grid-cols-fill-240 gap-4 content-start justify-center`}>
           {Object.values(pages).map((page, index) => {
             return (
               <SlideListItem
@@ -43,11 +36,7 @@ const SlideGridView = ({
                 page={page}
                 index={index + 1}
                 viewerCount={viewerCount}
-                selectState={
-                  page.id === currentPageId
-                    ? SlideListItemState.SELECTED
-                    : selectState
-                }
+                selectState={page.id === currentPageId ? SlideListItemState.SELECTED : selectState}
                 size="grid"
                 handleClick={handleClick}
                 setRef={(ref) => {

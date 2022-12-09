@@ -1,10 +1,10 @@
-import * as Tooltip from "@radix-ui/react-tooltip";
-import { TDToolType } from "@tldraw/tldraw";
-import classNames from "classnames";
-import React from "react";
-import { useHotkeys } from "react-hotkeys-hook";
-import { useTrawApp } from "../../hooks/useTrawApp";
-import { TrawToolInfo } from "../../types";
+import * as Tooltip from '@radix-ui/react-tooltip';
+import { TDToolType } from '@tldraw/tldraw';
+import classNames from 'classnames';
+import React from 'react';
+import { useHotkeys } from 'react-hotkeys-hook';
+import { useTrawApp } from '../../hooks/useTrawApp';
+import { TrawToolInfo } from '../../types';
 
 interface ToolButtonProps {
   Tool: TrawToolInfo;
@@ -16,7 +16,7 @@ const ToolButton = ({ Tool, selected }: ToolButtonProps) => {
   const app = trawApp.useTldrawApp();
 
   const selectTool = () => {
-    if (Tool.type !== "file") app.selectTool(Tool.type);
+    if (Tool.type !== 'file') app.selectTool(Tool.type);
   };
 
   useHotkeys(
@@ -25,7 +25,7 @@ const ToolButton = ({ Tool, selected }: ToolButtonProps) => {
       event.preventDefault();
       selectTool();
     },
-    []
+    [],
   );
 
   return (
@@ -33,13 +33,10 @@ const ToolButton = ({ Tool, selected }: ToolButtonProps) => {
       <Tooltip.Root>
         <Tooltip.Trigger asChild>
           <button
-            className={classNames(
-              "rounded-full w-6 h-6 flex items-center justify-center mr-2 ",
-              {
-                "bg-traw-purple/[.3]": selected,
-                "hover:bg-black/[.04]": !selected,
-              }
-            )}
+            className={classNames('rounded-full w-6 h-6 flex items-center justify-center mr-2 ', {
+              'bg-traw-purple/[.3]': selected,
+              'hover:bg-black/[.04]': !selected,
+            })}
             onClick={() => {
               selectTool();
             }}

@@ -1,15 +1,10 @@
-import React, { useCallback } from "react";
-import Participant from "./Participant";
+import React, { useCallback } from 'react';
+import Participant from './Participant';
 // import { ParticipantWrapper } from 'traw/Header/ParticipantWrapper';
-import ParticipantGroup from "./ParticipantGroup";
-import ParticipantName from "./ParticipantName";
+import ParticipantGroup from './ParticipantGroup';
+import ParticipantName from './ParticipantName';
 
-export type RoomState =
-  | "preview"
-  | "connecting"
-  | "connected"
-  | "disconnected"
-  | "failed";
+export type RoomState = 'preview' | 'connecting' | 'connected' | 'disconnected' | 'failed';
 
 interface ParticipantsProps {
   isBrowser: boolean;
@@ -23,10 +18,7 @@ const Participants = ({ isBrowser, participants }: ParticipantsProps) => {
     participants.length === overflowLimit + 1
       ? participants.slice(0, overflowLimit + 1)
       : participants.slice(0, overflowLimit) || [];
-  const hidings =
-    participants.length === overflowLimit + 1
-      ? []
-      : participants.slice(overflowLimit) || [];
+  const hidings = participants.length === overflowLimit + 1 ? [] : participants.slice(overflowLimit) || [];
 
   const followUser = (userId: string) => {
     console.log(userId);

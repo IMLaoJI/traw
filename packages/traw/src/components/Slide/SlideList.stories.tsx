@@ -1,11 +1,11 @@
-import { ComponentMeta, ComponentStory } from "@storybook/react";
-import React from "react";
-import { TrawContext } from "../../hooks/useTrawApp";
-import { TrawApp } from "../../state/TrawApp";
-import SlideList from "./SlideList";
+import { ComponentMeta, ComponentStory } from '@storybook/react';
+import React from 'react';
+import { TrawContext } from '../../hooks/useTrawApp';
+import { TrawApp } from '../../state/TrawApp';
+import SlideList from './SlideList';
 
 export default {
-  title: "Traw/Slide/SlideList",
+  title: 'Traw/Slide/SlideList',
   component: SlideList,
   argTypes: {},
 } as ComponentMeta<typeof SlideList>;

@@ -1,7 +1,7 @@
-import { AlignStyle, TDShapeType } from "@tldraw/tldraw";
-import * as React from "react";
-import { useHotkeys } from "react-hotkeys-hook";
-import { useTrawApp } from "./useTrawApp";
+import { AlignStyle, TDShapeType } from '@tldraw/tldraw';
+import * as React from 'react';
+import { useHotkeys } from 'react-hotkeys-hook';
+import { useTrawApp } from './useTrawApp';
 
 export function useKeyboardShortcuts() {
   const trawApp = useTrawApp();
@@ -36,13 +36,13 @@ export function useKeyboardShortcuts() {
       app.paste(undefined, e);
     };
 
-    document.addEventListener("cut", handleCut);
-    document.addEventListener("copy", handleCopy);
-    document.addEventListener("paste", handlePaste);
+    document.addEventListener('cut', handleCut);
+    document.addEventListener('copy', handleCopy);
+    document.addEventListener('paste', handlePaste);
     return () => {
-      document.removeEventListener("cut", handleCut);
-      document.removeEventListener("copy", handleCopy);
-      document.removeEventListener("paste", handlePaste);
+      document.removeEventListener('cut', handleCut);
+      document.removeEventListener('copy', handleCopy);
+      document.removeEventListener('paste', handlePaste);
     };
   }, [app]);
 
@@ -152,36 +152,36 @@ export function useKeyboardShortcuts() {
   // Dark Mode
 
   useHotkeys(
-    "ctrl+shift+d,⌘+shift+d",
+    'ctrl+shift+d,⌘+shift+d',
     (e) => {
       if (!canHandleEvent(true)) return;
       app.toggleDarkMode();
       e.preventDefault();
     },
     undefined,
-    [app]
+    [app],
   );
 
   // Focus Mode
 
   useHotkeys(
-    "ctrl+.,⌘+.",
+    'ctrl+.,⌘+.',
     () => {
       if (!canHandleEvent(true)) return;
       app.toggleFocusMode();
     },
     undefined,
-    [app]
+    [app],
   );
 
   useHotkeys(
-    "ctrl+shift+g,⌘+shift+g",
+    'ctrl+shift+g,⌘+shift+g',
     () => {
       if (!canHandleEvent(true)) return;
       app.toggleGrid();
     },
     undefined,
-    [app]
+    [app],
   );
 
   // File System
@@ -248,7 +248,7 @@ export function useKeyboardShortcuts() {
   // Undo Redo
 
   useHotkeys(
-    "⌘+z,ctrl+z",
+    '⌘+z,ctrl+z',
     (e) => {
       e.preventDefault();
       if (!canHandleEvent(true)) return;
@@ -260,11 +260,11 @@ export function useKeyboardShortcuts() {
       }
     },
     undefined,
-    [app]
+    [app],
   );
 
   useHotkeys(
-    "ctrl+shift+z,⌘+shift+z",
+    'ctrl+shift+z,⌘+shift+z',
     () => {
       if (!canHandleEvent(true)) return;
 
@@ -275,29 +275,29 @@ export function useKeyboardShortcuts() {
       }
     },
     undefined,
-    [app]
+    [app],
   );
 
   // Undo Redo
 
   useHotkeys(
-    "⌘+u,ctrl+u",
+    '⌘+u,ctrl+u',
     () => {
       if (!canHandleEvent()) return;
       app.undoSelect();
     },
     undefined,
-    [app]
+    [app],
   );
 
   useHotkeys(
-    "ctrl+shift-u,⌘+shift+u",
+    'ctrl+shift-u,⌘+shift+u',
     () => {
       if (!canHandleEvent()) return;
       app.redoSelect();
     },
     undefined,
-    [app]
+    [app],
   );
 
   /* -------------------- Commands -------------------- */
@@ -305,18 +305,18 @@ export function useKeyboardShortcuts() {
   // Camera
 
   useHotkeys(
-    "ctrl+=,⌘+=,ctrl+num_add,⌘+num_add",
+    'ctrl+=,⌘+=,ctrl+num_add,⌘+num_add',
     (e) => {
       if (!canHandleEvent(true)) return;
       app.zoomIn();
       e.preventDefault();
     },
     undefined,
-    [app]
+    [app],
   );
 
   useHotkeys(
-    "ctrl+-,⌘+-,ctrl+num_subtract,⌘+num_subtract",
+    'ctrl+-,⌘+-,ctrl+num_subtract,⌘+num_subtract',
     (e) => {
       if (!canHandleEvent(true)) return;
 
@@ -324,43 +324,43 @@ export function useKeyboardShortcuts() {
       e.preventDefault();
     },
     undefined,
-    [app]
+    [app],
   );
 
   useHotkeys(
-    "shift+0,ctrl+numpad_0,⌘+numpad_0",
+    'shift+0,ctrl+numpad_0,⌘+numpad_0',
     () => {
       if (!canHandleEvent(true)) return;
       app.resetZoom();
     },
     undefined,
-    [app]
+    [app],
   );
 
   useHotkeys(
-    "shift+1",
+    'shift+1',
     () => {
       if (!canHandleEvent(true)) return;
       app.zoomToFit();
     },
     undefined,
-    [app]
+    [app],
   );
 
   useHotkeys(
-    "shift+2",
+    'shift+2',
     () => {
       if (!canHandleEvent(true)) return;
       app.zoomToSelection();
     },
     undefined,
-    [app]
+    [app],
   );
 
   // Duplicate
 
   useHotkeys(
-    "ctrl+d,⌘+d",
+    'ctrl+d,⌘+d',
     (e) => {
       if (!canHandleEvent()) return;
 
@@ -368,158 +368,158 @@ export function useKeyboardShortcuts() {
       e.preventDefault();
     },
     undefined,
-    [app]
+    [app],
   );
 
   // Flip
 
   useHotkeys(
-    "shift+h",
+    'shift+h',
     () => {
       if (!canHandleEvent(true)) return;
       app.flipHorizontal();
     },
     undefined,
-    [app]
+    [app],
   );
 
   useHotkeys(
-    "shift+v",
+    'shift+v',
     () => {
       if (!canHandleEvent(true)) return;
       app.flipVertical();
     },
     undefined,
-    [app]
+    [app],
   );
 
   // Cancel
 
   useHotkeys(
-    "escape",
+    'escape',
     () => {
       if (!canHandleEvent(true)) return;
 
       app.cancel();
     },
     undefined,
-    [app]
+    [app],
   );
 
   // Delete
 
   useHotkeys(
-    "backspace,del",
+    'backspace,del',
     () => {
       if (!canHandleEvent()) return;
       app.delete();
     },
     undefined,
-    [app]
+    [app],
   );
 
   // Select All
 
   useHotkeys(
-    "⌘+a,ctrl+a",
+    '⌘+a,ctrl+a',
     () => {
       if (!canHandleEvent(true)) return;
       app.selectAll();
     },
     undefined,
-    [app]
+    [app],
   );
 
   // Nudge
 
   useHotkeys(
-    "up",
+    'up',
     () => {
       if (!canHandleEvent()) return;
       app.nudge([0, -1], false);
     },
     undefined,
-    [app]
+    [app],
   );
 
   useHotkeys(
-    "right",
+    'right',
     () => {
       if (!canHandleEvent()) return;
       app.nudge([1, 0], false);
     },
     undefined,
-    [app]
+    [app],
   );
 
   useHotkeys(
-    "down",
+    'down',
     () => {
       if (!canHandleEvent()) return;
       app.nudge([0, 1], false);
     },
     undefined,
-    [app]
+    [app],
   );
 
   useHotkeys(
-    "left",
+    'left',
     () => {
       if (!canHandleEvent()) return;
       app.nudge([-1, 0], false);
     },
     undefined,
-    [app]
+    [app],
   );
 
   useHotkeys(
-    "shift+up",
+    'shift+up',
     () => {
       if (!canHandleEvent()) return;
       app.nudge([0, -1], true);
     },
     undefined,
-    [app]
+    [app],
   );
 
   useHotkeys(
-    "shift+right",
+    'shift+right',
     () => {
       if (!canHandleEvent()) return;
       app.nudge([1, 0], true);
     },
     undefined,
-    [app]
+    [app],
   );
 
   useHotkeys(
-    "shift+down",
+    'shift+down',
     () => {
       if (!canHandleEvent()) return;
       app.nudge([0, 1], true);
     },
     undefined,
-    [app]
+    [app],
   );
 
   useHotkeys(
-    "shift+left",
+    'shift+left',
     () => {
       if (!canHandleEvent()) return;
       app.nudge([-1, 0], true);
     },
     undefined,
-    [app]
+    [app],
   );
 
   useHotkeys(
-    "⌘+shift+l,ctrl+shift+l",
+    '⌘+shift+l,ctrl+shift+l',
     () => {
       if (!canHandleEvent()) return;
       app.toggleLocked();
     },
     undefined,
-    [app]
+    [app],
   );
 
   // Copy, Cut & Paste
@@ -535,7 +535,7 @@ export function useKeyboardShortcuts() {
   // )
 
   useHotkeys(
-    "⌘+shift+c,ctrl+shift+c",
+    '⌘+shift+c,ctrl+shift+c',
     (e) => {
       if (!canHandleEvent()) return;
 
@@ -543,7 +543,7 @@ export function useKeyboardShortcuts() {
       e.preventDefault();
     },
     undefined,
-    [app]
+    [app],
   );
 
   // useHotkeys(
@@ -570,7 +570,7 @@ export function useKeyboardShortcuts() {
   // Group & Ungroup
 
   useHotkeys(
-    "⌘+g,ctrl+g",
+    '⌘+g,ctrl+g',
     (e) => {
       if (!canHandleEvent()) return;
 
@@ -578,11 +578,11 @@ export function useKeyboardShortcuts() {
       e.preventDefault();
     },
     undefined,
-    [app]
+    [app],
   );
 
   useHotkeys(
-    "⌘+shift+g,ctrl+shift+g",
+    '⌘+shift+g,ctrl+shift+g',
     (e) => {
       if (!canHandleEvent()) return;
 
@@ -590,53 +590,53 @@ export function useKeyboardShortcuts() {
       e.preventDefault();
     },
     undefined,
-    [app]
+    [app],
   );
 
   // Move
 
   useHotkeys(
-    "[",
+    '[',
     () => {
       if (!canHandleEvent(true)) return;
       app.moveBackward();
     },
     undefined,
-    [app]
+    [app],
   );
 
   useHotkeys(
-    "]",
+    ']',
     () => {
       if (!canHandleEvent(true)) return;
       app.moveForward();
     },
     undefined,
-    [app]
+    [app],
   );
 
   useHotkeys(
-    "shift+[",
+    'shift+[',
     () => {
       if (!canHandleEvent(true)) return;
       app.moveToBack();
     },
     undefined,
-    [app]
+    [app],
   );
 
   useHotkeys(
-    "shift+]",
+    'shift+]',
     () => {
       if (!canHandleEvent(true)) return;
       app.moveToFront();
     },
     undefined,
-    [app]
+    [app],
   );
 
   useHotkeys(
-    "ctrl+shift+backspace,⌘+shift+backspace",
+    'ctrl+shift+backspace,⌘+shift+backspace',
     (e) => {
       if (!canHandleEvent()) return;
       if (app.settings.isDebugMode) {
@@ -645,41 +645,41 @@ export function useKeyboardShortcuts() {
       e.preventDefault();
     },
     undefined,
-    [app]
+    [app],
   );
 
   // Text Align
 
   useHotkeys(
-    "alt+command+l,alt+ctrl+l",
+    'alt+command+l,alt+ctrl+l',
     (e) => {
       if (!canHandleEvent(true)) return;
       app.style({ textAlign: AlignStyle.Start });
       e.preventDefault();
     },
     undefined,
-    [app]
+    [app],
   );
 
   useHotkeys(
-    "alt+command+t,alt+ctrl+t",
+    'alt+command+t,alt+ctrl+t',
     (e) => {
       if (!canHandleEvent(true)) return;
       app.style({ textAlign: AlignStyle.Middle });
       e.preventDefault();
     },
     undefined,
-    [app]
+    [app],
   );
 
   useHotkeys(
-    "alt+command+r,alt+ctrl+r",
+    'alt+command+r,alt+ctrl+r',
     (e) => {
       if (!canHandleEvent(true)) return;
       app.style({ textAlign: AlignStyle.End });
       e.preventDefault();
     },
     undefined,
-    [app]
+    [app],
   );
 }

@@ -1,12 +1,12 @@
-import { ComponentMeta, ComponentStory } from "@storybook/react";
-import React from "react";
-import ParticipantGroup from "./ParticipantGroup";
-import Participant, { ParticipantProps } from "./Participant";
-import { Default as ParticipantStory } from "./Participant.stories";
-import ParticipantName from "./ParticipantName";
+import { ComponentMeta, ComponentStory } from '@storybook/react';
+import React from 'react';
+import ParticipantGroup from './ParticipantGroup';
+import Participant, { ParticipantProps } from './Participant';
+import { Default as ParticipantStory } from './Participant.stories';
+import ParticipantName from './ParticipantName';
 
 export default {
-  title: "Traw/Header/ParticipantGroup",
+  title: 'Traw/Header/ParticipantGroup',
   component: ParticipantGroup,
   argTypes: {},
   args: {
@@ -26,7 +26,5 @@ export default {
   },
 } as ComponentMeta<typeof ParticipantGroup>;
 
-const Template: ComponentStory<typeof ParticipantGroup> = (props) => (
-  <ParticipantGroup {...props} />
-);
+const Template: ComponentStory<typeof ParticipantGroup> = (props) => <ParticipantGroup {...props} />;
 export const Default = Template.bind({});

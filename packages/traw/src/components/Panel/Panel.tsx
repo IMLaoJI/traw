@@ -1,7 +1,7 @@
-import React from "react";
-import BlockItem from "./BlockItem";
-import PanelFooter from "./PanelFooter";
-import PanelHeader from "./PanelHeader";
+import React from 'react';
+import BlockItem from './BlockItem';
+import PanelFooter from './PanelFooter';
+import PanelHeader from './PanelHeader';
 
 interface PanelProps {
   handlePlayClick: () => void;

@@ -1,7 +1,7 @@
-import { TldrawApp, TDToolType, TDShapeType } from "@tldraw/tldraw";
-import createVanilla, { StoreApi } from "zustand/vanilla";
-import { migrateRecords } from "../components/utils/migrate";
-import { Record, TrawSnapshot } from "../types";
+import { TldrawApp, TDToolType, TDShapeType } from '@tldraw/tldraw';
+import createVanilla, { StoreApi } from 'zustand/vanilla';
+import { migrateRecords } from '../components/utils/migrate';
+import { Record, TrawSnapshot } from '../types';
 
 const ignoreFunc = () => {};
 
@@ -34,7 +34,7 @@ export class TrawApp {
   private _actionStartTime: number;
 
   constructor() {
-    this.app = new TrawCanvasApp("", {
+    this.app = new TrawCanvasApp('', {
       onSessionStart: this.setActionStartTime,
     });
 
@@ -66,11 +66,11 @@ export class TrawApp {
   recordCommand = (app, command) => {
     console.log(command);
     switch (command.id) {
-      case "change_page":
+      case 'change_page':
         break;
-      case "create_page":
+      case 'create_page':
         break;
-      case "delete_page":
+      case 'delete_page':
         break;
       default:
         const pageId = Object.keys(command.after.document.pages)[0];
@@ -101,13 +101,13 @@ export class TrawApp {
 
     records.forEach((record) => {
       switch (record.type) {
-        case "create_page":
+        case 'create_page':
           this.app.patchState({
             document: {
               pages: {
                 [record.data.id]: {
                   id: record.data.id,
-                  name: "Page",
+                  name: 'Page',
                   childIndex: 2,
                   shapes: {},
                   bindings: {},
@@ -116,7 +116,7 @@ export class TrawApp {
             },
           });
           break;
-        case "change_page":
+        case 'change_page':
           this.app.patchState({
             document: {
               pageStates: {
@@ -129,7 +129,7 @@ export class TrawApp {
             },
           });
           break;
-        case "delete_page":
+        case 'delete_page':
           this.app.patchState({
             document: {
               pageStates: {

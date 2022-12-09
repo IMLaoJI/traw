@@ -1,10 +1,6 @@
-import React, { memo } from "react";
+import React, { memo } from 'react';
 
-const ParticipantName = memo(function ParticipantName({
-  username,
-}: {
-  username?: string;
-}) {
+const ParticipantName = memo(function ParticipantName({ username }: { username?: string }) {
   if (!username) {
     return <div>anonymous_user</div>;
   }

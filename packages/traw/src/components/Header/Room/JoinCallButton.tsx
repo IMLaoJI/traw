@@ -1,16 +1,13 @@
-import React from "react";
-import { memo, MouseEventHandler } from "react";
-import SvgHeadset from "../../../icons/Headset";
+import React from 'react';
+import { memo, MouseEventHandler } from 'react';
+import SvgHeadset from '../../../icons/Headset';
 
 export interface JoinCallButtonProps {
   isBrowser?: boolean;
   onClick?: MouseEventHandler;
 }
 
-export const JoinCallButton = memo(function JoinCallButton({
-  isBrowser,
-  onClick,
-}: JoinCallButtonProps) {
+export const JoinCallButton = memo(function JoinCallButton({ isBrowser, onClick }: JoinCallButtonProps) {
   return (
     <button
       onClick={onClick}
