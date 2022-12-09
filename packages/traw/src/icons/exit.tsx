@@ -1,5 +1,5 @@
 import * as React from 'react';
-const SvgExit = (props) => (
+const SvgExit = (props: any) => (
   <svg
     id="exit_svg__Capa_1"
     xmlns="http://www.w3.org/2000/svg"

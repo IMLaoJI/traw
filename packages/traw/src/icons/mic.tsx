@@ -1,5 +1,5 @@
 import * as React from 'react';
-const SvgMic = (props) => (
+const SvgMic = (props: any) => (
   <svg
     id="mic_svg__Outline"
     xmlns="http://www.w3.org/2000/svg"

@@ -1,5 +1,5 @@
 import * as React from 'react';
-const SvgPause = (props) => (
+const SvgPause = (props: any) => (
   <svg
     id="pause_svg__Outline"
     xmlns="http://www.w3.org/2000/svg"

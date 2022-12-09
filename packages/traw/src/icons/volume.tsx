@@ -1,5 +1,5 @@
 import * as React from 'react';
-const SvgVolume = (props) => (
+const SvgVolume = (props: any) => (
   <svg
     id="volume_svg__Layer_1"
     xmlns="http://www.w3.org/2000/svg"

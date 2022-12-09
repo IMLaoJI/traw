@@ -1,6 +1,5 @@
 import React, { useRef } from 'react';
 import { TDPage } from '@tldraw/tldraw';
-import classNames from 'classnames';
 import SlideListItem, { SlideListItemState } from './SlideListItem';
 
 interface SlideGridViewProps {
@@ -16,7 +15,7 @@ const slideSize = {
 };
 
 const SlideGridView = ({ close, pages, currentPageId, selectSlide }: SlideGridViewProps) => {
-  const slideRef = useRef({});
+  const slideRef = useRef<Record<string, any>>({});
 
   const viewerCount = 3;
   const selectState = SlideListItemState.DEFAULT;

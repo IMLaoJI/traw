@@ -15,14 +15,14 @@ interface SlideListItemProps {
   index: number;
   viewerCount: number;
   selectState: SlideListItemState;
-  size: "list" | "grid";
+  size: 'list' | 'grid';
   setRef?: (ref: HTMLDivElement) => void;
   handleClick: (slideId: string) => void;
 }
 
 const slideSizes = {
-  list: "basis-[112px] sm:basis-[133px]",
-  grid: "basis-[100%] sm:basis-[240px]",
+  list: 'basis-[112px] sm:basis-[133px]',
+  grid: 'basis-[100%] sm:basis-[240px]',
 };
 
 const SlideListItem = ({ page, index, viewerCount, selectState, size, setRef, handleClick }: SlideListItemProps) => {

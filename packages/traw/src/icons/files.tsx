@@ -1,5 +1,5 @@
 import * as React from 'react';
-const SvgFiles = (props) => (
+const SvgFiles = (props: any) => (
   <svg
     id="files_svg__Outline"
     xmlns="http://www.w3.org/2000/svg"

@@ -10,7 +10,7 @@ interface SlideListProps {
   handleGridView: () => void;
 }
 const SlideList = ({ canAddSlide, handleAddSlide, handleGridView }: SlideListProps) => {
-  const slideRef = useRef({});
+  const slideRef = useRef<Record<string, HTMLElement>>({});
   const app = useTrawApp();
   const state = app.useSlidesStore();
   const { document, appState } = state;
@@ -25,8 +25,9 @@ const SlideList = ({ canAddSlide, handleAddSlide, handleGridView }: SlideListPro
   };
 
   useEffect(() => {
-    if (slideRef.current[currentPageId]) {
-      slideRef.current[currentPageId].scrollIntoView({
+    const currentSlide = slideRef.current[currentPageId];
+    if (currentSlide) {
+      currentSlide.scrollIntoView({
         behavior: 'smooth',
         block: 'center',
         inline: 'center',
@@ -44,11 +45,7 @@ const SlideList = ({ canAddSlide, handleAddSlide, handleGridView }: SlideListPro
               index={index + 1}
               page={page}
               viewerCount={viewerCount}
-              selectState={
-                page.id === currentPageId
-                  ? SlideListItemState.SELECTED
-                  : selectState
-              }
+              selectState={page.id === currentPageId ? SlideListItemState.SELECTED : selectState}
               size="list"
               handleClick={handleSlideClick}
               setRef={(ref) => {

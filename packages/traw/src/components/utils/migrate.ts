@@ -138,7 +138,7 @@ export const migrateRecords = (records: Record[]): Record[] => {
                     point: [minX, minY],
                     rotation: 0,
                     style: {
-                      color: ColorMap[data.color],
+                      color: ColorMap[data.color as LegacyColorType],
                       size: convertThickness(data.thickness),
                       isFilled: false,
                       dash: 'solid',
@@ -171,7 +171,7 @@ export const migrateRecords = (records: Record[]): Record[] => {
                     rotation: 0,
                     size: [data.width, data.height],
                     style: {
-                      color: ColorMap[data.color],
+                      color: ColorMap[data.color as LegacyColorType],
                       size: convertThickness(data.thickness),
                       isFilled: false,
                       dash: 'solid',
@@ -236,14 +236,14 @@ export const migrateRecords = (records: Record[]): Record[] => {
       }
       case 'UPDATE': {
         const { assetId, data } = record.data;
-        const newData = {};
+        const newData: { [key: string]: any } = {};
         if (data.text !== undefined) {
           newData['text'] = data.text;
         }
         if (data.width || data.height) {
           if (!assetBoundMap[assetId]) return false;
-          newData['size'] = [data.width, data.height];
-          newData['point'] = [data.x - data.width / 2, data.y - data.height / 2];
+          newData.size = [data.width, data.height];
+          newData.point = [data.x - data.width / 2, data.y - data.height / 2];
           assetBoundMap[assetId] = {
             x: data.x || 0,
             y: data.y || 0,
@@ -254,7 +254,7 @@ export const migrateRecords = (records: Record[]): Record[] => {
           if (!assetBoundMap[assetId]) return false;
           if (assetBoundMap[assetId].width) {
             const bound = assetBoundMap[assetId];
-            newData['point'] = [data.x - bound.width / 2, data.y - bound.height / 2];
+            newData['point'] = [data.x - (bound.width ?? 0) / 2, data.y - (bound.height ?? 0) / 2];
           } else {
             newData['point'] = [data.x, data.y];
           }

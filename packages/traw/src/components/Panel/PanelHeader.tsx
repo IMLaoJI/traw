@@ -24,7 +24,7 @@ const PanelHeader = ({ handlePlayClick, isPlaying }: PanelHeaderProps) => {
           <SvgPlayArrow className="fill-current w-full h-full" />
         )}
       </button>
-      <div className="text-traw-grey-dark text-xs">00:00:00 / 00:00:00</div>
+      <div className="text-traw-grey-dark text-xs">00:00:01 / 00:00:02</div>
     </header>
   );
 };
