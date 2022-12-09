@@ -30,6 +30,7 @@ jobs:
   validate:
     docker:
       - image: cimg/node:16.18
+    working_directory: ~/traw
     steps:
       - checkout:
           path: ~/traw
