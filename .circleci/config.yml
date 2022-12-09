@@ -27,15 +27,17 @@ jobs:
             - node_modules
             - packages/*/node_modules
 
-  validate-traw-package:
+  validate:
     docker:
       - image: cimg/node:16.18
-    working_directory: ~/traw/packages/traw
     steps:
       - checkout:
           path: ~/traw
       - attach_workspace:
           at: ~/traw
+      - run:
+          name: Lint
+          command: yarn lint
       - run:
           name: Build
           command: yarn build
