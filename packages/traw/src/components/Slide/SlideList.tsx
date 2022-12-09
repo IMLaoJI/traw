@@ -53,7 +53,7 @@ const SlideList = ({
                   ? SlideListItemState.SELECTED
                   : selectState
               }
-              size={{ mobile: "112px", tablet: "133px" }}
+              size="list"
               handleClick={handleSlideClick}
               setRef={(ref) => {
                 slideRef.current[page.id] = ref;

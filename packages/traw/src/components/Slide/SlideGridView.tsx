@@ -48,7 +48,7 @@ const SlideGridView = ({
                     ? SlideListItemState.SELECTED
                     : selectState
                 }
-                size={slideSize}
+                size="grid"
                 handleClick={handleClick}
                 setRef={(ref) => {
                   slideRef.current[page.id] = ref;
