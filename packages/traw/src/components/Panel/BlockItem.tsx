@@ -20,7 +20,7 @@ const BlockItem = ({
   handlePlayClick,
 }: BlockItemProps) => {
   return (
-    <li className="rounded-[10px] bg-white p-2 w-full border border-traw-grey-10">
+    <li className="rounded-[10px] bg-white p-2 w-full border border-traw-grey-10 mb-2.5">
       <div className="flex flex-1 flex-row items-center w-full grow">
         <div className="flex relative">
           <UserAvatar avatarUrl={undefined} userName={userName} />
@@ -45,7 +45,7 @@ const BlockItem = ({
           </button>
         </div>
       </div>
-      <div className="mt-2 text-[13px] text-traw-gry p-1">{blockText}</div>
+      <div className="mt-2 text-[13px] text-traw-gry py-1">{blockText}</div>
     </li>
   );
 };
