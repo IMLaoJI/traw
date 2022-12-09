@@ -1,7 +1,7 @@
 import React from "react";
 import { useTrawApp } from "../../hooks/useTrawApp";
-import SvgGridView from "../../icons/grid-view";
 import SvgAdd from "../../icons/add";
+import SvgGridView from "../../icons/grid-view";
 import SlideListItem, { SlideListItemState } from "./SlideListItem";
 
 interface SlideListProps {
@@ -38,6 +38,7 @@ const SlideList = ({
                   ? SlideListItemState.SELECTED
                   : selectState
               }
+              size={{ mobile: "112px", tablet: "133px" }}
             />
           ))}
         </div>

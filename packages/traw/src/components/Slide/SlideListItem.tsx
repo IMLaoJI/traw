@@ -16,6 +16,10 @@ interface SlideListItemProps {
   index: number;
   viewerCount: number;
   selectState: SlideListItemState;
+  size: {
+    mobile: string;
+    tablet: string;
+  };
 }
 
 const SlideListItem = ({
@@ -23,6 +27,7 @@ const SlideListItem = ({
   index,
   viewerCount,
   selectState,
+  size,
 }: SlideListItemProps) => {
   const app = useTrawApp();
 
@@ -35,7 +40,7 @@ const SlideListItem = ({
       key={page.id}
       onClick={handleSelectSlide}
       className={classNames(
-        `flex basis-[112px] sm:basis-[133px] aspect-video rounded-2xl relative cursor-pointer grow-0 shrink-0`
+        `flex basis-[${size.mobile}] sm:basis-[${size.tablet}] aspect-video rounded-2xl relative cursor-pointer grow-0 shrink-0`
       )}
     >
       <div

@@ -3,6 +3,9 @@ module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
+      gridTemplateColumns: {
+        "fill-240": "repeat(auto-fill, 240px)",
+      },
       colors: {
         traw: {
           "purple-light": "#ACAAFF",
