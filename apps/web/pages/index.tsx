@@ -1,9 +1,4 @@
-import dynamic from "next/dynamic";
-
-const DynamicTraw = dynamic(() => import("./TrawWrapper"), {
-  ssr: false,
-  loading: () => <p>Loading...</p>,
-});
+import TrawWrapper from "./TrawWrapper";
 
 export default function Web() {
   return (
@@ -17,7 +12,7 @@ export default function Web() {
         display: "flex",
       }}
     >
-      <DynamicTraw />
+      <TrawWrapper />
     </div>
   );
 }
