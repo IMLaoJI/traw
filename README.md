@@ -1,4 +1,4 @@
-<p style="width:100%;text-align:center;">
+<p align="center">
 <img src="./docs/img/logo.png" alt="traw-logo" style="width:240px;" />
 </p>
 
