@@ -15,13 +15,15 @@ interface SlideListItemProps {
   index: number;
   viewerCount: number;
   selectState: SlideListItemState;
-  size: {
-    mobile: string;
-    tablet: string;
-  };
+  size: "list" | "grid";
   setRef?: (ref: HTMLDivElement) => void;
   handleClick: (slideId: string) => void;
 }
+
+const slideSizes = {
+  list: "basis-[112px] sm:basis-[133px]",
+  grid: "basis-[100%] sm:basis-[240px]",
+};
 
 const SlideListItem = ({
   page,
@@ -44,7 +46,9 @@ const SlideListItem = ({
       key={page.id}
       onClick={handleSelectSlide}
       className={classNames(
-        `flex basis-[${size.mobile}] sm:basis-[${size.tablet}] aspect-video rounded-2xl relative cursor-pointer grow-0 shrink-0`
+        `flex aspect-video rounded-2xl relative cursor-pointer grow-0 shrink-0
+        ${slideSizes[size]}
+        `
       )}
     >
       <div
