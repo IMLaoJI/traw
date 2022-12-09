@@ -49,6 +49,6 @@ workflows:
   validate:
     jobs:
       - install-packages
-      - validate-traw-package:
+      - validate:
           requires:
             - install-packages
