@@ -3154,10 +3154,8 @@
   resolved "https://registry.yarnpkg.com/@tootallnate/once/-/once-1.1.2.tgz#ccb91445360179a04e7fe6aff78c00ffc1eeaf82"
   integrity sha512-RbzJvlNzmRq5c3O09UipeuXno4tA1FE6ikOjxZK0tuxVv3412l64l5t1W5pj4+rJq9vpkm/kwiR07aZXnsKPxw==
 
-"@traw/traw@*":
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/@traw/traw/-/traw-0.1.1.tgz#316ba4ccdbbd8572d82b8546cf452e488275ae43"
-  integrity sha512-eglsQln5dzxvDPcl5QrQwHWf1hnbUScBfBIswWA2reZ/SOahuhY7u4PqqC8yPdZpIFdmKAtqIYIUCgPz5nGPYA==
+"@traw/traw@file:packages/traw":
+  version "0.1.2-alpha3"
   dependencies:
     "@radix-ui/react-tooltip" "^1.0.2"
     "@tldraw/tldraw" "^1.26.2"
