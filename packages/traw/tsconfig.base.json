@@ -1,7 +1,5 @@
 {
-  "$schema": "https://json.schemastore.org/tsconfig",
-  "display": "Traw",
-  "extends": "./base.json",
+  "extends": "tsconfig/base.json",
   "compilerOptions": {
     "declaration": true,
     "declarationDir": "build",
@@ -13,5 +11,6 @@
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true
-  }
+  },
+  "include": ["src/**/*"],
 }

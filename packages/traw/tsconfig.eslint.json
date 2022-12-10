@@ -1,5 +1,4 @@
 {
-  "extends": "tsconfig/traw.json",
-  "include": ["src/**/*"],
+  "extends": "./tsconfig.base.json",
   "exclude": ["node_modules", "build", "storybook-static"]
 }
