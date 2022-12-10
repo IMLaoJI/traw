@@ -29,7 +29,7 @@ const SlideList = ({
   };
 
   useEffect(() => {
-    if (slideRef.current[currentPageId]) {
+    if (slideRef.current[currentPageId] && slideRef.current[currentPageId].scrollIntoView) {
       slideRef.current[currentPageId].scrollIntoView({
         behavior: "smooth",
         block: "center",
