@@ -311,8 +311,8 @@ export const migrateRecords = (records: Record[]): Record[] => {
         break;
       }
       default:
-        console.log(record);
-        return false;
+        newRecord = record;
+        break;
     }
     if (newRecord) {
       result.push(newRecord);

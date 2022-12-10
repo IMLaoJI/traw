@@ -14,8 +14,23 @@ export class TrawCanvasApp extends TldrawApp {
   }
 }
 
+export interface TRCallbacks {
+  /**
+   * Called when a new record is created.
+   * @param app The Traw app.
+   * @param record The record that was created.
+   */
+  onRecordsCreate?: (app: TrawCanvasApp, records: Record[]) => void;
+}
+
 export class TrawApp {
+  /**
+   * The Tldraw app. (https://tldraw.com)
+   * This is used to create and edit slides.
+   */
   app: TrawCanvasApp;
+
+  callbacks: TRCallbacks;
 
   /**
    * A zustand store that also holds the state.
@@ -33,7 +48,7 @@ export class TrawApp {
    */
   private _actionStartTime: number;
 
-  constructor() {
+  constructor(callbacks = {} as TRCallbacks) {
     this.app = new TrawCanvasApp("", {
       onSessionStart: this.setActionStartTime,
     });
@@ -44,6 +59,8 @@ export class TrawApp {
       records: [],
     };
     this.store = createVanilla(() => this._state);
+
+    this.callbacks = callbacks;
     console.log(this);
   }
 
@@ -64,36 +81,65 @@ export class TrawApp {
   };
 
   recordCommand = (app, command) => {
+    const records: Record[] = [];
     console.log(command);
     switch (command.id) {
       case "change_page":
+        records.push({
+          type: command.id,
+          data: {
+            id: command.after.appState.currentPageId,
+          },
+          start: this._actionStartTime ? this._actionStartTime : 0,
+          end: Date.now(),
+        } as Record);
         break;
-      case "create_page":
+      case "create_page": {
+        const pageId = Object.keys(command.after.document.pages)[0];
+        records.push({
+          type: command.id,
+          data: {
+            id: pageId,
+          },
+          start: Date.now() - 1, // Create page must be before select page 
+          end: Date.now() - 1,
+        } as Record);
+        records.push({
+          type: "change_page",
+          data: {
+            id: pageId,
+          },
+          start: Date.now(),
+          end: Date.now(),
+        } as Record);
         break;
+      }
       case "delete_page":
         break;
-      default:
+      default: {
         const pageId = Object.keys(command.after.document.pages)[0];
 
-        this.store.setState((state) => {
-          return {
-            ...state,
-            records: [
-              ...state.records,
-              {
-                type: command.id,
-                data: command.after.document.pages[pageId],
-                slideId: pageId,
-                start: this._actionStartTime ? this._actionStartTime : 0,
-                end: Date.now(),
-              } as Record,
-            ],
-          };
-        });
-        this._actionStartTime = 0;
-        console.log(this.store.getState());
+        records.push({
+          type: command.id,
+          data: command.after.document.pages[pageId],
+          slideId: pageId,
+          start: this._actionStartTime ? this._actionStartTime : 0,
+          end: Date.now(),
+        } as Record);
         break;
+      }
     }
+
+    if (!records.length) return;
+
+    this.callbacks.onRecordsCreate?.(this.app, records);
+    this.store.setState((state) => {
+      return {
+        ...state,
+        records: [...state.records, ...records],
+      };
+    });
+    this._actionStartTime = 0;
   };
 
   addRecords = (records: Record[]) => {
@@ -104,6 +150,13 @@ export class TrawApp {
         case "create_page":
           this.app.patchState({
             document: {
+              pageStates: {
+                [record.data.id]: {
+                  id: record.data.id,
+                  selectedIds: [],
+                  camera: { point: [0, 0], zoom: 1 },
+                },
+              },
               pages: {
                 [record.data.id]: {
                   id: record.data.id,
@@ -117,15 +170,10 @@ export class TrawApp {
           });
           break;
         case "change_page":
+          console.log(record.data.id);
           this.app.patchState({
-            document: {
-              pageStates: {
-                [record.data.id]: {
-                  id: record.data.id,
-                  selectedIds: [],
-                  camera: { point: [0, 0], zoom: 1 },
-                },
-              },
+            appState: {
+              currentPageId: record.data.id,
             },
           });
           break;
