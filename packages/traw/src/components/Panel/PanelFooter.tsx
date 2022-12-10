@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import SvgSend from "../../icons/send";
-import classNames from "classnames";
+import React, { useState } from 'react';
+import SvgSend from '../../icons/send';
+import classNames from 'classnames';
 
 interface PanelFooterProps {
   onCreate: (text: string) => void;
@@ -14,7 +14,7 @@ const PanelFooter = ({ onCreate }: PanelFooterProps) => {
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
+    if (e.key === 'Enter') {
       if (!text) return;
       onCreate(text);
       setText(undefined);
@@ -38,9 +38,9 @@ const PanelFooter = ({ onCreate }: PanelFooterProps) => {
           onKeyDown={handleKeyDown}
         />
         <button
-          className={classNames("w-4 ", {
-            "text-traw-grey-100": !text,
-            "text-traw-purple": text,
+          className={classNames('w-4 ', {
+            'text-traw-grey-100': !text,
+            'text-traw-purple': text,
           })}
           onClick={handleClick}
         >

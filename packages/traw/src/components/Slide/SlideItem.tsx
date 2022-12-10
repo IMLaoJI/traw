@@ -1,15 +1,15 @@
-import { Renderer } from "@tldraw/core";
-import React, { useCallback, useEffect } from "react";
-import { useTrawApp } from "../../hooks/useTrawApp";
-import { shapeUtils, TLDR, TDStatus } from "@tldraw/tldraw";
-import { useKeyboardShortcuts } from "../../hooks/useKeyboardShortcuts";
-import { SLIDE_HEIGHT, SLIDE_WIDTH } from "../../constants";
+import { Renderer } from '@tldraw/core';
+import React, { useCallback, useEffect } from 'react';
+import { useTrawApp } from '../../hooks/useTrawApp';
+import { shapeUtils, TLDR, TDStatus } from '@tldraw/tldraw';
+import { useKeyboardShortcuts } from '../../hooks/useKeyboardShortcuts';
+import { SLIDE_HEIGHT, SLIDE_WIDTH } from '../../constants';
 
 const SlideItem = () => {
   const app = useTrawApp();
   const tldrawApp = app.useTldrawApp();
   const state = app.useSlidesStore();
-  const id = "traw";
+  const id = 'traw';
   useKeyboardShortcuts();
   const slideDomRef = React.useRef<HTMLDivElement>(null);
 
@@ -22,7 +22,7 @@ const SlideItem = () => {
     if (!slideDomRef.current) return;
     const width = slideDomRef.current.clientWidth;
     const zoom = width / SLIDE_WIDTH;
-    tldrawApp.setCamera([SLIDE_WIDTH / 2, SLIDE_HEIGHT / 2], zoom, "fixCamera");
+    tldrawApp.setCamera([SLIDE_WIDTH / 2, SLIDE_HEIGHT / 2], zoom, 'fixCamera');
   }, [tldrawApp]);
 
   useEffect(() => {
@@ -31,9 +31,9 @@ const SlideItem = () => {
 
   useEffect(() => {
     handleResize();
-    addEventListener("resize", handleResize);
+    addEventListener('resize', handleResize);
     return () => {
-      removeEventListener("resize", handleResize);
+      removeEventListener('resize', handleResize);
     };
   }, [handleResize]);
 
@@ -41,7 +41,7 @@ const SlideItem = () => {
   const assets = document.assets;
   const { selectedIds } = pageState;
 
-  const isSelecting = state.appState.activeTool === "select";
+  const isSelecting = state.appState.activeTool === 'select';
 
   const isHideBoundsShape =
     selectedIds.length === 1 &&
@@ -58,9 +58,7 @@ const SlideItem = () => {
     return { isDarkMode: settings.isDarkMode };
   }, [settings.isDarkMode]);
 
-  const showDashedBrush = settings.isCadSelectMode
-    ? !appState.selectByContain
-    : appState.selectByContain;
+  const showDashedBrush = settings.isCadSelectMode ? !appState.selectByContain : appState.selectByContain;
 
   // Custom theme, based on darkmode
   const theme = React.useMemo(() => {
@@ -68,27 +66,19 @@ const SlideItem = () => {
     const { isDarkMode, isCadSelectMode } = settings;
 
     if (isDarkMode) {
-      const brushBase = isCadSelectMode
-        ? selectByContain
-          ? "69, 155, 255"
-          : "105, 209, 73"
-        : "180, 180, 180";
+      const brushBase = isCadSelectMode ? (selectByContain ? '69, 155, 255' : '105, 209, 73') : '180, 180, 180';
       return {
         brushFill: `rgba(${brushBase}, ${isCadSelectMode ? 0.08 : 0.05})`,
         brushStroke: `rgba(${brushBase}, ${isCadSelectMode ? 0.5 : 0.25})`,
         brushDashStroke: `rgba(${brushBase}, .6)`,
-        selected: "rgba(38, 150, 255, 1.000)",
-        selectFill: "rgba(38, 150, 255, 0.05)",
-        background: "#212529",
-        foreground: "#49555f",
+        selected: 'rgba(38, 150, 255, 1.000)',
+        selectFill: 'rgba(38, 150, 255, 0.05)',
+        background: '#212529',
+        foreground: '#49555f',
       };
     }
 
-    const brushBase = isCadSelectMode
-      ? selectByContain
-        ? "0, 89, 242"
-        : "51, 163, 23"
-      : "0,0,0";
+    const brushBase = isCadSelectMode ? (selectByContain ? '0, 89, 242' : '51, 163, 23') : '0,0,0';
 
     return {
       brushFill: `rgba(${brushBase}, ${isCadSelectMode ? 0.08 : 0.05})`,
@@ -101,7 +91,7 @@ const SlideItem = () => {
 
   // Hide bounds when not using the select tool, or when the only selected shape has handles
   const hideBounds =
-    (isInSession && tldrawApp.session?.constructor.name !== "BrushSession") ||
+    (isInSession && tldrawApp.session?.constructor.name !== 'BrushSession') ||
     !isSelecting ||
     isHideBoundsShape ||
     !!pageState.editingId;
@@ -110,9 +100,7 @@ const SlideItem = () => {
   const hideHandles = isInSession || !isSelecting;
 
   // Hide indicators when not using the select tool, or when in session
-  const hideIndicators =
-    (isInSession && state.appState.status !== TDStatus.Brushing) ||
-    !isSelecting;
+  const hideIndicators = (isInSession && state.appState.status !== TDStatus.Brushing) || !isSelecting;
 
   return (
     <div

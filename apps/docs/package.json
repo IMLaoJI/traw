@@ -13,12 +13,12 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "ui": "*",
-    "@traw/traw": "*"
+    "@traw/traw": "file:../../packages/traw"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
     "eslint": "7.32.0",
-    "eslint-config-custom": "*",
+    "eslint-config-custom-next": "*",
     "tsconfig": "*",
     "@types/node": "^17.0.12",
     "@types/react": "^18.0.22",

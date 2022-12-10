@@ -1,0 +1,55 @@
+version: 2.1
+
+jobs:
+  install-packages:
+    docker:
+      - image: cimg/node:16.18
+    resource_class: medium
+    working_directory: ~/traw
+    steps:
+      - checkout:
+          path: ~/traw
+      - restore_cache:
+          keys:
+            - yarn-packages-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - yarn-packages-{{ .Branch }}-
+            - yarn-packages
+      - run:
+          name: Install dependencies
+          command: yarn install --frozen-lockfile --no-progress --cache-folder ~/.cache/yarn
+      - save_cache:
+          key: yarn-packages-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+      - persist_to_workspace:
+          root: ~/traw
+          paths:
+            - node_modules
+            - packages/*/node_modules
+
+  validate:
+    docker:
+      - image: cimg/node:16.18
+    working_directory: ~/traw
+    steps:
+      - checkout:
+          path: ~/traw
+      - attach_workspace:
+          at: ~/traw
+      - run:
+          name: Lint
+          command: yarn lint
+      - run:
+          name: Build
+          command: yarn build
+      - run:
+          name: Test
+          command: yarn test
+
+workflows:
+  validate:
+    jobs:
+      - install-packages
+      - validate:
+          requires:
+            - install-packages

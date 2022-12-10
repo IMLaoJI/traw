@@ -1,8 +1,9 @@
-import { TldrawApp, TDToolType, TDShapeType } from "@tldraw/tldraw";
-import createVanilla, { StoreApi } from "zustand/vanilla";
-import { migrateRecords } from "../components/utils/migrate";
-import { Record, TrawSnapshot } from "../types";
+import { TldrawApp, TDToolType, TldrawCommand, TDSnapshot } from '@tldraw/tldraw';
+import createVanilla, { StoreApi } from 'zustand/vanilla';
+import { migrateRecords } from '../components/utils/migrate';
+import { Record, TrawSnapshot } from '../types';
 
+// eslint-disable-next-line @typescript-eslint/no-empty-function
 const ignoreFunc = () => {};
 
 export class TrawCanvasApp extends TldrawApp {
@@ -31,10 +32,10 @@ export class TrawApp {
    * The time the current action started.
    * This is used to calculate the duration of the record.
    */
-  private _actionStartTime: number;
+  private _actionStartTime: number | undefined;
 
   constructor() {
-    this.app = new TrawCanvasApp("", {
+    this.app = new TrawCanvasApp('', {
       onSessionStart: this.setActionStartTime,
     });
 
@@ -44,7 +45,7 @@ export class TrawApp {
       records: [],
     };
     this.store = createVanilla(() => this._state);
-    console.log(this);
+    // console.log(this);
   }
 
   selectTool(tool: TDToolType) {
@@ -59,21 +60,23 @@ export class TrawApp {
     return this.app;
   }
 
-  setActionStartTime = (app, id) => {
+  setActionStartTime = () => {
     this._actionStartTime = Date.now();
   };
 
-  recordCommand = (app, command) => {
+  recordCommand = (state: TDSnapshot, command: TldrawCommand) => {
     console.log(command);
     switch (command.id) {
-      case "change_page":
+      case 'change_page':
         break;
-      case "create_page":
+      case 'create_page':
         break;
-      case "delete_page":
+      case 'delete_page':
         break;
-      default:
-        const pageId = Object.keys(command.after.document.pages)[0];
+      default: {
+        const pages = command.after.document?.pages;
+        if (!pages) break;
+        const pageId = Object.keys(pages)[0];
 
         this.store.setState((state) => {
           return {
@@ -82,7 +85,7 @@ export class TrawApp {
               ...state.records,
               {
                 type: command.id,
-                data: command.after.document.pages[pageId],
+                data: pages[pageId],
                 slideId: pageId,
                 start: this._actionStartTime ? this._actionStartTime : 0,
                 end: Date.now(),
@@ -93,6 +96,7 @@ export class TrawApp {
         this._actionStartTime = 0;
         console.log(this.store.getState());
         break;
+      }
     }
   };
 
@@ -101,13 +105,13 @@ export class TrawApp {
 
     records.forEach((record) => {
       switch (record.type) {
-        case "create_page":
+        case 'create_page':
           this.app.patchState({
             document: {
               pages: {
                 [record.data.id]: {
                   id: record.data.id,
-                  name: "Page",
+                  name: 'Page',
                   childIndex: 2,
                   shapes: {},
                   bindings: {},
@@ -116,7 +120,7 @@ export class TrawApp {
             },
           });
           break;
-        case "change_page":
+        case 'change_page':
           this.app.patchState({
             document: {
               pageStates: {
@@ -129,7 +133,7 @@ export class TrawApp {
             },
           });
           break;
-        case "delete_page":
+        case 'delete_page':
           this.app.patchState({
             document: {
               pageStates: {
@@ -141,8 +145,9 @@ export class TrawApp {
             },
           });
           break;
-        default:
-          const { type, data, slideId } = record;
+        default: {
+          const { data, slideId } = record;
+          if (!slideId) break;
           this.app.patchState({
             document: {
               pages: {
@@ -158,6 +163,7 @@ export class TrawApp {
             },
           });
           break;
+        }
       }
     });
   };

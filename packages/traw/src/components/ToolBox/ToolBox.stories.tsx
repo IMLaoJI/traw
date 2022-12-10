@@ -1,21 +1,21 @@
-import { ComponentMeta, ComponentStory } from "@storybook/react";
-import React from "react";
-import ToolBox from ".";
-import { TrawContext } from "../../hooks/useTrawApp";
-import { TrawApp } from "../../state/TrawApp";
+import { ComponentMeta, ComponentStory } from '@storybook/react';
+import React from 'react';
+import ToolBox from '.';
+import { TrawContext } from '../../hooks/useTrawApp';
+import { TrawApp } from '../../state/TrawApp';
 
 export default {
-  title: "Traw/ToolBox",
+  title: 'Traw/ToolBox',
   component: ToolBox,
   argTypes: {
     selectTool: {
-      action: "tool clicked",
+      action: 'tool clicked',
     },
     handleUndo: {
-      action: "undo clicked",
+      action: 'undo clicked',
     },
     handleRedo: {
-      action: "redo clicked",
+      action: 'redo clicked',
     },
   },
 } as ComponentMeta<typeof ToolBox>;
@@ -30,7 +30,7 @@ const Template: ComponentStory<typeof ToolBox> = (props) => (
 export const Default = Template.bind({});
 
 Default.args = {
-  currentTool: "select",
+  currentTool: 'select',
   isUndoable: true,
   isRedoable: true,
 };

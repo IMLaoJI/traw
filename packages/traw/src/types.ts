@@ -1,24 +1,24 @@
-import { TDToolType } from "@tldraw/tldraw";
+import { TDToolType } from '@tldraw/tldraw';
 
 export type ActionType =
-  | "ADD"
-  | "REMOVE"
-  | "UPDATE"
-  | "ADD_SLIDE"
-  | "SORT_SLIDE"
-  | "DELETE_SLIDE"
-  | "SELECT_SLIDE"
-  | "SUBSCRIBE_SLIDE"
-  | "create_page"
-  | "change_page"
-  | "delete_page"
-  | "edit"
-  | "delete"
-  | "create_draw"
-  | "create";
+  | 'ADD'
+  | 'REMOVE'
+  | 'UPDATE'
+  | 'ADD_SLIDE'
+  | 'SORT_SLIDE'
+  | 'DELETE_SLIDE'
+  | 'SELECT_SLIDE'
+  | 'SUBSCRIBE_SLIDE'
+  | 'create_page'
+  | 'change_page'
+  | 'delete_page'
+  | 'edit'
+  | 'delete'
+  | 'create_draw'
+  | 'create';
 
 export type TrawToolInfo = {
-  type: TDToolType | "file";
+  type: TDToolType | 'file';
   Icon: any;
   label: string;
   shortcut: (string | number)[];
