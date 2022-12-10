@@ -14,7 +14,7 @@ interface ToolBoxProps {
   handleRedo: () => void;
 }
 
-const ToolBox = memo(({ selectTool, isUndoable, handleUndo, isRedoable, handleRedo, currentTool }: ToolBoxProps) => {
+const ToolBox = memo(({ isUndoable, handleUndo, isRedoable, handleRedo, currentTool }: ToolBoxProps) => {
   useHotkeys(
     `cmd+z, ctrl+z`,
     (e) => {

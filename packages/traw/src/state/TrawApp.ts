@@ -1,8 +1,9 @@
-import { TldrawApp, TDToolType, TDShapeType, TldrawCommand, TDSnapshot } from '@tldraw/tldraw';
+import { TldrawApp, TDToolType, TldrawCommand, TDSnapshot } from '@tldraw/tldraw';
 import createVanilla, { StoreApi } from 'zustand/vanilla';
 import { migrateRecords } from '../components/utils/migrate';
 import { Record, TrawSnapshot } from '../types';
 
+// eslint-disable-next-line @typescript-eslint/no-empty-function
 const ignoreFunc = () => {};
 
 export class TrawCanvasApp extends TldrawApp {
@@ -59,7 +60,7 @@ export class TrawApp {
     return this.app;
   }
 
-  setActionStartTime = (app: TldrawApp, id: string) => {
+  setActionStartTime = () => {
     this._actionStartTime = Date.now();
   };
 
@@ -72,7 +73,7 @@ export class TrawApp {
         break;
       case 'delete_page':
         break;
-      default:
+      default: {
         const pages = command.after.document?.pages;
         if (!pages) break;
         const pageId = Object.keys(pages)[0];
@@ -95,6 +96,7 @@ export class TrawApp {
         this._actionStartTime = 0;
         console.log(this.store.getState());
         break;
+      }
     }
   };
 
@@ -143,8 +145,8 @@ export class TrawApp {
             },
           });
           break;
-        default:
-          const { type, data, slideId } = record;
+        default: {
+          const { data, slideId } = record;
           if (!slideId) break;
           this.app.patchState({
             document: {
@@ -161,6 +163,7 @@ export class TrawApp {
             },
           });
           break;
+        }
       }
     });
   };

@@ -14,16 +14,10 @@ export interface TrawProps {
   onAddRecord?: (record: Record) => void;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const Traw = ({ app, id, records = [], onAddRecord }: TrawProps) => {
-  const [sId, setSId] = React.useState(id);
-
   // Create a new app when the component mounts.
-  const [trawApp, setTrawApp] = React.useState(() => {
-    if (app) return app;
-
-    const a = new TrawApp();
-    return a;
-  });
+  const [trawApp] = React.useState(app ?? new TrawApp());
 
   React.useLayoutEffect(() => {
     if (typeof window === 'undefined') return;

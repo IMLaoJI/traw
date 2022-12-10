@@ -1,4 +1,4 @@
-import { AlignStyle, TDShapeType } from '@tldraw/tldraw';
+import { AlignStyle } from '@tldraw/tldraw';
 import * as React from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { useTrawApp } from './useTrawApp';
@@ -7,6 +7,8 @@ export function useKeyboardShortcuts() {
   const trawApp = useTrawApp();
   const app = trawApp.useTldrawApp();
 
+  // TODO (2022-12-10, Changje Jeong) - Use ignoreMenus
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const canHandleEvent = (ignoreMenus = false) => true;
 
   React.useEffect(() => {

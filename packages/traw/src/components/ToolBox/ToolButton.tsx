@@ -1,5 +1,4 @@
 import * as Tooltip from '@radix-ui/react-tooltip';
-import { TDToolType } from '@tldraw/tldraw';
 import classNames from 'classnames';
 import React from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';

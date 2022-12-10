@@ -109,7 +109,7 @@ export const migrateRecords = (records: Record[]): Record[] => {
               y: data.y,
             };
             break;
-          case 'PATH':
+          case 'PATH': {
             const newPositions: number[][] = [];
             let minX = Infinity;
             let minY = Infinity;
@@ -155,6 +155,7 @@ export const migrateRecords = (records: Record[]): Record[] => {
               y: data.y || 0,
             };
             break;
+          }
           case 'SHAPE':
             newRecord = {
               ...record,
@@ -229,6 +230,7 @@ export const migrateRecords = (records: Record[]): Record[] => {
               width: data.width,
               height: data.height,
             };
+            break;
           default:
             break;
         }

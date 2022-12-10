@@ -4,7 +4,7 @@ interface CircularProgressProps {
   color?: string;
 }
 
-const CircularProgress = ({ color = 'traw-purple' }) => {
+const CircularProgress = ({ color = 'traw-purple' }: CircularProgressProps) => {
   return (
     <svg className={`animate-spin h-5 w-5 bg-transparent text-${color}`} viewBox="0 0 24 24" fill="none">
       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
