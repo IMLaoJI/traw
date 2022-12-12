@@ -3,12 +3,12 @@ import SvgPause from '../../icons/pause';
 import SvgPlayArrow from '../../icons/play-arrow';
 import classNames from 'classnames';
 
-interface PanelHeaderProps {
+export interface PanelHeaderProps {
   handlePlayClick: () => void;
   isPlaying: boolean;
 }
 
-const PanelHeader = ({ handlePlayClick, isPlaying }: PanelHeaderProps) => {
+export const PanelHeader = ({ handlePlayClick, isPlaying }: PanelHeaderProps) => {
   return (
     <header className="flex mt-2 w-full gap-2 pl-2 items-center">
       <button
@@ -28,4 +28,5 @@ const PanelHeader = ({ handlePlayClick, isPlaying }: PanelHeaderProps) => {
     </header>
   );
 };
+
 export default PanelHeader;

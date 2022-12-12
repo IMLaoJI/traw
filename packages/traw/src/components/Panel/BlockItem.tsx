@@ -4,7 +4,7 @@ import SvgVolume from '../../icons/volume';
 import SvgVolumeOff from '../../icons/volume-off';
 import { UserAvatar } from '../Avatar/Avatar';
 
-interface BlockItemProps {
+export interface BlockItemProps {
   userName: string;
   date: string;
   blockText: string;
@@ -12,7 +12,7 @@ interface BlockItemProps {
   handlePlayClick: () => void;
 }
 
-const BlockItem = ({ userName, date, blockText, isVoiceBlock, handlePlayClick }: BlockItemProps) => {
+export const BlockItem = ({ userName, date, blockText, isVoiceBlock, handlePlayClick }: BlockItemProps) => {
   return (
     <li className="rounded-[10px] bg-white p-2 w-full border border-traw-grey-10 mb-2.5">
       <div className="flex flex-1 flex-row items-center w-full grow">

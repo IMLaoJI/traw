@@ -2,15 +2,15 @@ import * as Tooltip from '@radix-ui/react-tooltip';
 import classNames from 'classnames';
 import React from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
-import { useTrawApp } from '../../hooks/useTrawApp';
-import { TrawToolInfo } from '../../types';
+import { useTrawApp } from 'hooks';
+import { TrawToolInfo } from 'types';
 
-interface ToolButtonProps {
+export interface ToolButtonProps {
   Tool: TrawToolInfo;
   selected: boolean;
 }
 
-const ToolButton = ({ Tool, selected }: ToolButtonProps) => {
+export const ToolButton = ({ Tool, selected }: ToolButtonProps) => {
   const trawApp = useTrawApp();
   const app = trawApp.useTldrawApp();
 

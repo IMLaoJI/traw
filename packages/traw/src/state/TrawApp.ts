@@ -1,19 +1,8 @@
-import { TldrawApp, TDToolType, TldrawCommand, TDSnapshot, Command } from '@tldraw/tldraw';
+import { TDSnapshot, TDToolType, TldrawCommand } from '@tldraw/tldraw';
 import createVanilla, { StoreApi } from 'zustand/vanilla';
-import { migrateRecords } from '../components/utils/migrate';
-import { Record, TrawSnapshot } from '../types';
-
-// eslint-disable-next-line @typescript-eslint/no-empty-function
-const ignoreFunc = () => {};
-
-export class TrawCanvasApp extends TldrawApp {
-  onZoom = ignoreFunc;
-  onPan = ignoreFunc;
-
-  constructor(id?: string, callbacks = {} as any) {
-    super(id, callbacks);
-  }
-}
+import { migrateRecords } from 'components/utils/migrate';
+import { Record, TrawSnapshot } from 'types';
+import { TrawCanvasApp } from 'state/TrawCanvasApp';
 
 export interface TRCallbacks {
   /**

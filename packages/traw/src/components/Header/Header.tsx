@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react';
 import Logo from '../../icons/Logo';
 import Title from './Title';
 
-interface HeaderProps {
+export interface HeaderProps {
   // Title
   title: string;
   canEdit: boolean;
@@ -12,7 +12,7 @@ interface HeaderProps {
   Room: ReactNode;
 }
 
-const Header = ({ title, canEdit, handleChangeTitle, Room }: HeaderProps) => {
+export const Header = ({ title, canEdit, handleChangeTitle, Room }: HeaderProps) => {
   return (
     <div className="flex flex-row h-14 pl-3 bg-white items-center rounded-2xl shadow-[0_10px_60px_rgba(189,188,249,0.5)]">
       <button className="flex h-9 w-9 rounded-full bg-white items-center justify-center text-xl hover:bg-traw-sky">
@@ -26,4 +26,4 @@ const Header = ({ title, canEdit, handleChangeTitle, Room }: HeaderProps) => {
   );
 };
 
-export { Header };
+export default Header;

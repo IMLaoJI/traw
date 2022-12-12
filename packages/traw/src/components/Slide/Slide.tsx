@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { useTrawApp } from '../../hooks/useTrawApp';
+import { useTrawApp } from 'hooks';
 import ToolBox from '../ToolBox';
 import SlideGridView from './SlideGridView';
 
 import { SlideItem } from './SlideItem';
 import SlideList from './SlideList';
 
-const Slide = () => {
+export const Slide = () => {
   const [isGridView, setIsGridView] = useState(false);
 
   const app = useTrawApp();
@@ -67,4 +67,4 @@ const Slide = () => {
   );
 };
 
-export { Slide };
+export default Slide;

@@ -13,7 +13,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "ui": "*",
-    "@traw/traw": "file:../../packages/traw"
+    "@traw/traw": "link:../../packages/traw"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",

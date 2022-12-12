@@ -2,14 +2,14 @@ import React, { Fragment } from 'react';
 import SvgRedo from '../../icons/redo';
 import SvgUndo from '../../icons/undo';
 
-interface TimeMachineProps {
+export interface TimeMachineProps {
   isUndoable: boolean;
   isRedoable: boolean;
   handleUndo: () => void;
   handleRedo: () => void;
 }
 
-const TimeMachine = ({ isUndoable, handleUndo, isRedoable, handleRedo }: TimeMachineProps) => {
+export const TimeMachine = ({ isUndoable, handleUndo, isRedoable, handleRedo }: TimeMachineProps) => {
   // const ctrlOrCmd = isMacOs ? "Cmd" : "Ctrl";
   // const undoTooltip = isUndoable ? `Undo (${ctrlOrCmd} + Z)` : "";
   // const redoTooltip = isRedoable ? `Redo (${ctrlOrCmd} + Shift + Z)` : "";

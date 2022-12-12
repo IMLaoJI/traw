@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import SvgSend from '../../icons/send';
 import classNames from 'classnames';
 
-interface PanelFooterProps {
+export interface PanelFooterProps {
   onCreate: (text: string) => void;
 }
 
-const PanelFooter = ({ onCreate }: PanelFooterProps) => {
+export const PanelFooter = ({ onCreate }: PanelFooterProps) => {
   const [text, setText] = useState<string | undefined>(undefined);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -50,4 +50,5 @@ const PanelFooter = ({ onCreate }: PanelFooterProps) => {
     </footer>
   );
 };
+
 export default PanelFooter;
