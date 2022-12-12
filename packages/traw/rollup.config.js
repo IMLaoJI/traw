@@ -1,23 +1,23 @@
-import peerDepsExternal from "rollup-plugin-peer-deps-external";
-import resolve from "@rollup/plugin-node-resolve";
-import commonjs from "@rollup/plugin-commonjs";
-import typescript from "rollup-plugin-typescript2";
-import postcss from "rollup-plugin-postcss";
-import copy from "rollup-plugin-copy";
+import peerDepsExternal from 'rollup-plugin-peer-deps-external';
+import resolve from '@rollup/plugin-node-resolve';
+import commonjs from '@rollup/plugin-commonjs';
+import typescript from 'rollup-plugin-typescript2';
+import postcss from 'rollup-plugin-postcss';
+import copy from 'rollup-plugin-copy';
 
-const packageJson = require("./package.json");
+const packageJson = require('./package.json');
 
 export default {
-  input: "src/index.ts",
+  input: 'src/index.ts',
   output: [
     {
       file: packageJson.main,
-      format: "cjs",
+      format: 'cjs',
       sourcemap: true,
     },
     {
       file: packageJson.module,
-      format: "esm",
+      format: 'esm',
       sourcemap: true,
     },
   ],
@@ -27,17 +27,20 @@ export default {
       browser: true,
     }),
     commonjs(),
-    typescript({ useTsconfigDeclarationDir: true }),
+    typescript({
+      useTsconfigDeclarationDir: true,
+      exclude: ['node_modules', 'build', 'storybook-static', 'src/**/*.stories.tsx', 'src/**/*.test.tsx'],
+    }),
     postcss(),
     copy({
       targets: [
         {
-          src: "src/index.css",
-          dest: "build",
-          rename: "index.css",
+          src: 'src/index.css',
+          dest: 'build',
+          rename: 'index.css',
         },
       ],
     }),
   ],
-  external: ["react", "react-dom"],
+  external: ['react', 'react-dom'],
 };

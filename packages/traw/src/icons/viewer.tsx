@@ -1,5 +1,5 @@
-import * as React from "react";
-const SvgViewer = (props) => (
+import * as React from 'react';
+const SvgViewer = (props: any) => (
   <svg
     id="viewer_svg__Capa_1"
     xmlns="http://www.w3.org/2000/svg"
@@ -7,7 +7,7 @@ const SvgViewer = (props) => (
     y={0}
     viewBox="0 0 512 398.3"
     style={{
-      enableBackground: "new 0 0 512 398.3",
+      enableBackground: 'new 0 0 512 398.3',
     }}
     xmlSpace="preserve"
     {...props}

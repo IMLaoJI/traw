@@ -1,20 +1,16 @@
-import React, { useEffect, useRef } from "react";
-import { useTrawApp } from "../../hooks/useTrawApp";
-import SvgAdd from "../../icons/add";
-import SvgGridView from "../../icons/grid-view";
-import SlideListItem, { SlideListItemState } from "./SlideListItem";
+import React, { useEffect, useRef } from 'react';
+import { useTrawApp } from '../../hooks/useTrawApp';
+import SvgAdd from '../../icons/add';
+import SvgGridView from '../../icons/grid-view';
+import SlideListItem, { SlideListItemState } from './SlideListItem';
 
-interface SlideListProps {
+export interface SlideListProps {
   canAddSlide: boolean;
   handleAddSlide: () => void;
   handleGridView: () => void;
 }
-const SlideList = ({
-  canAddSlide,
-  handleAddSlide,
-  handleGridView,
-}: SlideListProps) => {
-  const slideRef = useRef({});
+const SlideList = ({ canAddSlide, handleAddSlide, handleGridView }: SlideListProps) => {
+  const slideRef = useRef<Record<string, HTMLElement>>({});
   const app = useTrawApp();
   const state = app.useSlidesStore();
   const { document, appState } = state;
@@ -31,9 +27,9 @@ const SlideList = ({
   useEffect(() => {
     if (slideRef.current[currentPageId] && slideRef.current[currentPageId].scrollIntoView) {
       slideRef.current[currentPageId].scrollIntoView({
-        behavior: "smooth",
-        block: "center",
-        inline: "center",
+        behavior: 'smooth',
+        block: 'center',
+        inline: 'center',
       });
     }
   }, [currentPageId]);
@@ -48,11 +44,7 @@ const SlideList = ({
               index={index + 1}
               page={page}
               viewerCount={viewerCount}
-              selectState={
-                page.id === currentPageId
-                  ? SlideListItemState.SELECTED
-                  : selectState
-              }
+              selectState={page.id === currentPageId ? SlideListItemState.SELECTED : selectState}
               size="list"
               handleClick={handleSlideClick}
               setRef={(ref) => {

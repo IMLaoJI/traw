@@ -3,9 +3,11 @@
 </p>
 
 # Traw
+
 Traw is a video recording tool that involves images, drawings, and transcription in one video message. This video message provides the same functionality as the text document.
 
 ## Build
+
 To build Traw, run the following command:
 
 ```bash
@@ -13,7 +15,8 @@ yarn run build
 ```
 
 ## Traw Pro
-Traw Pro provides to use Traw together with your team. 
+
+Traw Pro provides to use Traw together with your team.
 
 You can discuss on the same Traw by editing together in realtime while having an audio call.
 

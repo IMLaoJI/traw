@@ -1,14 +1,7 @@
-import React from "react";
+import React from 'react';
 
 const SvgLogoSmall = (props: any) => (
-  <svg
-    viewBox="0 0 23 23"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    width="1em"
-    height="1em"
-    {...props}
-  >
+  <svg viewBox="0 0 23 23" fill="none" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" {...props}>
     <path
       opacity={0.7}
       d="M15.242 5.95a8.235 8.235 0 0 0-3.974.404A8.265 8.265 0 0 0 7.946 8.58a8.334 8.334 0 0 0-.066 11.096 8.266 8.266 0 0 0 3.296 2.267 8.235 8.235 0 0 0 7.685-1.02 1.777 1.777 0 0 0 .744 1.227 1.762 1.762 0 0 0 1.404.27 1.821 1.821 0 0 0 1.357-1.797v-6.268c0-3.963-3.192-7.877-7.124-8.406Z"

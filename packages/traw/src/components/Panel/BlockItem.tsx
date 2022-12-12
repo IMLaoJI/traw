@@ -1,8 +1,8 @@
-import React from "react";
-import SvgPlayArrow from "../../icons/play-arrow";
-import SvgVolume from "../../icons/volume";
-import SvgVolumeOff from "../../icons/volume-off";
-import { UserAvatar } from "../Avatar/Avatar";
+import React from 'react';
+import SvgPlayArrow from '../../icons/play-arrow';
+import SvgVolume from '../../icons/volume';
+import SvgVolumeOff from '../../icons/volume-off';
+import { UserAvatar } from '../Avatar/Avatar';
 
 interface BlockItemProps {
   userName: string;
@@ -12,13 +12,7 @@ interface BlockItemProps {
   handlePlayClick: () => void;
 }
 
-const BlockItem = ({
-  userName,
-  date,
-  blockText,
-  isVoiceBlock,
-  handlePlayClick,
-}: BlockItemProps) => {
+const BlockItem = ({ userName, date, blockText, isVoiceBlock, handlePlayClick }: BlockItemProps) => {
   return (
     <li className="rounded-[10px] bg-white p-2 w-full border border-traw-grey-10 mb-2.5">
       <div className="flex flex-1 flex-row items-center w-full grow">
@@ -32,15 +26,10 @@ const BlockItem = ({
             )}
           </div>
         </div>
-        <div className="font-bold text-[13px] text-traw-grey-dark ml-2">
-          {userName}
-        </div>
+        <div className="font-bold text-[13px] text-traw-grey-dark ml-2">{userName}</div>
         <div className="text-traw-grey-100 text-[10px] ml-1">{date}</div>
         <div className="flex grow gap-1 justify-end">
-          <button
-            className="rounded-full hover:bg-black/[.04] p-1 text-traw-grey-100"
-            onClick={handlePlayClick}
-          >
+          <button className="rounded-full hover:bg-black/[.04] p-1 text-traw-grey-100" onClick={handlePlayClick}>
             <SvgPlayArrow className="fill-current w-4 h-4" />
           </button>
         </div>

@@ -1,6 +1,6 @@
-import React, { Fragment } from "react";
-import SvgRedo from "../../icons/redo";
-import SvgUndo from "../../icons/undo";
+import React, { Fragment } from 'react';
+import SvgRedo from '../../icons/redo';
+import SvgUndo from '../../icons/undo';
 
 interface TimeMachineProps {
   isUndoable: boolean;
@@ -9,12 +9,7 @@ interface TimeMachineProps {
   handleRedo: () => void;
 }
 
-const TimeMachine = ({
-  isUndoable,
-  handleUndo,
-  isRedoable,
-  handleRedo,
-}: TimeMachineProps) => {
+const TimeMachine = ({ isUndoable, handleUndo, isRedoable, handleRedo }: TimeMachineProps) => {
   // const ctrlOrCmd = isMacOs ? "Cmd" : "Ctrl";
   // const undoTooltip = isUndoable ? `Undo (${ctrlOrCmd} + Z)` : "";
   // const redoTooltip = isRedoable ? `Redo (${ctrlOrCmd} + Shift + Z)` : "";

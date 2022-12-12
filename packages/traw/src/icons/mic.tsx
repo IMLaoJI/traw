@@ -1,5 +1,5 @@
-import * as React from "react";
-const SvgMic = (props) => (
+import * as React from 'react';
+const SvgMic = (props: any) => (
   <svg
     id="mic_svg__Outline"
     xmlns="http://www.w3.org/2000/svg"
@@ -7,7 +7,7 @@ const SvgMic = (props) => (
     y={0}
     viewBox="0 0 512 512"
     style={{
-      enableBackground: "new 0 0 512 512",
+      enableBackground: 'new 0 0 512 512',
     }}
     xmlSpace="preserve"
     {...props}

@@ -1,5 +1,5 @@
-import * as React from "react";
-const SvgExit = (props) => (
+import * as React from 'react';
+const SvgExit = (props: any) => (
   <svg
     id="exit_svg__Capa_1"
     xmlns="http://www.w3.org/2000/svg"
@@ -7,12 +7,12 @@ const SvgExit = (props) => (
     y={0}
     viewBox="0 0 512 512"
     style={{
-      enableBackground: "new 0 0 512 512",
+      enableBackground: 'new 0 0 512 512',
     }}
     xmlSpace="preserve"
     {...props}
   >
-    <style>{".exit_svg__st0{fill:#9b9eb5}"}</style>
+    <style>{'.exit_svg__st0{fill:#9b9eb5}'}</style>
     <path
       className="exit_svg__st0"
       d="M170.7 448H72.8c-4.8 0-8.7-3.9-8.7-8.7V72.7c0-4.8 3.9-8.7 8.7-8.7h97.9c17.7 0 32-14.3 32-32s-14.3-32-32-32H72.8C32.6 0 .1 32.6 0 72.7v366.5c0 40.1 32.6 72.7 72.7 72.7h97.9c17.7 0 32-14.3 32-32S188.4 448 170.7 448z"

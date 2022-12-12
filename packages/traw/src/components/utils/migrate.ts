@@ -1,44 +1,36 @@
-import { AlignStyle, FontSize, SizeStyle } from "@tldraw/tldraw";
-import { Record } from "../../types";
+import { AlignStyle, FontSize, SizeStyle } from '@tldraw/tldraw';
+import { Record } from '../../types';
 
 enum LegacyColorType {
-  PURPLE = "PURPLE",
-  RED = "RED",
-  ORANGE = "ORANGE",
-  GREEN = "GREEN",
-  BLUE = "BLUE",
-  GREY = "GREY",
+  PURPLE = 'PURPLE',
+  RED = 'RED',
+  ORANGE = 'ORANGE',
+  GREEN = 'GREEN',
+  BLUE = 'BLUE',
+  GREY = 'GREY',
 }
 
 const ColorMap: { [key in LegacyColorType]: string } = {
-  [LegacyColorType.PURPLE]: "violet",
-  [LegacyColorType.RED]: "red",
-  [LegacyColorType.ORANGE]: "orange",
-  [LegacyColorType.GREEN]: "green",
-  [LegacyColorType.BLUE]: "blue",
-  [LegacyColorType.GREY]: "gray",
+  [LegacyColorType.PURPLE]: 'violet',
+  [LegacyColorType.RED]: 'red',
+  [LegacyColorType.ORANGE]: 'orange',
+  [LegacyColorType.GREEN]: 'green',
+  [LegacyColorType.BLUE]: 'blue',
+  [LegacyColorType.GREY]: 'gray',
 };
 
 export const getAssetFileUrl = (origin: string, assetId: string) => {
-  return `${"https://api.traw.io"}/documents/${origin.split("/")[0]}/records/${
-    origin.split("/")[1] || assetId
+  return `${'https://api.traw.io'}/documents/${origin.split('/')[0]}/records/${
+    origin.split('/')[1] || assetId
   }/file/redirect`;
 };
 
 const convertFontSize = (fontSize: number) => {
-  return fontSize > 50
-    ? FontSize.Large
-    : fontSize > 34
-    ? FontSize.Medium
-    : FontSize.Small;
+  return fontSize > 50 ? FontSize.Large : fontSize > 34 ? FontSize.Medium : FontSize.Small;
 };
 
 const convertThickness = (thickness: number) => {
-  return thickness >= 8
-    ? SizeStyle.Large
-    : thickness >= 4
-    ? SizeStyle.Medium
-    : SizeStyle.Small;
+  return thickness >= 8 ? SizeStyle.Large : thickness >= 4 ? SizeStyle.Medium : SizeStyle.Small;
 };
 
 export const migrateRecords = (records: Record[]): Record[] => {
@@ -54,62 +46,59 @@ export const migrateRecords = (records: Record[]): Record[] => {
   records.forEach((record) => {
     let newRecord: Record | undefined;
     switch (record.type) {
-      case "ADD_SLIDE":
+      case 'ADD_SLIDE':
         newRecord = {
           ...record,
-          type: "create_page",
+          type: 'create_page',
           data: {
             id: record.data.id,
           },
         };
         break;
-      case "SELECT_SLIDE":
+      case 'SELECT_SLIDE':
         newRecord = {
           ...record,
-          type: "change_page",
+          type: 'change_page',
           data: {
             id: record.data.id,
           },
         };
         break;
-      case "DELETE_SLIDE":
+      case 'DELETE_SLIDE':
         newRecord = {
           ...record,
-          type: "delete_page",
+          type: 'delete_page',
           data: {
             id: record.data.id,
           },
         };
         break;
-      case "ADD": {
+      case 'ADD': {
         const { type, assetId, data } = record.data;
         switch (type) {
-          case "TEXT":
+          case 'TEXT':
             newRecord = {
               ...record,
-              type: "edit",
+              type: 'edit',
               data: {
                 shapes: {
                   [assetId]: {
                     id: assetId,
-                    type: "text",
-                    name: "Text",
+                    type: 'text',
+                    name: 'Text',
                     parentId: record.slideId,
                     childIndex: 1,
                     point: [data.x, data.y - data.fontSize / 2],
                     rotation: 0,
                     text: data.text,
                     style: {
-                      color: "black",
+                      color: 'black',
                       size: convertFontSize(data.fontSize),
                       isFilled: false,
-                      dash: "draw",
+                      dash: 'draw',
                       scale: 1,
-                      font: "sans",
-                      textAlign:
-                        data.align === "left"
-                          ? AlignStyle.Start
-                          : AlignStyle.Middle,
+                      font: 'sans',
+                      textAlign: data.align === 'left' ? AlignStyle.Start : AlignStyle.Middle,
                     },
                   },
                 },
@@ -120,7 +109,7 @@ export const migrateRecords = (records: Record[]): Record[] => {
               y: data.y,
             };
             break;
-          case "PATH":
+          case 'PATH': {
             const newPositions: number[][] = [];
             let minX = Infinity;
             let minY = Infinity;
@@ -132,31 +121,27 @@ export const migrateRecords = (records: Record[]): Record[] => {
             }
 
             for (let i = 0; i < data.positions.length; i += 3) {
-              newPositions.push([
-                data.positions[i] - minX,
-                data.positions[i + 1] - minY,
-                0.5,
-              ]);
+              newPositions.push([data.positions[i] - minX, data.positions[i + 1] - minY, 0.5]);
             }
 
             newRecord = {
               ...record,
-              type: "create_draw",
+              type: 'create_draw',
               data: {
                 shapes: {
                   [assetId]: {
                     id: assetId,
-                    type: "draw",
-                    name: "Draw",
+                    type: 'draw',
+                    name: 'Draw',
                     parentId: record.slideId,
                     childIndex: 1,
                     point: [minX, minY],
                     rotation: 0,
                     style: {
-                      color: ColorMap[data.color],
+                      color: ColorMap[data.color as LegacyColorType],
                       size: convertThickness(data.thickness),
                       isFilled: false,
-                      dash: "solid",
+                      dash: 'solid',
                       scale: 1,
                     },
                     points: newPositions,
@@ -170,26 +155,27 @@ export const migrateRecords = (records: Record[]): Record[] => {
               y: data.y || 0,
             };
             break;
-          case "SHAPE":
+          }
+          case 'SHAPE':
             newRecord = {
               ...record,
-              type: "create",
+              type: 'create',
               data: {
                 shapes: {
                   [assetId]: {
                     id: assetId,
-                    type: "rectangle",
-                    name: "Rectangle",
+                    type: 'rectangle',
+                    name: 'Rectangle',
                     parentId: record.slideId,
                     childIndex: 1,
                     point: [data.x - data.width / 2, data.y - data.height / 2],
                     rotation: 0,
                     size: [data.width, data.height],
                     style: {
-                      color: ColorMap[data.color],
+                      color: ColorMap[data.color as LegacyColorType],
                       size: convertThickness(data.thickness),
                       isFilled: false,
-                      dash: "solid",
+                      dash: 'solid',
                       scale: 1,
                     },
                   },
@@ -203,27 +189,27 @@ export const migrateRecords = (records: Record[]): Record[] => {
               height: data.height,
             };
             break;
-          case "IMAGE":
+          case 'IMAGE':
             newRecord = {
               ...record,
-              type: "create",
+              type: 'create',
               data: {
                 shapes: {
                   [assetId]: {
                     id: assetId,
                     assetId: assetId,
-                    type: "image",
-                    name: "Image",
+                    type: 'image',
+                    name: 'Image',
                     parentId: record.slideId,
                     childIndex: 1,
                     point: [data.x - data.width / 2, data.y - data.height / 2],
                     rotation: 0,
                     size: [data.width, data.height],
                     style: {
-                      color: "black",
-                      size: "small",
+                      color: 'black',
+                      size: 'small',
                       isFilled: false,
-                      dash: "draw",
+                      dash: 'draw',
                       scale: 1,
                     },
                   },
@@ -231,8 +217,8 @@ export const migrateRecords = (records: Record[]): Record[] => {
                 assets: {
                   [assetId]: {
                     id: assetId,
-                    type: "image",
-                    name: "Image." + data.ext,
+                    type: 'image',
+                    name: 'Image.' + data.ext,
                     src: getAssetFileUrl(record.origin, assetId),
                   },
                 },
@@ -244,24 +230,22 @@ export const migrateRecords = (records: Record[]): Record[] => {
               width: data.width,
               height: data.height,
             };
+            break;
           default:
             break;
         }
         break;
       }
-      case "UPDATE": {
+      case 'UPDATE': {
         const { assetId, data } = record.data;
-        const newData = {};
+        const newData: { [key: string]: any } = {};
         if (data.text !== undefined) {
-          newData["text"] = data.text;
+          newData['text'] = data.text;
         }
         if (data.width || data.height) {
           if (!assetBoundMap[assetId]) return false;
-          newData["size"] = [data.width, data.height];
-          newData["point"] = [
-            data.x - data.width / 2,
-            data.y - data.height / 2,
-          ];
+          newData.size = [data.width, data.height];
+          newData.point = [data.x - data.width / 2, data.y - data.height / 2];
           assetBoundMap[assetId] = {
             x: data.x || 0,
             y: data.y || 0,
@@ -272,22 +256,19 @@ export const migrateRecords = (records: Record[]): Record[] => {
           if (!assetBoundMap[assetId]) return false;
           if (assetBoundMap[assetId].width) {
             const bound = assetBoundMap[assetId];
-            newData["point"] = [
-              data.x - bound.width / 2,
-              data.y - bound.height / 2,
-            ];
+            newData['point'] = [data.x - (bound.width ?? 0) / 2, data.y - (bound.height ?? 0) / 2];
           } else {
-            newData["point"] = [data.x, data.y];
+            newData['point'] = [data.x, data.y];
           }
         }
         if (data.fontSize) {
-          newData["style"] = {
+          newData['style'] = {
             size: convertFontSize(data.fontSize),
           };
         }
         newRecord = {
           ...record,
-          type: "create",
+          type: 'create',
           data: {
             shapes: {
               [assetId]: newData,
@@ -296,12 +277,12 @@ export const migrateRecords = (records: Record[]): Record[] => {
         };
         break;
       }
-      case "REMOVE": {
+      case 'REMOVE': {
         const { id } = record.data;
         if (!assetBoundMap[id]) return false;
         newRecord = {
           ...record,
-          type: "delete",
+          type: 'delete',
           data: {
             shapes: {
               [id]: undefined,

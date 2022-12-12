@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 interface UserAvatarProps {
   avatarUrl?: string | undefined;
@@ -17,11 +17,5 @@ export const UserAvatar = ({ avatarUrl, userName }: UserAvatarProps) => {
       </div>
     );
   }
-  return (
-    <img
-      className="flex rounded-full h-6 w-6 items-center justify-center"
-      src={avatarUrl}
-      alt={userName}
-    />
-  );
+  return <img className="flex rounded-full h-6 w-6 items-center justify-center" src={avatarUrl} alt={userName} />;
 };
