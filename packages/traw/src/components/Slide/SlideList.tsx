@@ -4,7 +4,7 @@ import SvgAdd from '../../icons/add';
 import SvgGridView from '../../icons/grid-view';
 import SlideListItem, { SlideListItemState } from './SlideListItem';
 
-interface SlideListProps {
+export interface SlideListProps {
   canAddSlide: boolean;
   handleAddSlide: () => void;
   handleGridView: () => void;

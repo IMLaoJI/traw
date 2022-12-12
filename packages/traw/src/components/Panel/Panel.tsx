@@ -3,7 +3,7 @@ import BlockItem from './BlockItem';
 import PanelFooter from './PanelFooter';
 import PanelHeader from './PanelHeader';
 
-interface PanelProps {
+export interface PanelProps {
   handlePlayClick: () => void;
 }
 

@@ -27,7 +27,10 @@ export default {
       browser: true,
     }),
     commonjs(),
-    typescript({ useTsconfigDeclarationDir: true }),
+    typescript({
+      useTsconfigDeclarationDir: true,
+      exclude: ['node_modules', 'build', 'storybook-static', 'src/**/*.stories.tsx', 'src/**/*.test.tsx'],
+    }),
     postcss(),
     copy({
       targets: [

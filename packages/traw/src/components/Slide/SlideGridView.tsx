@@ -9,10 +9,10 @@ interface SlideGridViewProps {
   currentPageId: string;
 }
 
-const slideSize = {
-  mobile: '100%',
-  tablet: '240px',
-};
+// const slideSize = {
+//   mobile: '100%',
+//   tablet: '240px',
+// };
 
 const SlideGridView = ({ close, pages, currentPageId, selectSlide }: SlideGridViewProps) => {
   const slideRef = useRef<Record<string, any>>({});
