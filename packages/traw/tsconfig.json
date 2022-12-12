@@ -1,4 +1,9 @@
 {
-  "extends": "./tsconfig.base.json",
-  "exclude": ["node_modules", "build", "storybook-static", "src/**/*.stories.tsx", "src/**/*.test.tsx"]
+  "extends": "tsconfig/react-library.json",
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "build", "storybook-static"],
+  "compilerOptions": {
+    "declaration": true,
+    "declarationDir": "build"
+  }
 }

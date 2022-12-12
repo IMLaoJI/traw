@@ -11,7 +11,7 @@ export default {
   args: {},
 } as ComponentMeta<typeof Slide>;
 
-const trawApp = new TrawApp('id', {});
+const trawApp = new TrawApp();
 
 const Template: ComponentStory<typeof Slide> = () => (
   <TrawContext.Provider value={trawApp}>
