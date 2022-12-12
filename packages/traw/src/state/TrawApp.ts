@@ -1,4 +1,4 @@
-import { TldrawApp, TDToolType, TldrawCommand, TDSnapshot } from '@tldraw/tldraw';
+import { TldrawApp, TDToolType, TldrawCommand, TDSnapshot, Command } from '@tldraw/tldraw';
 import createVanilla, { StoreApi } from 'zustand/vanilla';
 import { migrateRecords } from '../components/utils/migrate';
 import { Record, TrawSnapshot } from '../types';
@@ -50,7 +50,7 @@ export class TrawApp {
   private _actionStartTime: number | undefined;
 
   constructor(callbacks = {} as TRCallbacks) {
-    this.app = new TrawCanvasApp("", {
+    this.app = new TrawCanvasApp('', {
       onSessionStart: this.setActionStartTime,
     });
 
@@ -80,32 +80,34 @@ export class TrawApp {
     this._actionStartTime = Date.now();
   };
 
-  recordCommand = (app, command) => {
+  recordCommand = (state: TDSnapshot, command: TldrawCommand) => {
     const records: Record[] = [];
     console.log(command);
     switch (command.id) {
-      case "change_page":
-        records.push({
-          type: command.id,
-          data: {
-            id: command.after.appState.currentPageId,
-          },
-          start: this._actionStartTime ? this._actionStartTime : 0,
-          end: Date.now(),
-        } as Record);
+      case 'change_page':
+        if (command.after.appState)
+          records.push({
+            type: command.id,
+            data: {
+              id: command.after.appState.currentPageId,
+            },
+            start: this._actionStartTime ? this._actionStartTime : 0,
+            end: Date.now(),
+          } as Record);
         break;
-      case "create_page": {
+      case 'create_page': {
+        if (!command.after.document || !command.after.document.pages) break;
         const pageId = Object.keys(command.after.document.pages)[0];
         records.push({
           type: command.id,
           data: {
             id: pageId,
           },
-          start: Date.now() - 1, // Create page must be before select page 
+          start: Date.now() - 1, // Create page must be before select page
           end: Date.now() - 1,
         } as Record);
         records.push({
-          type: "change_page",
+          type: 'change_page',
           data: {
             id: pageId,
           },
@@ -114,9 +116,10 @@ export class TrawApp {
         } as Record);
         break;
       }
-      case "delete_page":
+      case 'delete_page':
         break;
       default: {
+        if (!command.after.document || !command.after.document.pages) break;
         const pageId = Object.keys(command.after.document.pages)[0];
 
         records.push({

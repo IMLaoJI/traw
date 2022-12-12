@@ -25,8 +25,9 @@ const SlideList = ({ canAddSlide, handleAddSlide, handleGridView }: SlideListPro
   };
 
   useEffect(() => {
-    if (slideRef.current[currentPageId] && slideRef.current[currentPageId].scrollIntoView) {
-      slideRef.current[currentPageId].scrollIntoView({
+    const currentSlide = slideRef.current[currentPageId];
+    if (currentSlide) {
+      currentSlide.scrollIntoView({
         behavior: 'smooth',
         block: 'center',
         inline: 'center',
