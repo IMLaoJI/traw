@@ -7,7 +7,7 @@ export interface PanelProps {
   handlePlayClick: () => void;
 }
 
-const Panel = ({ handlePlayClick }: PanelProps) => {
+export const Panel = ({ handlePlayClick }: PanelProps) => {
   return (
     <div className="relative w-full ">
       <div className="flex flex-col w-full sm:w-[269px] h-full items-center bg-white rounded-2xl shadow-[0_10px_60px_rgba(189,188,249,0.5)]">
@@ -31,4 +31,4 @@ const Panel = ({ handlePlayClick }: PanelProps) => {
   );
 };
 
-export { Panel };
+export default Panel;

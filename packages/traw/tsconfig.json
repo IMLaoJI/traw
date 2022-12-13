@@ -3,7 +3,8 @@
   "include": ["src/**/*"],
   "exclude": ["node_modules", "build", "storybook-static"],
   "compilerOptions": {
+    "baseUrl": "src",
     "declaration": true,
-    "declarationDir": "build"
+    "declarationDir": "build",
   }
 }

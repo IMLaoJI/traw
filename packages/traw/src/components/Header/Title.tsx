@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 
-interface TitleProps {
+export interface TitleProps {
   title: string;
   canEdit: boolean;
   handleChangeTitle: (title: string) => void;
 }
 
-const Title = ({ title, canEdit, handleChangeTitle }: TitleProps) => {
+export const Title = ({ title, canEdit, handleChangeTitle }: TitleProps) => {
   const [name, setName] = useState(title);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {

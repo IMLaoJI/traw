@@ -5,7 +5,7 @@ import ToolButton from './ToolButton';
 import { toolMenus } from './tools';
 import { TDToolType } from '@tldraw/tldraw';
 
-interface ToolBoxProps {
+export interface ToolBoxProps {
   currentTool: TDToolType;
   isUndoable: boolean;
   isRedoable: boolean;
@@ -14,7 +14,7 @@ interface ToolBoxProps {
   handleRedo: () => void;
 }
 
-const ToolBox = memo(({ isUndoable, handleUndo, isRedoable, handleRedo, currentTool }: ToolBoxProps) => {
+export const ToolBox = memo(({ isUndoable, handleUndo, isRedoable, handleRedo, currentTool }: ToolBoxProps) => {
   useHotkeys(
     `cmd+z, ctrl+z`,
     (e) => {
