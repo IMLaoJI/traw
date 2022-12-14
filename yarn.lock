@@ -3117,7 +3117,7 @@
   dependencies:
     "@tldraw/vec" "^1.8.0"
 
-"@tldraw/tldraw@^1.26.3":
+"@tldraw/tldraw@^1.26.2", "@tldraw/tldraw@^1.26.3":
   version "1.26.3"
   resolved "https://registry.yarnpkg.com/@tldraw/tldraw/-/tldraw-1.26.3.tgz#c26b1f2787e2e5e0528e6fe1804d0384e065646a"
   integrity sha512-u8FfU3Q84y9E0PFLtw857bkmtlos4+/SSta9IrKQugrqVLBWzyixa2Wfk4e8h+Fr3CLCPa7uaBnlvT3Awr6dDQ==
@@ -10034,11 +10034,6 @@ nanoid@^3.3.1, nanoid@^3.3.4:
   version "3.3.4"
   resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.3.4.tgz#730b67e3cd09e2deacf03c027c81c9d9dbc5e8ab"
   integrity sha512-MqBkQh/OHTS2egovRtLk45wEyNXwF+cokD+1YPf9u5VfJiRdAiRwB2froX5Co9Rh20xs4siNPm8naNotSD6RBw==
-
-nanoid@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-4.0.0.tgz#6e144dee117609232c3f415c34b0e550e64999a5"
-  integrity sha512-IgBP8piMxe/gf73RTQx7hmnhwz0aaEXYakvqZyE302IXW3HyVNhdNGC+O2MwMAVhLEnvXlvKtGbtJf6wvHihCg==
 
 nanomatch@^1.2.9:
   version "1.2.13"
