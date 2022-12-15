@@ -302,6 +302,30 @@ export class TrawApp {
       }
       case 'delete_page':
         break;
+      case 'delete': {
+        if (!command.after.document || !command.after.document.pages) break;
+        const pageId = Object.keys(command.after.document.pages)[0];
+
+        const shapes = command.after.document.pages[pageId]?.shapes;
+        if (!shapes) break;
+
+        const shapeIds = Object.keys(shapes);
+        if (shapeIds.length === 0) break;
+
+        records.push({
+          type: command.id as ActionType,
+          id: nanoid(),
+          user: user.id,
+          data: {
+            shapes: shapeIds,
+          },
+          slideId: pageId,
+          start: this._actionStartTime || new Date().getTime(),
+          end: Date.now(),
+          origin: document.id,
+        });
+        break;
+      }
       default: {
         if (!command.after.document || !command.after.document.pages) break;
         const pageId = Object.keys(command.after.document.pages)[0];
@@ -431,6 +455,22 @@ export class TrawApp {
             }),
           );
           break;
+        case 'delete': {
+          if (!record.slideId) break;
+          this.app.patchState({
+            document: {
+              pages: {
+                [record.slideId]: {
+                  shapes: record.data.shapes.reduce((acc: Record<string, undefined>, shapeId: string) => {
+                    acc[shapeId] = undefined;
+                    return acc;
+                  }, {}),
+                },
+              },
+            },
+          });
+          break;
+        }
         default: {
           const { data, slideId } = record;
           if (!slideId) break;
