@@ -299,6 +299,7 @@ export class TrawApp {
       }
       case 'delete_page':
         break;
+      case 'erase':
       case 'delete': {
         if (!command.after.document || !command.after.document.pages) break;
         const pageId = Object.keys(command.after.document.pages)[0];
@@ -310,7 +311,7 @@ export class TrawApp {
         if (shapeIds.length === 0) break;
 
         records.push({
-          type: command.id as ActionType,
+          type: 'delete',
           id: nanoid(),
           user: user.id,
           data: {
