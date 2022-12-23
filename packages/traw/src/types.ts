@@ -54,13 +54,18 @@ export type TRCamera = {
 export type TrawSnapshot = {
   viewport: TRViewport;
   records: Record<string, TRRecord>;
+  currentFollowTarget?: string;
   camera: {
     [userId: string]: {
-      [slideId: string]: TRCamera;
+      targetSlideId: string;
+      cameras: {
+        [slideId: string]: TRCamera;
+      };
     };
   };
   document: TrawDocument;
   user: TrawUser;
+  // participants
 };
 
 export type TrawUser = {
