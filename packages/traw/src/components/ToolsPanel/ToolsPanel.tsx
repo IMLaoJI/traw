@@ -5,7 +5,6 @@ import { useTldrawApp } from 'hooks/useTldrawApp';
 import * as React from 'react';
 import { breakpoints } from 'utils/breakpoints';
 import { BackToContent } from './BackToContent';
-import { DeleteButton } from './DeleteButton';
 import { PrimaryTools } from './PrimaryTools';
 import { StatusBar } from './StatusBar';
 
@@ -28,7 +27,6 @@ export const ToolsPanel = React.memo(function ToolsPanel({ onBlur }: ToolsPanelP
           <BackToContent />
           <StyledPrimaryTools orientation={side === 'bottom' || side === 'top' ? 'horizontal' : 'vertical'}>
             <PrimaryTools />
-            <DeleteButton />
           </StyledPrimaryTools>
         </StyledCenterWrap>
       </StyledToolsPanelContainer>

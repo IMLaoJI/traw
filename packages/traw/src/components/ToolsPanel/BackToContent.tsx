@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { FormattedMessage } from 'react-intl';
 
 import { useTldrawApp } from 'hooks/useTldrawApp';
 import type { TDSnapshot } from '@tldraw/tldraw';
@@ -66,9 +65,7 @@ export const BackToContent = React.memo(function BackToContent() {
 
   return (
     <BackToContentContainer id="TD-Tools-Back_to_content" style={{ ...style }}>
-      <button onClick={app.zoomToContent}>
-        <FormattedMessage id="zoom.to.content" />
-      </button>
+      <button onClick={app.zoomToContent}>zoom to content</button>
     </BackToContentContainer>
   );
 });

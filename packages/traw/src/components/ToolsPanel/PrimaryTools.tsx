@@ -10,10 +10,12 @@ import * as React from 'react';
 import { breakpoints } from 'utils/breakpoints';
 
 import { useTldrawApp } from 'hooks/useTldrawApp';
+import * as Separator from '@radix-ui/react-separator';
 
-import { TDSnapshot } from '@tldraw/tldraw';
+import { TDShapeType, TDSnapshot } from '@tldraw/tldraw';
 import { styled } from 'stitches.config';
 import { ShapesMenu } from './ShapesMenu';
+import { ToolButtonWithTooltip } from 'components/ToolButton';
 
 const Panel = styled('div', {
   backgroundColor: '$panel',
@@ -67,51 +69,101 @@ export const PrimaryTools = React.memo(function PrimaryTools() {
   const isToolLocked = app.useStore(toolLockedSelector);
   const dockPosition = app.useStore(dockPositionState);
 
-  // const selectSelectTool = React.useCallback(() => {
-  //   app.selectTool('select');
-  // }, [app]);
+  const selectSelectTool = React.useCallback(() => {
+    app.selectTool('select');
+  }, [app]);
 
-  // const selectEraseTool = React.useCallback(() => {
-  //   app.selectTool('erase');
-  // }, [app]);
+  const selectEraseTool = React.useCallback(() => {
+    app.selectTool('erase');
+  }, [app]);
 
-  // const selectDrawTool = React.useCallback(() => {
-  //   app.selectTool(TDShapeType.Draw);
-  // }, [app]);
+  const selectDrawTool = React.useCallback(() => {
+    app.selectTool(TDShapeType.Draw);
+  }, [app]);
 
-  // const selectArrowTool = React.useCallback(() => {
-  //   app.selectTool(TDShapeType.Arrow);
-  // }, [app]);
+  const selectArrowTool = React.useCallback(() => {
+    app.selectTool(TDShapeType.Arrow);
+  }, [app]);
 
-  // const selectTextTool = React.useCallback(() => {
-  //   app.selectTool(TDShapeType.Text);
-  // }, [app]);
+  const selectTextTool = React.useCallback(() => {
+    app.selectTool(TDShapeType.Text);
+  }, [app]);
 
-  // const selectStickyTool = React.useCallback(() => {
-  //   app.selectTool(TDShapeType.Sticky);
-  // }, [app]);
+  const uploadMedias = React.useCallback(async () => {
+    app.openAsset();
+  }, [app]);
 
-  // const uploadMedias = React.useCallback(async () => {
-  //   app.openAsset();
-  // }, [app]);
+  const undo = React.useCallback(() => {
+    app.undo();
+  }, [app]);
+
+  const redo = React.useCallback(() => {
+    app.redo();
+  }, [app]);
 
   const panelStyle = dockPosition === 'bottom' || dockPosition === 'top' ? 'row' : 'column';
 
   return (
     <StyledPanel side="center" id="TD-PrimaryTools" style={{ flexDirection: panelStyle }} bp={breakpoints}>
-      <CursorArrowIcon />
+      <ToolButtonWithTooltip
+        kbd={'1'}
+        label={'select'}
+        onClick={selectSelectTool}
+        isActive={activeTool === 'select'}
+        id="TD-PrimaryTools-CursorArrow"
+      >
+        <CursorArrowIcon />
+      </ToolButtonWithTooltip>
 
-      <Pencil1Icon />
-
+      <ToolButtonWithTooltip
+        kbd={'2'}
+        label={'draw'}
+        onClick={selectDrawTool}
+        isActive={activeTool === TDShapeType.Draw}
+        id="TD-PrimaryTools-Pencil"
+      >
+        <Pencil1Icon />
+      </ToolButtonWithTooltip>
+      <ToolButtonWithTooltip
+        kbd={'3'}
+        label={'eraser'}
+        onClick={selectEraseTool}
+        isActive={activeTool === 'erase'}
+        id="TD-PrimaryTools-Eraser"
+      >
+        eraser
+      </ToolButtonWithTooltip>
       <ShapesMenu activeTool={activeTool} isToolLocked={isToolLocked} />
-
-      <ArrowTopRightIcon />
-
-      <TextIcon />
-
-      <Pencil2Icon />
-
-      <ImageIcon />
+      <ToolButtonWithTooltip
+        kbd={'8'}
+        label={'arrow'}
+        onClick={selectArrowTool}
+        isLocked={isToolLocked}
+        isActive={activeTool === TDShapeType.Arrow}
+        id="TD-PrimaryTools-ArrowTopRight"
+      >
+        <ArrowTopRightIcon />
+      </ToolButtonWithTooltip>
+      <ToolButtonWithTooltip
+        kbd={'9'}
+        label={'text'}
+        onClick={selectTextTool}
+        isLocked={isToolLocked}
+        isActive={activeTool === TDShapeType.Text}
+        id="TD-PrimaryTools-Text"
+      >
+        <TextIcon />
+      </ToolButtonWithTooltip>
+      <ToolButtonWithTooltip label={'image'} onClick={uploadMedias} id="TD-PrimaryTools-Image">
+        <ImageIcon />
+      </ToolButtonWithTooltip>
+      <Separator.Root className="SeparatorRoot" decorative orientation="vertical" style={{ margin: '0 15px' }} />
+      <ToolButtonWithTooltip label={'undo'} onClick={undo} id="TD-PrimaryTools-Undo">
+        undo
+      </ToolButtonWithTooltip>
+      <ToolButtonWithTooltip label={'redo'} onClick={redo} id="TD-PrimaryTools-Redo">
+        redo
+      </ToolButtonWithTooltip>
     </StyledPanel>
   );
 });
