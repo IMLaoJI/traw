@@ -1,7 +1,17 @@
 import { TDAsset, TDToolType, TDUser, TldrawApp, TldrawCommand, TldrawPatch } from '@tldraw/tldraw';
 import debounce from 'lodash/debounce';
 import { nanoid } from 'nanoid';
-import { ActionType, TDCamera, TrawSnapshot, TRCamera, TRRecord, TRViewport } from 'types';
+import {
+  ActionType,
+  TDCamera,
+  TrawSnapshot,
+  TRBlock,
+  TRBlockType,
+  TRBlockVoice,
+  TRCamera,
+  TRRecord,
+  TRViewport,
+} from 'types';
 import createVanilla, { StoreApi } from 'zustand/vanilla';
 import { DEFAULT_CAMERA, SLIDE_HEIGHT, SLIDE_RATIO, SLIDE_WIDTH } from '../constants';
 import { mountStoreDevtool } from 'simple-zustand-devtools';
@@ -10,6 +20,9 @@ import produce from 'immer';
 import { CreateRecordsEvent, EventTypeHandlerMap, TrawEventHandler, TrawEventType } from 'state/events';
 import create, { UseBoundStore } from 'zustand';
 import { TrawAppOptions } from './TrawAppOptions';
+import { TrawRecorder } from 'recorder/TrawRecorder';
+import { Howl } from 'howler';
+import { encodeFile } from 'utils/base64';
 
 export const convertCameraTRtoTD = (camera: TRCamera, viewport: TRViewport): TDCamera => {
   const ratio = viewport.width / viewport.height;
@@ -96,6 +109,11 @@ export class TrawApp {
   private _actionStartTime: number | undefined;
 
   /**
+   * Traw recorder
+   */
+  private _trawRecorder?: TrawRecorder;
+
+  /**
    * A React hook for accessing the zustand store.
    */
   public readonly useStore: UseBoundStore<StoreApi<TrawSnapshot>>;
@@ -115,6 +133,12 @@ export class TrawApp {
         width: 0,
         height: 0,
       },
+      recording: {
+        isRecording: false,
+        isTalking: false,
+        recognizedText: '',
+        startedAt: 0,
+      },
       camera: {
         [this.editorId]: {
           targetSlideId: 'page',
@@ -126,6 +150,47 @@ export class TrawApp {
       user,
       document,
       records: {},
+      blocks:
+        process.env.NODE_ENV === 'development'
+          ? {
+              'example-1': {
+                id: 'example-1',
+                type: TRBlockType.TALK,
+                userId: 'example-1',
+                text: '동해물과 백두산이 마르고 닳도록 하느님이 보우하사 우리 나라 만세',
+                time: Date.now(),
+                isActive: true,
+                voices: [
+                  {
+                    blockId: 'example-1',
+                    voiceId: 'example-1-1',
+                    ext: 'mp4',
+                    url: '',
+                  },
+                ],
+                voiceStart: 0,
+                voiceEnd: 0,
+              },
+              'example-2': {
+                id: 'example-2',
+                type: TRBlockType.TALK,
+                userId: 'example-2',
+                text: '무궁화 삼천리 화려강산 대한 사람 대한으로 길이 보전하세',
+                time: Date.now() + 1000,
+                isActive: true,
+                voices: [
+                  {
+                    blockId: 'example-2',
+                    voiceId: 'example-2-1',
+                    ext: 'mp4',
+                    url: '',
+                  },
+                ],
+                voiceStart: 0,
+                voiceEnd: 0,
+              },
+            }
+          : {},
     };
     this.store = createVanilla<TrawSnapshot>(() => this._state);
     if (process.env.NODE_ENV === 'development') {
@@ -143,6 +208,70 @@ export class TrawApp {
       recordMap[record.id] = record;
     });
     this.applyRecordsFromFirst();
+
+    if (TrawRecorder.isSupported()) {
+      this._trawRecorder = new TrawRecorder({
+        lang: 'ko-KR',
+        onCreatingBlockUpdate: (text) => {
+          this.store.setState(
+            produce((state) => {
+              state.recording.recognizedText = text;
+            }),
+          );
+        },
+        onBlockCreated: ({ blockId, text, time, voiceStart, voiceEnd }) => {
+          this.store.setState((state) =>
+            produce(state, (draft) => {
+              const block: TRBlock = {
+                id: blockId,
+                time,
+                voiceStart,
+                voiceEnd,
+                text,
+                isActive: true,
+                type: TRBlockType.TALK,
+                userId: this.editorId,
+                voices: [],
+              };
+
+              draft.blocks[block.id] = block;
+            }),
+          );
+        },
+        onVoiceCreated: async ({ voiceId, file, blockId, ext }) => {
+          let url: string | false;
+          if (this.onAssetCreate) {
+            url = await this.onAssetCreate(this.app, file, voiceId);
+          } else {
+            url = await encodeFile(file);
+          }
+
+          if (url) {
+            this.store.setState((state) =>
+              produce(state, (draft) => {
+                const blockVoice: TRBlockVoice = {
+                  blockId,
+                  voiceId,
+                  ext,
+                  url: url as string,
+                };
+
+                draft.blocks[blockId]?.voices.push(blockVoice);
+              }),
+            );
+          } else {
+            console.log('Failed to get voice URL');
+          }
+        },
+        onTalking: (isTalking: boolean) => {
+          this.store.setState(
+            produce((state: TrawSnapshot) => {
+              state.recording.isTalking = isTalking;
+            }),
+          );
+        },
+      });
+    }
   }
 
   registerApp(app: TldrawApp) {
@@ -630,6 +759,31 @@ export class TrawApp {
     this.syncCamera();
   };
 
+  startRecording = async (): Promise<void> => {
+    if (!this._trawRecorder) return;
+
+    await this._trawRecorder.startRecording();
+
+    this.store.setState(
+      produce((state: TrawSnapshot) => {
+        state.recording.isRecording = true;
+        state.recording.startedAt = Date.now();
+      }),
+    );
+  };
+
+  stopRecording = () => {
+    if (!this._trawRecorder) return;
+
+    this._trawRecorder?.stopRecording();
+    this.store.setState(
+      produce((state: TrawSnapshot) => {
+        state.recording.isRecording = false;
+        state.recording.startedAt = 0;
+      }),
+    );
+  };
+
   private handleAssetCreate = async (app: TldrawApp, file: File, id: string): Promise<string | false> => {
     if (this.onAssetCreate) {
       return await this.onAssetCreate(app, file, id);
@@ -670,6 +824,21 @@ export class TrawApp {
       },
     });
   };
+
+  public playBlock(blockId: string) {
+    const block = this.store.getState().blocks[blockId || ''];
+    if (!block) return;
+    if (block.voices.length === 0) return;
+
+    const playableVoice = block.voices[0];
+    // TODO (Changje, 2022-12-24) - Reimplement it to support preloading
+    const howl = new Howl({
+      src: [playableVoice.url],
+      format: playableVoice.ext,
+    });
+    howl.seek(block.voiceStart / 1000);
+    howl.play();
+  }
 
   /*
    * Event handlers

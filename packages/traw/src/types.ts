@@ -54,6 +54,13 @@ export type TRCamera = {
 export type TrawSnapshot = {
   viewport: TRViewport;
   records: Record<string, TRRecord>;
+  blocks: Record<string, TRBlock>;
+  recording: {
+    isRecording: boolean;
+    isTalking: boolean;
+    recognizedText: string;
+    startedAt: number;
+  };
   currentFollowTarget?: string;
   camera: {
     [userId: string]: {
@@ -77,4 +84,29 @@ export type TrawUser = {
 export type TrawDocument = {
   id: string;
   name: string;
+};
+
+export enum TRBlockType {
+  TALK = 'TALK',
+  START_RECORDING = 'START_RECORDING',
+  END_RECORDING = 'END_RECORDING',
+}
+
+export type TRBlock = {
+  id: string;
+  type: TRBlockType;
+  userId: string;
+  time: number;
+  text: string;
+  isActive: boolean;
+  voices: TRBlockVoice[];
+  voiceStart: number;
+  voiceEnd: number;
+};
+
+export type TRBlockVoice = {
+  blockId: string;
+  voiceId: string;
+  ext: string;
+  url: string;
 };
