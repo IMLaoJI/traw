@@ -708,7 +708,7 @@ export class TrawApp {
     if (this.app.document.pageStates.page && Object.keys(this.app.document.pageStates).length > 1) {
       this.app.patchState({
         appState: {
-          currentPageId: Object.keys(this.app.document.pageStates)[0],
+          currentPageId: Object.keys(this.app.document.pageStates).filter((p) => p !== 'page')[0],
         },
         document: {
           pageStates: {
