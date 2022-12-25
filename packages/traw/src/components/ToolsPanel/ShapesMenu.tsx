@@ -1,49 +1,11 @@
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
-import * as React from 'react';
-
-import { styled } from '@stitches/react';
+import { CircleIcon, SquareIcon, VercelLogoIcon } from '@radix-ui/react-icons';
 import { TDShapeType, TDSnapshot, TDToolType } from '@tldraw/tldraw';
+import { Panel } from 'components/Primitives/Panel';
+import { ToolButton } from 'components/Primitives/ToolButton';
+import { Tooltip } from 'components/Primitives/Tooltip';
 import { useTldrawApp } from 'hooks/useTldrawApp';
-
-const Panel = styled('div', {
-  backgroundColor: '$panel',
-  display: 'flex',
-  flexDirection: 'row',
-  boxShadow: '$panel',
-  padding: '$2',
-  border: '1px solid $panelContrast',
-  gap: 0,
-  overflow: 'hidden',
-  variants: {
-    side: {
-      center: {
-        borderRadius: 9,
-      },
-      left: {
-        padding: 0,
-        borderTop: 0,
-        borderLeft: 0,
-        borderTopRightRadius: 0,
-        borderBottomRightRadius: 9,
-        borderBottomLeftRadius: 0,
-      },
-      right: {
-        padding: 0,
-        borderTop: 0,
-        borderRight: 0,
-        borderTopLeftRadius: 0,
-        borderBottomLeftRadius: 9,
-        borderBottomRightRadius: 0,
-      },
-    },
-  },
-  '& hr': {
-    height: 10,
-    width: '100%',
-    backgroundColor: 'red',
-    border: 'none',
-  },
-});
+import * as React from 'react';
 
 interface ShapesMenuProps {
   activeTool: TDToolType;
@@ -53,6 +15,13 @@ interface ShapesMenuProps {
 type ShapeShape = TDShapeType.Rectangle | TDShapeType.Ellipse | TDShapeType.Triangle | TDShapeType.Line;
 
 const shapeShapes: ShapeShape[] = [TDShapeType.Rectangle, TDShapeType.Ellipse, TDShapeType.Triangle, TDShapeType.Line];
+
+const shapeShapeIcons = {
+  [TDShapeType.Rectangle]: <SquareIcon />,
+  [TDShapeType.Ellipse]: <CircleIcon />,
+  [TDShapeType.Triangle]: <VercelLogoIcon />,
+  [TDShapeType.Line]: <VercelLogoIcon />,
+};
 
 const dockPositionState = (s: TDSnapshot) => s.settings.dockPosition;
 
@@ -93,33 +62,33 @@ export const ShapesMenu = React.memo(function ShapesMenu({ activeTool, isToolLoc
   return (
     <DropdownMenu.Root dir="ltr" onOpenChange={selectShapeTool}>
       <DropdownMenu.Trigger dir="ltr" asChild id="TD-PrimaryTools-Shapes">
-        <button
+        <ToolButton
           disabled={isActive && app.shiftKey} // otherwise this continuously opens and closes on "SpacePanning"
-          // variant="primary"
+          variant="primary"
           onDoubleClick={handleDoubleClick}
-          // isToolLocked={isActive && isToolLocked}
-          // isActive={isActive}
+          isToolLocked={isActive && isToolLocked}
+          isActive={isActive}
           onKeyDown={handleKeyDown}
         >
-          {/* {shapeShapeIcons[lastActiveTool]} */}
-          icon
-        </button>
+          {shapeShapeIcons[lastActiveTool]}
+        </ToolButton>
       </DropdownMenu.Trigger>
       <DropdownMenu.Content asChild side={contentSide} sideOffset={12}>
         <Panel side="center" style={{ flexDirection: panelStyle }}>
           {shapeShapes.map((shape, i) => (
-            <DropdownMenu.Item asChild key={i}>
-              <button
-                // variant="primary"
-                onClick={() => {
-                  app.selectTool(shape);
-                  setLastActiveTool(shape);
-                }}
-              >
-                {/* {shapeShapeIcons[shape]} */}
-                shape
-              </button>
-            </DropdownMenu.Item>
+            <Tooltip key={shape} label={'shape'} kbd={(4 + i).toString()} id={`TD-PrimaryTools-Shapes-${shape}`}>
+              <DropdownMenu.Item asChild>
+                <ToolButton
+                  variant="primary"
+                  onClick={() => {
+                    app.selectTool(shape);
+                    setLastActiveTool(shape);
+                  }}
+                >
+                  {shapeShapeIcons[shape]}
+                </ToolButton>
+              </DropdownMenu.Item>
+            </Tooltip>
           ))}
         </Panel>
       </DropdownMenu.Content>

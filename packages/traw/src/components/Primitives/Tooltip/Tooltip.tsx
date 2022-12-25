@@ -1,5 +1,5 @@
 import * as RadixTooltip from '@radix-ui/react-tooltip';
-import { Kbd } from 'components/Kbd';
+import { Kbd } from 'components/Primitives/Kbd';
 import * as React from 'react';
 import { styled } from 'stitches.config';
 

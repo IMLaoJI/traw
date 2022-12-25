@@ -1,61 +1,22 @@
-import {
-  ArrowTopRightIcon,
-  CursorArrowIcon,
-  ImageIcon,
-  Pencil1Icon,
-  Pencil2Icon,
-  TextIcon,
-} from '@radix-ui/react-icons';
+import { ArrowTopRightIcon, ImageIcon } from '@radix-ui/react-icons';
 import * as React from 'react';
 import { breakpoints } from 'utils/breakpoints';
 
-import { useTldrawApp } from 'hooks/useTldrawApp';
 import * as Separator from '@radix-ui/react-separator';
+import { useTldrawApp } from 'hooks/useTldrawApp';
 
 import { TDShapeType, TDSnapshot } from '@tldraw/tldraw';
+import { ToolButtonWithTooltip } from 'components/Primitives/ToolButton';
+import SvgEraser from 'icons/eraser';
+import SvgPencil from 'icons/pencil';
+import SvgRedo from 'icons/redo';
+import SvgSelector from 'icons/selector';
+import SvgText from 'icons/Text';
+import SvgUndo from 'icons/undo';
 import { styled } from 'stitches.config';
 import { ShapesMenu } from './ShapesMenu';
-import { ToolButtonWithTooltip } from 'components/ToolButton';
-
-const Panel = styled('div', {
-  backgroundColor: '$panel',
-  display: 'flex',
-  flexDirection: 'row',
-  boxShadow: '$panel',
-  padding: '$2',
-  border: '1px solid $panelContrast',
-  gap: 0,
-  overflow: 'hidden',
-  variants: {
-    side: {
-      center: {
-        borderRadius: 9,
-      },
-      left: {
-        padding: 0,
-        borderTop: 0,
-        borderLeft: 0,
-        borderTopRightRadius: 0,
-        borderBottomRightRadius: 9,
-        borderBottomLeftRadius: 0,
-      },
-      right: {
-        padding: 0,
-        borderTop: 0,
-        borderRight: 0,
-        borderTopLeftRadius: 0,
-        borderBottomLeftRadius: 9,
-        borderBottomRightRadius: 0,
-      },
-    },
-  },
-  '& hr': {
-    height: 10,
-    width: '100%',
-    backgroundColor: 'red',
-    border: 'none',
-  },
-});
+import { Panel } from 'components/Primitives/Panel';
+import SvgShape from 'icons/shape';
 
 const activeToolSelector = (s: TDSnapshot) => s.appState.activeTool;
 const toolLockedSelector = (s: TDSnapshot) => s.appState.isToolLocked;
@@ -89,6 +50,10 @@ export const PrimaryTools = React.memo(function PrimaryTools() {
     app.selectTool(TDShapeType.Text);
   }, [app]);
 
+  const selectStickyTool = React.useCallback(() => {
+    app.selectTool(TDShapeType.Sticky);
+  }, [app]);
+
   const uploadMedias = React.useCallback(async () => {
     app.openAsset();
   }, [app]);
@@ -112,9 +77,8 @@ export const PrimaryTools = React.memo(function PrimaryTools() {
         isActive={activeTool === 'select'}
         id="TD-PrimaryTools-CursorArrow"
       >
-        <CursorArrowIcon />
+        <SvgSelector />
       </ToolButtonWithTooltip>
-
       <ToolButtonWithTooltip
         kbd={'2'}
         label={'draw'}
@@ -122,7 +86,7 @@ export const PrimaryTools = React.memo(function PrimaryTools() {
         isActive={activeTool === TDShapeType.Draw}
         id="TD-PrimaryTools-Pencil"
       >
-        <Pencil1Icon />
+        <SvgPencil />
       </ToolButtonWithTooltip>
       <ToolButtonWithTooltip
         kbd={'3'}
@@ -131,7 +95,7 @@ export const PrimaryTools = React.memo(function PrimaryTools() {
         isActive={activeTool === 'erase'}
         id="TD-PrimaryTools-Eraser"
       >
-        eraser
+        <SvgEraser />
       </ToolButtonWithTooltip>
       <ShapesMenu activeTool={activeTool} isToolLocked={isToolLocked} />
       <ToolButtonWithTooltip
@@ -152,31 +116,41 @@ export const PrimaryTools = React.memo(function PrimaryTools() {
         isActive={activeTool === TDShapeType.Text}
         id="TD-PrimaryTools-Text"
       >
-        <TextIcon />
+        <SvgText />
+      </ToolButtonWithTooltip>
+      <ToolButtonWithTooltip
+        kbd={'0'}
+        label={'sticky'}
+        onClick={selectStickyTool}
+        isActive={activeTool === TDShapeType.Sticky}
+        id="TD-PrimaryTools-Pencil2"
+      >
+        <SvgShape />
       </ToolButtonWithTooltip>
       <ToolButtonWithTooltip label={'image'} onClick={uploadMedias} id="TD-PrimaryTools-Image">
         <ImageIcon />
       </ToolButtonWithTooltip>
-      <Separator.Root className="SeparatorRoot" decorative orientation="vertical" style={{ margin: '0 15px' }} />
+      <Separator.Root
+        className="SeparatorRoot mx-2 my-1 w-[2px]  bg-traw-grey-dark"
+        decorative
+        orientation="vertical"
+      />
       <ToolButtonWithTooltip label={'undo'} onClick={undo} id="TD-PrimaryTools-Undo">
-        undo
+        <SvgUndo />
       </ToolButtonWithTooltip>
       <ToolButtonWithTooltip label={'redo'} onClick={redo} id="TD-PrimaryTools-Redo">
-        redo
+        <SvgRedo />
       </ToolButtonWithTooltip>
     </StyledPanel>
   );
 });
 
 const StyledPanel = styled(Panel, {
+  borderRadius: '20px',
   variants: {
     bp: {
-      mobile: {
-        padding: '$0',
-        borderRadius: '10px',
-      },
       small: {
-        padding: '$2',
+        padding: '$2 $5',
       },
     },
   },

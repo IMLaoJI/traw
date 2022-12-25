@@ -1,4 +1,4 @@
-import { Tooltip } from 'components/Tooltip';
+import { Tooltip } from 'components/Primitives/Tooltip';
 import { useTldrawApp } from 'hooks/useTldrawApp';
 import * as React from 'react';
 import { breakpoints } from 'utils/breakpoints';
@@ -95,7 +95,7 @@ export const StyledToolButtonInner = styled('div', {
   height: '100%',
   width: '100%',
   backgroundColor: '$panel',
-  borderRadius: '$2',
+  borderRadius: '9999px',
   margin: '0',
   display: 'flex',
   alignItems: 'center',
@@ -122,8 +122,8 @@ export const StyledToolButton = styled('button', {
   outline: 'none',
   cursor: 'pointer',
   pointerEvents: 'all',
-  height: '40px',
-  width: '40px',
+  height: '27px',
+  width: '27px',
   border: '1px solid $panel',
   '-webkit-tap-highlight-color': 'transparent',
   'tap-highlight-color': 'transparent',
@@ -186,11 +186,12 @@ export const StyledToolButton = styled('button', {
       variant: 'primary',
       bp: 'mobile',
       css: {
-        height: 40,
-        width: 36,
+        height: 27,
+        width: 27,
         [`& ${StyledToolButtonInner} > svg`]: {
-          width: 16,
-          height: 16,
+          width: 13,
+          height: 13,
+          color: '#5B5F80',
         },
       },
     },
@@ -198,11 +199,12 @@ export const StyledToolButton = styled('button', {
       variant: 'primary',
       bp: 'small',
       css: {
-        height: '44px',
-        width: '44px',
+        height: '27px',
+        width: '27px',
         [`& ${StyledToolButtonInner} > svg`]: {
-          width: 20,
-          height: 20,
+          width: 13,
+          height: 13,
+          color: '#5B5F80',
         },
       },
     },
@@ -211,7 +213,6 @@ export const StyledToolButton = styled('button', {
       css: {
         [`${StyledToolButtonInner}`]: {
           backgroundColor: '$selected',
-          color: '$selectedContrast',
         },
       },
     },
