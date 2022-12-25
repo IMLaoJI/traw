@@ -1,6 +1,7 @@
 import { Tldraw, TldrawApp } from '@tldraw/tldraw';
 import React, { useCallback, useEffect } from 'react';
 import { useTrawApp } from 'hooks';
+import { ToolsPanel } from 'components/ToolsPanel';
 
 export const Editor = () => {
   const TrawApp = useTrawApp();
@@ -31,7 +32,17 @@ export const Editor = () => {
 
   return (
     <div id="traw-editor" className="flex-1 relative" ref={slideDomRef}>
-      <Tldraw onMount={handleMount} showMultiplayerMenu={false} darkMode={false} showMenu={false} showPages={false} />
+      <Tldraw
+        onMount={handleMount}
+        showMultiplayerMenu={false}
+        darkMode={false}
+        showMenu={false}
+        showPages={false}
+        showUI={false}
+      />
+      <div>
+        <ToolsPanel />
+      </div>
     </div>
   );
 };
