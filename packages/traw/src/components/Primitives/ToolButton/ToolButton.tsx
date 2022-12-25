@@ -69,13 +69,16 @@ export function ToolButtonWithTooltip({ label, kbd, isLocked, ...rest }: ToolBut
 
   const handleDoubleClick = React.useCallback(() => {
     app.toggleToolLock();
-  }, []);
+  }, [app]);
 
-  const handleKeyDown = React.useCallback((e: React.KeyboardEvent<HTMLButtonElement>) => {
-    if (e.key === ' ' && app.isForcePanning) {
-      e.preventDefault();
-    }
-  }, []);
+  const handleKeyDown = React.useCallback(
+    (e: React.KeyboardEvent<HTMLButtonElement>) => {
+      if (e.key === ' ' && app.isForcePanning) {
+        e.preventDefault();
+      }
+    },
+    [app],
+  );
 
   return (
     <Tooltip label={label[0].toUpperCase() + label.slice(1)} kbd={kbd}>

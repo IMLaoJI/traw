@@ -36,23 +36,26 @@ export const ShapesMenu = React.memo(function ShapesMenu({ activeTool, isToolLoc
     if (shapeShapes.includes(activeTool as ShapeShape) && lastActiveTool !== activeTool) {
       setLastActiveTool(activeTool as ShapeShape);
     }
-  }, [activeTool]);
+  }, [activeTool, lastActiveTool]);
 
   const selectShapeTool = React.useCallback(() => {
     app.selectTool(lastActiveTool);
-  }, [activeTool, app]);
+  }, [app, lastActiveTool]);
 
   const handleDoubleClick = React.useCallback(() => {
     app.toggleToolLock();
   }, [app]);
 
-  const handleKeyDown = React.useCallback((e: React.KeyboardEvent<HTMLButtonElement>) => {
-    if (e.key === ' ') {
-      if (app.shiftKey) {
-        e.preventDefault();
+  const handleKeyDown = React.useCallback(
+    (e: React.KeyboardEvent<HTMLButtonElement>) => {
+      if (e.key === ' ') {
+        if (app.shiftKey) {
+          e.preventDefault();
+        }
       }
-    }
-  }, []);
+    },
+    [app.shiftKey],
+  );
 
   const isActive = shapeShapes.includes(activeTool as ShapeShape);
   const contentSide = dockPosition === 'bottom' || dockPosition === 'top' ? 'top' : dockPosition;
