@@ -4,7 +4,6 @@ import { TDSnapshot } from '@tldraw/tldraw';
 import { useTldrawApp } from 'hooks/useTldrawApp';
 import * as React from 'react';
 import { breakpoints } from 'utils/breakpoints';
-import { BackToContent } from './BackToContent';
 import { PrimaryTools } from './PrimaryTools';
 import { StatusBar } from './StatusBar';
 
@@ -24,7 +23,6 @@ export const ToolsPanel = React.memo(function ToolsPanel({ onBlur }: ToolsPanelP
     <>
       <StyledToolsPanelContainer side={side} onBlur={onBlur} bp={breakpoints} debug={isDebugMode}>
         <StyledCenterWrap id="TD-Tools">
-          <BackToContent />
           <StyledPrimaryTools orientation={side === 'bottom' || side === 'top' ? 'horizontal' : 'vertical'}>
             <PrimaryTools />
           </StyledPrimaryTools>

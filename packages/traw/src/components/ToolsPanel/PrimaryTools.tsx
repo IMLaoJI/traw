@@ -130,11 +130,7 @@ export const PrimaryTools = React.memo(function PrimaryTools() {
       <ToolButtonWithTooltip label={'image'} onClick={uploadMedias} id="TD-PrimaryTools-Image">
         <ImageIcon />
       </ToolButtonWithTooltip>
-      <Separator.Root
-        className="SeparatorRoot mx-2 my-1 w-[2px]  bg-traw-grey-dark"
-        decorative
-        orientation="vertical"
-      />
+      <Separator.Root className="SeparatorRoot mx-2 my-1 w-[2px]  bg-traw-grey" decorative orientation="vertical" />
       <ToolButtonWithTooltip label={'undo'} onClick={undo} id="TD-PrimaryTools-Undo">
         <SvgUndo />
       </ToolButtonWithTooltip>
