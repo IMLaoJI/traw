@@ -138,7 +138,7 @@ const StyledPanel = styled('div', {
   display: 'flex',
   width: '100%',
   flexDirection: 'column',
-  gap: '$3',
+  gap: '15px',
   overflowY: 'hidden',
   backgroundColor: '#fff',
   borderRadius: 15,
@@ -156,6 +156,6 @@ const StyledSlideList = styled('ul', {
   height: '100%',
   display: 'flex',
   flexDirection: 'column',
-  gap: '$3',
+  gap: '10px',
   overflow: 'auto',
 });
