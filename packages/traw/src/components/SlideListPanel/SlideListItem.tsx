@@ -2,7 +2,7 @@ import { TDPage } from '@tldraw/tldraw';
 import classNames from 'classnames';
 import React from 'react';
 import SvgViewer from '../../icons/viewer';
-import SlideThumbnail from '../Slide/SlideThumbnail';
+import SlideThumbnail from './SlideThumbnail';
 
 export enum SlideListItemState {
   DEFAULT = 'DEFAULT',
@@ -36,10 +36,7 @@ const SlideListItem = ({ page, index, viewerCount, selectState, size, setRef, ha
       }}
       key={page.id}
       onClick={handleSelectSlide}
-      className={classNames(
-        `flex aspect-video  relative cursor-pointer rounded-xl ${slideSizes[size]}
-        `,
-      )}
+      className={classNames(`flex aspect-video  relative cursor-pointer rounded-xl ${slideSizes[size]}`)}
     >
       <div
         className={classNames(
