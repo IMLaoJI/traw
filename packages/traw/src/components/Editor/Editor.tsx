@@ -1,13 +1,13 @@
-import { shapeUtils, TDDocument, TDStatus, TLDR, TldrawApp } from '@tldraw/tldraw';
-import React, { useCallback, useEffect } from 'react';
-import { useKeyboardShortcuts, useTrawApp } from 'hooks';
+import { shapeUtils, TDDocument, TDStatus, TLDR } from '@tldraw/tldraw';
 import { ToolsPanel } from 'components/ToolsPanel';
+import { useKeyboardShortcuts, useTrawApp } from 'hooks';
+import React, { useCallback, useEffect } from 'react';
 
+import { styled } from '@stitches/react';
 import { CursorComponent, Renderer } from '@tldraw/core';
-import { ErrorBoundary as _Errorboundary } from 'react-error-boundary';
 import { TDCallbacks } from '@tldraw/tldraw/dist/state';
 import { useTldrawApp } from 'hooks/useTldrawApp';
-import { styled } from '@stitches/react';
+import { ErrorBoundary as _Errorboundary } from 'react-error-boundary';
 
 const ErrorBoundary = _Errorboundary as any;
 

@@ -16,8 +16,7 @@ import { TDShapeType, TDSnapshot } from '@tldraw/tldraw';
 import { Panel } from 'components/Primitives/Panel';
 import { ToolButtonWithTooltip } from 'components/Primitives/ToolButton';
 import { EraserIcon } from 'icons/eraser';
-import SvgRedo from 'icons/redo';
-import SvgUndo, { UndoIcon } from 'icons/undo';
+import { UndoIcon } from 'icons/undo';
 import { styled } from 'stitches.config';
 import { ShapesMenu } from './ShapesMenu';
 
