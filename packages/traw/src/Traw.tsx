@@ -61,7 +61,7 @@ const Traw = ({ app }: TrawProps) => {
   // Use the `key` to ensure that new selector hooks are made when the id changes
   return (
     <TrawContext.Provider value={trawApp}>
-      <div id="traw" data-testid="traw">
+      <div id="traw" data-testid="traw" className="flex flex-1 flex-col overflow-hidden ">
         <Slide />
         <StyledUI>
           <div className="absolute w-full">
