@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { useTrawApp } from 'hooks';
 import { TrawSnapshot } from 'types';
-import BlockItem from 'components/Panel/BlockItem';
+import BlockItem from 'components/BlockPanel/BlockItem';
 
 export interface BlockListProps {
   handlePlayClick: (blockId: string) => void;

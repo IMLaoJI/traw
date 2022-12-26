@@ -1,12 +1,13 @@
 import { HeaderPanel } from 'components/HeaderPanel';
 import { SlideListPanel } from 'components/SlideListPanel';
 import { ToolsPanel } from 'components/ToolsPanel';
+import { TopPanel } from 'components/TopPanel';
 import { TrawContext } from 'hooks';
 import React, { useCallback, useEffect } from 'react';
 import { TrawApp } from 'state';
 import { styled } from 'stitches.config';
 import { TEST_DOCUMENT_1, TEST_USER_1 } from 'utils/testUtil';
-import { Panel, Slide } from './components';
+import { BlockPanel, Slide } from './components';
 import './index.css';
 
 export interface TrawProps {
@@ -66,19 +67,14 @@ const Traw = ({ app }: TrawProps) => {
         <Slide />
         <StyledUI>
           <HeaderPanel />
-          {/* <Header
-              title={'Test Document'}
-              canEdit={true}
-              handleChangeTitle={() => null}
-              Room={<div />}
-              isRecording={isRecording}
-              onClickStartRecording={startRecording}
-              onClickStopRecording={stopRecording}
-            /> */}
-          <Panel handlePlayClick={handlePlayClick} />
-          <div className="mt-[56px] w-auto h-full relative">
-            <SlideListPanel />
-          </div>
+          <TopPanel Room={<div />} />
+          <BlockPanel
+            handlePlayClick={handlePlayClick}
+            onClickStartRecording={startRecording}
+            onClickStopRecording={stopRecording}
+          />
+
+          <SlideListPanel />
           <ToolsPanel />
         </StyledUI>
       </div>
