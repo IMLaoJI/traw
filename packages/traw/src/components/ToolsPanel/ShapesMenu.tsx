@@ -5,6 +5,7 @@ import { Panel } from 'components/Primitives/Panel';
 import { ToolButton } from 'components/Primitives/ToolButton';
 import { Tooltip } from 'components/Primitives/Tooltip';
 import { useTldrawApp } from 'hooks/useTldrawApp';
+import { LineIcon } from 'icons/Line';
 import * as React from 'react';
 
 interface ShapesMenuProps {
@@ -20,7 +21,7 @@ const shapeShapeIcons = {
   [TDShapeType.Rectangle]: <SquareIcon />,
   [TDShapeType.Ellipse]: <CircleIcon />,
   [TDShapeType.Triangle]: <VercelLogoIcon />,
-  [TDShapeType.Line]: <VercelLogoIcon />,
+  [TDShapeType.Line]: <LineIcon />,
 };
 
 const dockPositionState = (s: TDSnapshot) => s.settings.dockPosition;
@@ -79,7 +80,7 @@ export const ShapesMenu = React.memo(function ShapesMenu({ activeTool, isToolLoc
       <DropdownMenu.Content asChild side={contentSide} sideOffset={12}>
         <Panel side="center" style={{ flexDirection: panelStyle }}>
           {shapeShapes.map((shape, i) => (
-            <Tooltip key={shape} label={'shape'} kbd={(4 + i).toString()} id={`TD-PrimaryTools-Shapes-${shape}`}>
+            <Tooltip key={shape} label={shape} kbd={(4 + i).toString()} id={`TD-PrimaryTools-Shapes-${shape}`}>
               <DropdownMenu.Item asChild>
                 <ToolButton
                   variant="primary"

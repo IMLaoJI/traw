@@ -11,7 +11,7 @@ export interface ToolButtonProps {
   disabled?: boolean;
   isActive?: boolean;
   isToolLocked?: boolean;
-  variant?: 'icon' | 'text' | 'circle' | 'primary';
+  variant?: 'icon' | 'text' | 'circle' | 'primary' | 'undo';
   children: React.ReactNode;
   id?: string;
   onKeyDown?: React.KeyboardEventHandler<HTMLButtonElement>;
@@ -84,7 +84,6 @@ export function ToolButtonWithTooltip({ label, kbd, isLocked, ...rest }: ToolBut
     <Tooltip label={label[0].toUpperCase() + label.slice(1)} kbd={kbd}>
       <ToolButton
         {...rest}
-        variant="primary"
         isToolLocked={isLocked && rest.isActive}
         onDoubleClick={handleDoubleClick}
         onKeyDown={handleKeyDown}
@@ -170,6 +169,13 @@ export const StyledToolButton = styled('button', {
         [`& ${StyledToolButtonInner} > svg`]: {
           width: 14,
           height: 14,
+        },
+      },
+      undo: {
+        [`& ${StyledToolButtonInner} > svg`]: {
+          width: 20,
+          height: 20,
+          color: '#5B5F80',
         },
       },
     },
