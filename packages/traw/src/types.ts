@@ -84,6 +84,8 @@ export type TrawUser = {
 export type TrawDocument = {
   id: string;
   name: string;
+  channelName: string;
+  canEdit: boolean;
 };
 
 export enum TRBlockType {
