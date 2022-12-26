@@ -3,6 +3,7 @@ import debounce from 'lodash/debounce';
 import { nanoid } from 'nanoid';
 import {
   ActionType,
+  PlayModeType,
   TDCamera,
   TrawSnapshot,
   TRBlock,
@@ -23,6 +24,7 @@ import { TrawAppOptions } from './TrawAppOptions';
 import { TrawRecorder } from 'recorder/TrawRecorder';
 import { Howl } from 'howler';
 import { encodeFile } from 'utils/base64';
+import { isChrome } from 'utils/common';
 
 export const convertCameraTRtoTD = (camera: TRCamera, viewport: TRViewport): TDCamera => {
   const ratio = viewport.width / viewport.height;
@@ -107,6 +109,8 @@ export class TrawApp {
    */
   private _state: TrawSnapshot;
 
+  protected pointer = -1;
+
   /**
    * Event handlers
    * @private
@@ -139,7 +143,21 @@ export class TrawApp {
   constructor({ user, document, records = [] }: TrawAppOptions) {
     this.editorId = user.id;
 
+    const recordMap: Record<string, TRRecord> = {};
+    records.forEach((record) => {
+      recordMap[record.id] = record;
+    });
+
     this._state = {
+      player: {
+        mode: PlayModeType.EDIT,
+        isLimit: true,
+        start: 0,
+        end: Infinity,
+        current: 0,
+        volume: 1,
+        loop: false,
+      },
       viewport: {
         width: 0,
         height: 0,
@@ -160,7 +178,7 @@ export class TrawApp {
       },
       user,
       document,
-      records: {},
+      records: recordMap,
       blocks:
         process.env.NODE_ENV === 'development'
           ? {
@@ -214,10 +232,6 @@ export class TrawApp {
 
     this.registerApp(this.app);
 
-    const recordMap: Record<string, TRRecord> = {};
-    records.forEach((record) => {
-      recordMap[record.id] = record;
-    });
     this.applyRecordsFromFirst();
 
     if (TrawRecorder.isSupported()) {
@@ -418,6 +432,7 @@ export class TrawApp {
   };
 
   handleCameraRecord = debounce((camera: TRCamera) => {
+    const document = this.store.getState().document;
     const currentPageId = this.app.appState.currentPageId;
     // create record
     const record: TRRecord = {
@@ -430,7 +445,7 @@ export class TrawApp {
       data: {
         camera,
       },
-      origin: '',
+      origin: document.id,
     };
 
     const createRecordsEvent: CreateRecordsEvent = {
@@ -443,6 +458,7 @@ export class TrawApp {
         state.records[record.id] = record;
       }),
     );
+    this._actionStartTime = 0;
   }, 400);
 
   selectTool(tool: TDToolType) {
@@ -744,6 +760,7 @@ export class TrawApp {
       });
 
     this.removeDefaultPage();
+    this.pointer += records.length;
     if (isCameraChanged) {
       this.syncCamera();
     }
@@ -751,10 +768,14 @@ export class TrawApp {
 
   private removeDefaultPage = () => {
     if (this.app.document.pageStates.page && Object.keys(this.app.document.pageStates).length > 1) {
+      if (this.app.state.appState.currentPageId === 'page') {
+        this.app.patchState({
+          appState: {
+            currentPageId: Object.keys(this.app.document.pageStates).filter((p) => p !== 'page')[0],
+          },
+        });
+      }
       this.app.patchState({
-        appState: {
-          currentPageId: Object.keys(this.app.document.pageStates).filter((p) => p !== 'page')[0],
-        },
         document: {
           pageStates: {
             page: undefined,
@@ -870,12 +891,29 @@ export class TrawApp {
     });
   };
 
+  private getPlayableVoice = (block: TRBlock | undefined): TRBlockVoice | undefined => {
+    if (!block || block.voices.length === 0) return undefined;
+
+    const webmVoice = block.voices.find(({ ext }) => ext === 'webm');
+    const mp4Voice = block.voices.find(({ ext }) => ext === 'mp4');
+
+    if (isChrome()) {
+      return webmVoice ?? mp4Voice;
+    } else {
+      return mp4Voice;
+    }
+  };
+
   public playBlock(blockId: string) {
     const block = this.store.getState().blocks[blockId || ''];
     if (!block) return;
     if (block.voices.length === 0) return;
 
-    const playableVoice = block.voices[0];
+    const playableVoice = this.getPlayableVoice(block);
+    if (!playableVoice) return;
+
+    this.app.resetDocument();
+    this.pointer = -1;
     // TODO (Changje, 2022-12-24) - Reimplement it to support preloading
     const howl = new Howl({
       src: [playableVoice.url],
@@ -883,7 +921,69 @@ export class TrawApp {
     });
     howl.seek(block.voiceStart / 1000);
     howl.play();
+
+    this.store.setState(
+      produce((state) => {
+        state.player = {
+          ...state.player,
+          targetBlockId: blockId,
+          mode: PlayModeType.PLAYING,
+          start: Date.now(),
+          end: Date.now() + (block.voiceEnd - block.voiceStart),
+        };
+      }),
+    );
+    this._handlePlay();
   }
+
+  private playInterval: number | undefined;
+
+  private stopPlay = () => {
+    if (this.playInterval) cancelAnimationFrame(this.playInterval);
+
+    this.store.setState(
+      produce((state) => {
+        state.player = {
+          mode: PlayModeType.EDIT,
+          isLimit: true,
+          start: 0,
+          end: Infinity,
+          current: 0,
+          volume: 1,
+          loop: false,
+        };
+      }),
+    );
+
+    this.applyRecordsFromFirst();
+  };
+
+  private _handlePlay = () => {
+    const { player } = this.store.getState();
+    if (player.mode !== PlayModeType.PLAYING) {
+      if (this.playInterval) cancelAnimationFrame(this.playInterval);
+      return;
+    } else {
+      if (Date.now() > player.end) {
+        this.stopPlay();
+        return;
+      } else {
+        // update to current time
+        const fromBlockStart = Date.now() - player.start;
+        const targetBlock = this.store.getState().blocks[player.targetBlockId || ''];
+        if (!targetBlock) return;
+        const currentTime = targetBlock.time + fromBlockStart;
+        const records = Object.values(this.store.getState().records)
+          .sort((a, b) => a.start - b.start)
+          .filter((r) => r.start <= currentTime);
+        const afterPointer = records.length;
+        this.applyRecords(records.slice(this.pointer + 1));
+        this.pointer = afterPointer - 1;
+
+        this.playInterval = requestAnimationFrame(this._handlePlay);
+      }
+    }
+  };
 
   /*
    * Event handlers
