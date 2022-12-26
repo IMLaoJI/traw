@@ -115,7 +115,7 @@ const StyledSlideListPanelContainer = styled('div', {
     open: {
       true: {
         maxHeight: '100%',
-        paddingBottom: 30,
+        paddingBottom: 80,
       },
       false: {
         maxHeight: 50,

@@ -1,8 +1,11 @@
+import { SlideListPanel } from 'components/SlideListPanel';
+import { ToolsPanel } from 'components/ToolsPanel';
 import { TrawContext } from 'hooks';
 import React, { useCallback, useEffect } from 'react';
 import { TrawApp } from 'state';
+import { styled } from 'stitches.config';
 import { TEST_DOCUMENT_1, TEST_USER_1 } from 'utils/testUtil';
-import { Slide } from './components';
+import { Header, Panel, Slide } from './components';
 import './index.css';
 
 export interface TrawProps {
@@ -59,7 +62,8 @@ const Traw = ({ app }: TrawProps) => {
   return (
     <TrawContext.Provider value={trawApp}>
       <Slide />
-      {/* <div className="h-14 m-2 mb-0">
+      <StyledUI>
+        <div className="absolute w-full">
           <Header
             title={'Test Document'}
             canEdit={true}
@@ -70,17 +74,32 @@ const Traw = ({ app }: TrawProps) => {
             onClickStopRecording={stopRecording}
           />
         </div>
-
-        <div className="flex flex-1 flex-col sm:flex-row">
-          <div className="flex flex-1 ">
-            <Slide />
-          </div>
-          <div className="flex basis-[269px] m-2 sm:ml-0  ">
-            <Panel handlePlayClick={handlePlayClick} />
-          </div>
-        </div> */}
+        <Panel handlePlayClick={handlePlayClick} />
+        <div className="mt-[56px] w-auto h-full relative">
+          <SlideListPanel />
+        </div>
+        <ToolsPanel />
+      </StyledUI>
     </TrawContext.Provider>
   );
 };
 
 export { Traw };
+
+const StyledUI = styled('div', {
+  position: 'absolute',
+  overflow: 'hidden',
+  top: 0,
+  left: 0,
+  height: '100%',
+  width: '100%',
+  padding: '8px 8px 0 8px',
+  display: 'flex',
+  alignItems: 'flex-start',
+  justifyContent: 'flex-start',
+  pointerEvents: 'none',
+  zIndex: 2,
+  '& > *': {
+    pointerEvents: 'all',
+  },
+});
