@@ -1,4 +1,11 @@
-import { ArrowTopRightIcon, ImageIcon } from '@radix-ui/react-icons';
+import {
+  ArrowTopRightIcon,
+  CursorArrowIcon,
+  ImageIcon,
+  Pencil1Icon,
+  Pencil2Icon,
+  TextIcon,
+} from '@radix-ui/react-icons';
 import * as React from 'react';
 import { breakpoints } from 'utils/breakpoints';
 
@@ -6,17 +13,13 @@ import * as Separator from '@radix-ui/react-separator';
 import { useTldrawApp } from 'hooks/useTldrawApp';
 
 import { TDShapeType, TDSnapshot } from '@tldraw/tldraw';
+import { Panel } from 'components/Primitives/Panel';
 import { ToolButtonWithTooltip } from 'components/Primitives/ToolButton';
-import SvgEraser from 'icons/eraser';
-import SvgPencil from 'icons/pencil';
+import { EraserIcon } from 'icons/eraser';
 import SvgRedo from 'icons/redo';
-import SvgSelector from 'icons/selector';
-import SvgText from 'icons/Text';
-import SvgUndo from 'icons/undo';
+import SvgUndo, { UndoIcon } from 'icons/undo';
 import { styled } from 'stitches.config';
 import { ShapesMenu } from './ShapesMenu';
-import { Panel } from 'components/Primitives/Panel';
-import SvgShape from 'icons/shape';
 
 const activeToolSelector = (s: TDSnapshot) => s.appState.activeTool;
 const toolLockedSelector = (s: TDSnapshot) => s.appState.isToolLocked;
@@ -71,34 +74,38 @@ export const PrimaryTools = React.memo(function PrimaryTools() {
   return (
     <StyledPanel side="center" id="TD-PrimaryTools" style={{ flexDirection: panelStyle }} bp={breakpoints}>
       <ToolButtonWithTooltip
+        variant="primary"
         kbd={'1'}
         label={'select'}
         onClick={selectSelectTool}
         isActive={activeTool === 'select'}
         id="TD-PrimaryTools-CursorArrow"
       >
-        <SvgSelector />
+        <CursorArrowIcon />
       </ToolButtonWithTooltip>
       <ToolButtonWithTooltip
+        variant="primary"
         kbd={'2'}
         label={'draw'}
         onClick={selectDrawTool}
         isActive={activeTool === TDShapeType.Draw}
         id="TD-PrimaryTools-Pencil"
       >
-        <SvgPencil />
+        <Pencil1Icon />
       </ToolButtonWithTooltip>
       <ToolButtonWithTooltip
+        variant="primary"
         kbd={'3'}
         label={'eraser'}
         onClick={selectEraseTool}
         isActive={activeTool === 'erase'}
         id="TD-PrimaryTools-Eraser"
       >
-        <SvgEraser />
+        <EraserIcon />
       </ToolButtonWithTooltip>
       <ShapesMenu activeTool={activeTool} isToolLocked={isToolLocked} />
       <ToolButtonWithTooltip
+        variant="primary"
         kbd={'8'}
         label={'arrow'}
         onClick={selectArrowTool}
@@ -109,6 +116,7 @@ export const PrimaryTools = React.memo(function PrimaryTools() {
         <ArrowTopRightIcon />
       </ToolButtonWithTooltip>
       <ToolButtonWithTooltip
+        variant="primary"
         kbd={'9'}
         label={'text'}
         onClick={selectTextTool}
@@ -116,26 +124,27 @@ export const PrimaryTools = React.memo(function PrimaryTools() {
         isActive={activeTool === TDShapeType.Text}
         id="TD-PrimaryTools-Text"
       >
-        <SvgText />
+        <TextIcon />
       </ToolButtonWithTooltip>
       <ToolButtonWithTooltip
+        variant="primary"
         kbd={'0'}
         label={'sticky'}
         onClick={selectStickyTool}
         isActive={activeTool === TDShapeType.Sticky}
         id="TD-PrimaryTools-Pencil2"
       >
-        <SvgShape />
+        <Pencil2Icon />
       </ToolButtonWithTooltip>
-      <ToolButtonWithTooltip label={'image'} onClick={uploadMedias} id="TD-PrimaryTools-Image">
+      <ToolButtonWithTooltip variant="primary" label={'image'} onClick={uploadMedias} id="TD-PrimaryTools-Image">
         <ImageIcon />
       </ToolButtonWithTooltip>
       <Separator.Root className="SeparatorRoot mx-2 my-1 w-[2px]  bg-traw-grey" decorative orientation="vertical" />
-      <ToolButtonWithTooltip label={'undo'} onClick={undo} id="TD-PrimaryTools-Undo">
-        <SvgUndo />
+      <ToolButtonWithTooltip label={'undo'} onClick={undo} id="TD-PrimaryTools-Undo" variant="undo">
+        <UndoIcon />
       </ToolButtonWithTooltip>
-      <ToolButtonWithTooltip label={'redo'} onClick={redo} id="TD-PrimaryTools-Redo">
-        <SvgRedo />
+      <ToolButtonWithTooltip label={'redo'} onClick={redo} id="TD-PrimaryTools-Redo" variant="undo">
+        <UndoIcon flipHorizontal />
       </ToolButtonWithTooltip>
     </StyledPanel>
   );
