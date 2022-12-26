@@ -12,7 +12,9 @@ export const TEST_USER_2: TrawUser = {
 
 export const TEST_DOCUMENT_1: TrawDocument = {
   id: 'document-1',
-  name: 'Test Document 1',
+  name: 'Test Document 1 ',
+  channelName: 'Channel',
+  canEdit: true,
 };
 
 export const EXAMPLE_RECORDS: TRRecord[] = [

@@ -1,40 +1,15 @@
-import React, { ReactNode } from 'react';
-import Logo from '../../icons/Logo';
-import Title from '../HeaderPanel/Title';
+import React from 'react';
 
-export interface HeaderProps {
-  // Title
-  title: string;
-  canEdit: boolean;
-  handleChangeTitle: (name: string) => void;
-
+export interface PanelHeaderProps {
   isRecording?: boolean;
   onClickStartRecording?: () => void;
   onClickStopRecording?: () => void;
-
-  // Room
-  Room: ReactNode;
 }
 
-export const Header = ({
-  title,
-  canEdit,
-  handleChangeTitle,
-  Room,
-  isRecording,
-  onClickStartRecording,
-  onClickStopRecording,
-}: HeaderProps) => {
+export const PanelHeader = ({ isRecording, onClickStartRecording, onClickStopRecording }: PanelHeaderProps) => {
   return (
-    <div className="flex flex-row h-14 pl-3 bg-white items-center rounded-2xl shadow-[0_10px_60px_rgba(189,188,249,0.5)]">
-      <button className="flex h-9 w-9 rounded-full bg-white items-center justify-center text-xl hover:bg-traw-sky">
-        <Logo />
-      </button>
-      <div className="ml-2">
-        <Title title={title} canEdit={canEdit} handleChangeTitle={handleChangeTitle} />
-      </div>
-      <div className="flex flex-grow justify-end gap-1 px-4">
-        {Room}
+    <header className="flex mt-2 w-full gap-2 pl-2 items-center">
+      <div>
         {isRecording ? (
           <button
             className="bg-red-500 hover:bg-red-600 text-white rounded-full h-8 px-3 flex items-center justify-center gap-2"
@@ -73,8 +48,8 @@ export const Header = ({
           </button>
         )}
       </div>
-    </div>
+    </header>
   );
 };
 
-export default Header;
+export default PanelHeader;

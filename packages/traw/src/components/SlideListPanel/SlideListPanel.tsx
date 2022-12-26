@@ -86,7 +86,7 @@ export const SlideListPanel = React.memo(function SlideListPanel() {
 
 const StyledSlideListPanelContainer = styled('div', {
   position: 'absolute',
-  top: 11,
+  top: 71,
   left: 16,
   minHeight: 0,
   width: 125,
@@ -100,7 +100,7 @@ const StyledSlideListPanelContainer = styled('div', {
   borderRadius: 15,
   transition: 'all 0.15s  cubic-bezier(0.4, 0, 0.2, 1)',
   fontSize: 13,
-  height: '100%',
+  height: 'calc(100vh - 91px)',
 
   '& > div > *': {
     pointerEvents: 'all',
@@ -115,7 +115,6 @@ const StyledSlideListPanelContainer = styled('div', {
     open: {
       true: {
         maxHeight: '100%',
-        paddingBottom: 80,
       },
       false: {
         maxHeight: 50,
