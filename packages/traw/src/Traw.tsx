@@ -61,25 +61,27 @@ const Traw = ({ app }: TrawProps) => {
   // Use the `key` to ensure that new selector hooks are made when the id changes
   return (
     <TrawContext.Provider value={trawApp}>
-      <Slide />
-      <StyledUI>
-        <div className="absolute w-full">
-          <Header
-            title={'Test Document'}
-            canEdit={true}
-            handleChangeTitle={() => null}
-            Room={<div />}
-            isRecording={isRecording}
-            onClickStartRecording={startRecording}
-            onClickStopRecording={stopRecording}
-          />
-        </div>
-        <Panel handlePlayClick={handlePlayClick} />
-        <div className="mt-[56px] w-auto h-full relative">
-          <SlideListPanel />
-        </div>
-        <ToolsPanel />
-      </StyledUI>
+      <div id="traw" data-testid="traw">
+        <Slide />
+        <StyledUI>
+          <div className="absolute w-full">
+            <Header
+              title={'Test Document'}
+              canEdit={true}
+              handleChangeTitle={() => null}
+              Room={<div />}
+              isRecording={isRecording}
+              onClickStartRecording={startRecording}
+              onClickStopRecording={stopRecording}
+            />
+          </div>
+          <Panel handlePlayClick={handlePlayClick} />
+          <div className="mt-[56px] w-auto h-full relative">
+            <SlideListPanel />
+          </div>
+          <ToolsPanel />
+        </StyledUI>
+      </div>
     </TrawContext.Provider>
   );
 };
