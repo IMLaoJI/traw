@@ -2,7 +2,7 @@ import { TDPage } from '@tldraw/tldraw';
 import classNames from 'classnames';
 import React from 'react';
 import SvgViewer from '../../icons/viewer';
-import SlideThumbnail from './SlideThumbnail';
+import SlideThumbnail from '../Slide/SlideThumbnail';
 
 export enum SlideListItemState {
   DEFAULT = 'DEFAULT',
@@ -15,14 +15,13 @@ interface SlideListItemProps {
   index: number;
   viewerCount: number;
   selectState: SlideListItemState;
-  size: 'list' | 'grid';
-  setRef?: (ref: HTMLDivElement) => void;
+  size: 'list';
+  setRef?: (ref: HTMLLIElement) => void;
   handleClick: (slideId: string) => void;
 }
 
 const slideSizes = {
-  list: 'basis-[112px] sm:basis-[133px]',
-  grid: 'basis-[100%] sm:basis-[240px]',
+  list: 'w-[105px] sm:w-[105px]',
 };
 
 const SlideListItem = ({ page, index, viewerCount, selectState, size, setRef, handleClick }: SlideListItemProps) => {
@@ -31,15 +30,14 @@ const SlideListItem = ({ page, index, viewerCount, selectState, size, setRef, ha
   };
 
   return (
-    <div
-      ref={(el: HTMLDivElement) => {
+    <li
+      ref={(el: HTMLLIElement) => {
         setRef && setRef(el);
       }}
       key={page.id}
       onClick={handleSelectSlide}
       className={classNames(
-        `flex aspect-video rounded-2xl relative cursor-pointer grow-0 shrink-0
-        ${slideSizes[size]}
+        `flex aspect-video  relative cursor-pointer rounded-xl ${slideSizes[size]}
         `,
       )}
     >
@@ -69,7 +67,7 @@ const SlideListItem = ({ page, index, viewerCount, selectState, size, setRef, ha
         <div className="ml-auto text-[10px] text-traw-grey-100 pr-2 pb-1">{index}</div>
       </div>
       <SlideThumbnail page={page} />
-    </div>
+    </li>
   );
 };
 

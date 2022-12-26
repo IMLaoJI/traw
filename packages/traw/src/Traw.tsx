@@ -1,9 +1,9 @@
-import React, { useCallback, useEffect } from 'react';
-import { Header, Panel, Slide } from './components';
 import { TrawContext } from 'hooks';
-import './index.css';
+import React, { useCallback, useEffect } from 'react';
 import { TrawApp } from 'state';
 import { TEST_DOCUMENT_1, TEST_USER_1 } from 'utils/testUtil';
+import { Slide } from './components';
+import './index.css';
 
 export interface TrawProps {
   app?: TrawApp;
@@ -58,8 +58,8 @@ const Traw = ({ app }: TrawProps) => {
   // Use the `key` to ensure that new selector hooks are made when the id changes
   return (
     <TrawContext.Provider value={trawApp}>
-      <div id="traw" data-testid="traw" className="flex flex-1 flex-col overflow-hidden bg-traw-sky">
-        <div className="h-14 m-2 mb-0">
+      <Slide />
+      {/* <div className="h-14 m-2 mb-0">
           <Header
             title={'Test Document'}
             canEdit={true}
@@ -78,8 +78,7 @@ const Traw = ({ app }: TrawProps) => {
           <div className="flex basis-[269px] m-2 sm:ml-0  ">
             <Panel handlePlayClick={handlePlayClick} />
           </div>
-        </div>
-      </div>
+        </div> */}
     </TrawContext.Provider>
   );
 };

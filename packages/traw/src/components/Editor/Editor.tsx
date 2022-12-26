@@ -8,6 +8,8 @@ import { CursorComponent, Renderer } from '@tldraw/core';
 import { TDCallbacks } from '@tldraw/tldraw/dist/state';
 import { useTldrawApp } from 'hooks/useTldrawApp';
 import { ErrorBoundary as _Errorboundary } from 'react-error-boundary';
+import { SlideListPanel } from 'components/SlideListPanel';
+import { Panel } from 'components/Panel';
 
 const ErrorBoundary = _Errorboundary as any;
 
@@ -377,6 +379,11 @@ const InnerTldraw = React.memo(function InnerTldraw({ id, autofocus, components,
           onDrop={app.onDrop}
         />
       </ErrorBoundary>
+      <StyledUI>
+        <SlideListPanel />
+        <ToolsPanel />
+      </StyledUI>
+
       {/* </ContextMenu> */}
     </StyledLayout>
   );
@@ -401,6 +408,7 @@ const StyledLayout = styled('div', {
     height: '100%',
     width: '100%',
     zIndex: 1,
+    backgroundColor: '$canvas',
   },
 
   '& input, textarea, button, select, label, button': {
@@ -408,6 +416,23 @@ const StyledLayout = styled('div', {
     webkitUserSelect: 'none',
     '-webkit-tap-highlight-color': 'transparent',
     'tap-highlight-color': 'transparent',
+  },
+});
+
+const StyledUI = styled('div', {
+  position: 'absolute',
+  top: 0,
+  left: 0,
+  height: '100%',
+  width: '100%',
+  padding: '8px 8px 0 8px',
+  display: 'flex',
+  alignItems: 'flex-start',
+  justifyContent: 'flex-start',
+  pointerEvents: 'none',
+  zIndex: 2,
+  '& > *': {
+    pointerEvents: 'all',
   },
 });
 
@@ -451,10 +476,9 @@ export const Editor = () => {
   }, [handleResize]);
 
   return (
-    <div id="traw-editor" className="flex-1 relative" ref={slideDomRef}>
-      <Tldraw showMultiplayerMenu={false} darkMode={false} showMenu={false} showPages={false} />
-      <div>
-        <ToolsPanel />
+    <div id="traw-editor" className="relative w-full h-full" ref={slideDomRef}>
+      <div className="absolute left-0 right-0 top-0 bottom-0 w-full h-full">
+        <Tldraw showMultiplayerMenu={false} darkMode={false} showMenu={false} showPages={false} />
       </div>
     </div>
   );
