@@ -75,6 +75,7 @@
     "webad-ts": "^1.0.1"
   },
   "dependencies": {
+    "@radix-ui/react-dropdown-menu": "^2.0.1",
     "@radix-ui/react-separator": "^1.0.1",
     "@radix-ui/react-tooltip": "^1.0.2",
     "@rollup/plugin-json": "^6.0.0",
