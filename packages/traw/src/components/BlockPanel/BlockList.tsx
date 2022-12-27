@@ -13,7 +13,6 @@ export default function BlockList({ handlePlayClick, onClickStartRecording, isRe
   const app = useTrawApp();
   const blocks = app.useStore((state: TrawSnapshot) => state.blocks);
   const document = app.useStore((state: TrawSnapshot) => state.document);
-  console.log(document);
 
   const sortedBlocks = useMemo(() => {
     return Object.values(blocks).sort((a, b) => a.time - b.time);

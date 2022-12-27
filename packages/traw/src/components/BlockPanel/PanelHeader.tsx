@@ -16,6 +16,7 @@ export const PanelHeader = ({ isRecording, isTalking, panelOpen, togglePanel }: 
       {!isRecording && (
         <>
           <div className="text-traw-grey-dark text-[13px] font-bold">음성 기록</div>
+          {/* Todo. total record time */}
           <div className="text-traw-grey-100 font-[12px]">00:00:00</div>
           <button onClick={togglePanel} className=" ml-auto">
             {panelOpen ? (
