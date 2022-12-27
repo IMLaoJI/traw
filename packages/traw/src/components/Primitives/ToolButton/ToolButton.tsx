@@ -136,9 +136,13 @@ export const StyledToolButton = styled('button', {
   variants: {
     variant: {
       primary: {
+        width: 30,
+        height: 30,
         marginTop: '0',
         [`& ${StyledToolButtonInner} > svg`]: {
           color: '#5B5F80',
+          width: 15,
+          height: 15,
         },
       },
       icon: {
@@ -152,7 +156,7 @@ export const StyledToolButton = styled('button', {
       },
       text: {
         width: 'auto',
-        height: '35px',
+        height: '38px',
         [`& ${StyledToolButtonInner}`]: {
           fontSize: '$2',
           color: '$text',
@@ -176,6 +180,8 @@ export const StyledToolButton = styled('button', {
         },
       },
       undo: {
+        width: 30,
+        height: 30,
         marginTop: 0,
         [`& ${StyledToolButtonInner} > svg`]: {
           width: 20,
@@ -196,54 +202,6 @@ export const StyledToolButton = styled('button', {
     },
   },
   compoundVariants: [
-    {
-      variant: 'primary',
-      bp: 'mobile',
-      css: {
-        height: 27,
-        width: 27,
-        [`& ${StyledToolButtonInner} > svg`]: {
-          width: 13,
-          height: 13,
-        },
-      },
-    },
-    {
-      variant: 'primary',
-      bp: 'small',
-      css: {
-        height: 27,
-        width: 27,
-        [`& ${StyledToolButtonInner} > svg`]: {
-          width: 17,
-          height: 17,
-        },
-      },
-    },
-    {
-      variant: 'undo',
-      bp: 'mobile',
-      css: {
-        height: 27,
-        width: 27,
-        [`& ${StyledToolButtonInner} > svg`]: {
-          height: 17,
-          width: 17,
-        },
-      },
-    },
-    {
-      variant: 'undo',
-      bp: 'small',
-      css: {
-        height: 27,
-        width: 27,
-        [`& ${StyledToolButtonInner} > svg`]: {
-          height: 22,
-          width: 22,
-        },
-      },
-    },
     {
       isActive: true,
       css: {
