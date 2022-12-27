@@ -67,12 +67,13 @@ const Traw = ({ app }: TrawProps) => {
         <Slide />
         <StyledUI>
           <HeaderPanel />
-          <TopPanel Room={<div />} />
-          <BlockPanel
-            handlePlayClick={handlePlayClick}
+          <TopPanel
+            Room={<div />}
+            isRecording={isRecording}
             onClickStartRecording={startRecording}
             onClickStopRecording={stopRecording}
           />
+          <BlockPanel handlePlayClick={handlePlayClick} onClickStartRecording={startRecording} />
 
           <SlideListPanel />
           <ToolsPanel />
