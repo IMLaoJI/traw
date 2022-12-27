@@ -133,11 +133,11 @@ export const StyleMenu = React.memo(function ColorMenu() {
           STYLE_KEYS.forEach((key) => {
             if (overrides.has(key)) return;
             if (commonStyle[key] === undefined) {
-              // eslint-disable-next-line
+              // @ts-ignore
               commonStyle[key] = shape.style[key];
             } else {
               if (commonStyle[key] === shape.style[key]) return;
-              // eslint-disable-next-line
+              // @ts-ignore
               commonStyle[key] = shape.style[key];
               overrides.add(key);
             }
