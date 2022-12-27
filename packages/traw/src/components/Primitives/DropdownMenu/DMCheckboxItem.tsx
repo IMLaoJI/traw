@@ -6,7 +6,7 @@ import { RowButtonProps, RowButton } from '../RowButton';
 interface DMCheckboxItemProps {
   checked: boolean;
   disabled?: boolean;
-  onCheckedChange: (isChecked: boolean) => void;
+  onCheckedChange: (isChecked: boolean | 'indeterminate') => void;
   children: React.ReactNode;
   variant?: RowButtonProps['variant'];
   kbd?: string;

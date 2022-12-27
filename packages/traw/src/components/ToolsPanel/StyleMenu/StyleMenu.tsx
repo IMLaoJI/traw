@@ -153,15 +153,15 @@ export const StyleMenu = React.memo(function ColorMenu() {
   }, [currentStyle, selectedIds, app]);
 
   const handleToggleKeepOpen = React.useCallback(
-    (checked: boolean) => {
-      app.setSetting('keepStyleMenuOpen', checked);
+    (checked: boolean | 'indeterminate') => {
+      app.setSetting('keepStyleMenuOpen', checked === true);
     },
     [app],
   );
 
   const handleToggleFilled = React.useCallback(
-    (checked: boolean) => {
-      app.style({ isFilled: checked });
+    (checked: boolean | 'indeterminate') => {
+      app.style({ isFilled: checked === true });
     },
     [app],
   );
