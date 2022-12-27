@@ -106,7 +106,6 @@ export const StyledToolButtonInner = styled('div', {
   color: 'inherit',
   userSelect: 'none',
   boxSizing: 'border-box',
-  border: '1px solid transparent',
   '-webkit-tap-highlight-color': 'transparent',
   'tap-highlight-color': 'transparent',
 });
@@ -124,9 +123,9 @@ export const StyledToolButton = styled('button', {
   outline: 'none',
   cursor: 'pointer',
   pointerEvents: 'all',
-  height: '27px',
-  width: '27px',
-  border: '1px solid $panel',
+  height: '37px',
+  width: '37px',
+  border: '1px solid transparent',
   '-webkit-tap-highlight-color': 'transparent',
   'tap-highlight-color': 'transparent',
 
@@ -138,6 +137,9 @@ export const StyledToolButton = styled('button', {
     variant: {
       primary: {
         marginTop: '0',
+        [`& ${StyledToolButtonInner} > svg`]: {
+          color: '#5B5F80',
+        },
       },
       icon: {
         [`& ${StyledToolButtonInner}`]: {
@@ -151,8 +153,9 @@ export const StyledToolButton = styled('button', {
       text: {
         width: 'auto',
         [`& ${StyledToolButtonInner}`]: {
-          fontSize: '$1',
-          padding: '0 $3',
+          fontSize: '$2',
+          color: '$text',
+          padding: '10px 15px',
           gap: '$3',
         },
       },
@@ -172,9 +175,8 @@ export const StyledToolButton = styled('button', {
         },
       },
       undo: {
+        marginTop: 0,
         [`& ${StyledToolButtonInner} > svg`]: {
-          width: 20,
-          height: 20,
           color: '#5B5F80',
         },
       },
@@ -200,7 +202,6 @@ export const StyledToolButton = styled('button', {
         [`& ${StyledToolButtonInner} > svg`]: {
           width: 13,
           height: 13,
-          color: '#5B5F80',
         },
       },
     },
@@ -208,12 +209,35 @@ export const StyledToolButton = styled('button', {
       variant: 'primary',
       bp: 'small',
       css: {
-        height: '27px',
-        width: '27px',
+        height: 37,
+        width: 37,
         [`& ${StyledToolButtonInner} > svg`]: {
-          width: 13,
-          height: 13,
-          color: '#5B5F80',
+          width: 17,
+          height: 17,
+        },
+      },
+    },
+    {
+      variant: 'undo',
+      bp: 'mobile',
+      css: {
+        height: 27,
+        width: 27,
+        [`& ${StyledToolButtonInner} > svg`]: {
+          height: 17,
+          width: 17,
+        },
+      },
+    },
+    {
+      variant: 'undo',
+      bp: 'small',
+      css: {
+        height: 37,
+        width: 37,
+        [`& ${StyledToolButtonInner} > svg`]: {
+          height: 22,
+          width: 22,
         },
       },
     },
