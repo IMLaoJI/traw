@@ -36,6 +36,18 @@
   src: url('static/fonts/nanum-square/NanumSquareB.ttf') format('truetype');
 }
 
+@font-face {
+  font-family: 'EliceDigitalBaeum';
+  font-weight: 400;
+  src: url('static/fonts/eliceDigitalBaeum/EliceDigitalBaeumOTF_Regular.otf') format('truetype');
+}
+
+@font-face {
+  font-family: 'EliceDigitalBaeum';
+  font-weight: 700;
+  src: url('static/fonts/eliceDigitalBaeum/EliceDigitalBaeumOTF_Bold.otf') format('truetype');
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #3c3c3c;

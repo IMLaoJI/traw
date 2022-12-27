@@ -17,7 +17,7 @@ const Template: ComponentStory<typeof Traw> = () => {
     new TrawApp({
       user: TEST_USER_1,
       document: TEST_DOCUMENT_1,
-      records: EXAMPLE_RECORDS,
+      records: undefined,
     }),
   );
 

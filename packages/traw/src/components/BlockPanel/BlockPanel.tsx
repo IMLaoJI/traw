@@ -7,11 +7,10 @@ import PanelHeader from './PanelHeader';
 
 export interface BlockPanelProps {
   handlePlayClick: (blockId?: string) => void;
-  onClickStartRecording?: () => void;
-  onClickStopRecording?: () => void;
+  onClickStartRecording: () => void;
 }
 
-export const BlockPanel = ({ handlePlayClick, onClickStartRecording, onClickStopRecording }: BlockPanelProps) => {
+export const BlockPanel = ({ handlePlayClick, onClickStartRecording }: BlockPanelProps) => {
   const [panelOpen, setPanelOpen] = useState(true);
   const togglePanel = () => setPanelOpen(!panelOpen);
 
@@ -29,7 +28,13 @@ export const BlockPanel = ({ handlePlayClick, onClickStartRecording, onClickStop
             panelOpen={panelOpen}
             togglePanel={togglePanel}
           />
-          {panelOpen && <BlockList handlePlayClick={handlePlayClick} />}
+          {panelOpen && (
+            <BlockList
+              handlePlayClick={handlePlayClick}
+              onClickStartRecording={onClickStartRecording}
+              isRecording={isRecording}
+            />
+          )}
           {panelOpen && (
             <PanelFooter
               isRecording={isRecording}

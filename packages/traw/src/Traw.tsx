@@ -73,11 +73,7 @@ const Traw = ({ app }: TrawProps) => {
             onClickStartRecording={startRecording}
             onClickStopRecording={stopRecording}
           />
-          <BlockPanel
-            handlePlayClick={handlePlayClick}
-            onClickStartRecording={startRecording}
-            onClickStopRecording={stopRecording}
-          />
+          <BlockPanel handlePlayClick={handlePlayClick} onClickStartRecording={startRecording} />
 
           <SlideListPanel />
           <ToolsPanel />
