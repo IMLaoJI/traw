@@ -45,4 +45,11 @@ export default {
     }),
   ],
   external: ['react', 'react-dom'],
+  onwarn(warning, warn) {
+    // Skip for react-lottie
+    if (warning.code === 'EVAL') return;
+
+    // Use default for everything else
+    warn(warning);
+  },
 };
