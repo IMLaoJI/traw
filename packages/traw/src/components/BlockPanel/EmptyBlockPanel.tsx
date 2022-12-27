@@ -1,6 +1,6 @@
 import SvgHeadset from 'icons/Headset';
 import React from 'react';
-import Lottie from 'react-lottie';
+import Lottie from 'lottie-react';
 import HansCollaborationAnimation from 'static/json/hands-collaboration.json';
 import { CopyIcon } from '@radix-ui/react-icons';
 interface EmptyBlockPanelProps {
@@ -21,7 +21,7 @@ const EmptyBlockPanel = ({ onClickStartRecording, documentId }: EmptyBlockPanelP
         Draw and explain anywhere.
       </div>
       <div>
-        <Lottie options={{ animationData: HansCollaborationAnimation }} />
+        <Lottie animationData={HansCollaborationAnimation} />
       </div>
       <button
         className="flex gap-1 items-center text-traw-purple font-[13px] border border-traw-purple rounded-full px-3 py-1 hover:bg-traw-purple hover:text-white transition-colors"
