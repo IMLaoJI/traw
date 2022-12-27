@@ -16,9 +16,9 @@ const EmptyBlockPanel = ({ onClickStartRecording, documentId }: EmptyBlockPanelP
   return (
     <div className="flex flex-col items-center justify-center h-full gap-3">
       <div className="text-traw-purple text-[15px] text-center font-['EliceDigitalBaeum']">
-        비디오 녹화부터 편집 그리고 공유까지.
+        From video recording to editing and sharing.
         <br />
-        어디서나 그리면서 설명하세요.
+        Draw and explain anywhere.
       </div>
       <div>
         <Lottie options={{ animationData: HansCollaborationAnimation }} />
@@ -28,10 +28,10 @@ const EmptyBlockPanel = ({ onClickStartRecording, documentId }: EmptyBlockPanelP
         onClick={onClickStartRecording}
       >
         <SvgHeadset className="fill-current w-5 h-4" />
-        트로우 녹화 시작하기
+        Start traw recording
       </button>
       <button className="text-traw-purple font-[13px] flex items-center gap-3" onClick={clickCopyLink}>
-        초대 링크 <CopyIcon />
+        Invitation link <CopyIcon />
       </button>
     </div>
   );

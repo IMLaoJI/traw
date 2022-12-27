@@ -15,7 +15,7 @@ export const PanelHeader = ({ isRecording, isTalking, panelOpen, togglePanel }: 
     <header className="flex mt-2 w-full gap-2 pl-2 items-center">
       {!isRecording && (
         <>
-          <div className="text-traw-grey-dark text-[13px] font-bold">음성 기록</div>
+          <div className="text-traw-grey-dark text-[13px] font-bold">Voice note</div>
           {/* Todo. total record time */}
           <div className="text-traw-grey-100 font-[12px]">00:00:00</div>
           <button onClick={togglePanel} className=" ml-auto">
@@ -31,7 +31,7 @@ export const PanelHeader = ({ isRecording, isTalking, panelOpen, togglePanel }: 
         <>
           {panelOpen ? (
             <>
-              <div className="text-traw-grey-dark text-[13px] font-bold">음성 기록</div>
+              <div className="text-traw-grey-dark text-[13px] font-bold">Voice note</div>
               <button onClick={togglePanel} className=" ml-auto">
                 <DoubleArrowLeftIcon flipHorizontal className="text-traw-grey-100 " />
               </button>
