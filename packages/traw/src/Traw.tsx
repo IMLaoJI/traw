@@ -1,26 +1,38 @@
+import { Editor } from 'components/Editor';
 import { HeaderPanel } from 'components/HeaderPanel';
 import { SlideListPanel } from 'components/SlideListPanel';
 import { ToolsPanel } from 'components/ToolsPanel';
 import { TopPanel } from 'components/TopPanel';
 import { TrawContext } from 'hooks';
-import React, { useCallback, useEffect } from 'react';
+import React, { ReactNode, useCallback, useEffect } from 'react';
 import { TrawApp } from 'state';
 import { styled } from 'stitches.config';
+import { TrawDocument } from 'types';
 import { TEST_DOCUMENT_1, TEST_USER_1 } from 'utils/testUtil';
-import { BlockPanel, Slide } from './components';
+import { BlockPanel } from './components';
 import './index.css';
+
+import { CursorComponent } from '@tldraw/core';
 
 export interface TrawProps {
   app?: TrawApp;
+  document?: TrawDocument;
+  components?: {
+    TopMenu?: ReactNode;
+    /**
+     * The component to render for multiplayer cursors.
+     */
+    Cursor?: CursorComponent;
+  };
 }
 
-const Traw = ({ app }: TrawProps) => {
+const Traw = ({ app, document, components }: TrawProps) => {
   // Create a new app when the component mounts.
   const [trawApp] = React.useState(
     app ??
       new TrawApp({
         user: TEST_USER_1,
-        document: TEST_DOCUMENT_1,
+        document: document || TEST_DOCUMENT_1,
       }),
   );
 
@@ -39,7 +51,6 @@ const Traw = ({ app }: TrawProps) => {
 
   const [isRecording, setIsRecording] = React.useState(false);
   const startRecording = () => setIsRecording(true);
-  const stopRecording = () => setIsRecording(false);
 
   useEffect(() => {
     if (isRecording) {
@@ -64,15 +75,10 @@ const Traw = ({ app }: TrawProps) => {
   return (
     <TrawContext.Provider value={trawApp}>
       <div id="traw" data-testid="traw" className="flex flex-1 flex-col overflow-hidden ">
-        <Slide />
+        <Editor components={components} />
         <StyledUI>
           <HeaderPanel />
-          <TopPanel
-            Room={<div />}
-            isRecording={isRecording}
-            onClickStartRecording={startRecording}
-            onClickStopRecording={stopRecording}
-          />
+          <TopPanel Room={components?.TopMenu || <div />} />
           <BlockPanel handlePlayClick={handlePlayClick} onClickStartRecording={startRecording} />
 
           <SlideListPanel />
