@@ -2,11 +2,13 @@ import { shapeUtils, TDDocument, TDStatus, TLDR } from '@tldraw/tldraw';
 import { useKeyboardShortcuts, useTrawApp } from 'hooks';
 import React, { useCallback, useEffect } from 'react';
 
-import { styled } from 'stitches.config';
 import { CursorComponent, Renderer } from '@tldraw/core';
 import { TDCallbacks } from '@tldraw/tldraw/dist/state';
+import EditWidget from 'components/EditWidget/EditWidget';
+import { useSelection } from 'hooks/useSelection';
 import { useTldrawApp } from 'hooks/useTldrawApp';
 import { ErrorBoundary as _Errorboundary } from 'react-error-boundary';
+import { styled } from 'stitches.config';
 import { PlayModeType } from 'types';
 
 const ErrorBoundary = _Errorboundary as any;
@@ -229,10 +231,12 @@ const InnerTldraw = React.memo(function InnerTldraw({ id, autofocus, components,
   const isSelecting = state.appState.activeTool === 'select';
 
   const page = document.pages[appState.currentPageId];
-  if (!page) return null;
   const pageState = document.pageStates[page.id];
+
   const assets = document.assets;
   const { selectedIds } = pageState;
+  const { camera } = pageState;
+  const { bounds } = useSelection(page, pageState, shapeUtils);
 
   const isHideBoundsShape =
     selectedIds.length === 1 &&
@@ -262,7 +266,6 @@ const InnerTldraw = React.memo(function InnerTldraw({ id, autofocus, components,
   const hideIndicators = (isInSession && state.appState.status !== TDStatus.Brushing) || !isSelecting;
 
   const hideCloneHandles = isInSession || !isSelecting || pageState.camera.zoom < 0.2;
-
   return (
     <StyledLayout ref={rWrapper} tabIndex={-0} playMode={isPlay ? 'isPlay' : 'isNotPlay'}>
       {/* <AlertDialog container={dialogContainer} /> */}
@@ -346,6 +349,7 @@ const InnerTldraw = React.memo(function InnerTldraw({ id, autofocus, components,
           onDragOver={app.onDragOver}
           onDrop={app.onDrop}
         />
+        {bounds && !hideBounds && <EditWidget bounds={bounds} camera={camera} />}
       </ErrorBoundary>
 
       {/* </ContextMenu> */}
