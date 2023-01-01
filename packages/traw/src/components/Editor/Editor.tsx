@@ -11,6 +11,7 @@ import { ErrorBoundary as _Errorboundary } from 'react-error-boundary';
 import { styled } from 'stitches.config';
 import { PlayModeType } from 'types';
 import { ContextMenu } from 'components/ContextMenu';
+import TlDrawLoading from 'components/Loading/TldrawLoading';
 
 const ErrorBoundary = _Errorboundary as any;
 
@@ -272,7 +273,7 @@ const InnerTldraw = React.memo(function InnerTldraw({ id, autofocus, components,
   return (
     <StyledLayout ref={rWrapper} tabIndex={-0} playMode={isPlay ? 'isPlay' : 'isNotPlay'}>
       {/* <AlertDialog container={dialogContainer} /> */}
-      {/* <Loading /> */}
+      <TlDrawLoading />
       <OneOff focusableRef={rWrapper} autofocus={autofocus} />
       <ContextMenu>
         <ErrorBoundary FallbackComponent={() => <div>Error!</div>}>
