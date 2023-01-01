@@ -42,13 +42,13 @@ export const PanelFooter = ({ isRecording, isTalking, recognizedText, onCreate }
           'align-items',
           'items-stretch',
           'border',
-          'rounded-full',
           'border-traw-divider',
           'px-2',
           'py-1.5',
           'gap-3',
           {
             'rounded-xl': isRecording,
+            'rounded-full': !isRecording,
           },
         )}
       >
