@@ -4,7 +4,7 @@ import { SlideListPanel } from 'components/SlideListPanel';
 import { ToolsPanel } from 'components/ToolsPanel';
 import { TopPanel } from 'components/TopPanel';
 import { TrawContext } from 'hooks';
-import React, { ReactNode, useCallback, useEffect } from 'react';
+import React, { ReactNode, useCallback } from 'react';
 import { TrawApp } from 'state';
 import { styled } from 'stitches.config';
 import { TrawDocument } from 'types';
