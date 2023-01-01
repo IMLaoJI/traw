@@ -22,8 +22,8 @@ export const useTldrawApp = () => {
 };
 
 const useForceUpdate = () => {
-  const [_state, setState] = React.useState(0);
-  React.useEffect(() => setState(1));
+  const [, setState] = React.useState(0);
+  React.useEffect(() => setState(1), []);
 };
 
 export const ContainerContext = React.createContext({} as React.RefObject<HTMLDivElement>);

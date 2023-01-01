@@ -425,7 +425,7 @@ export interface ContextMenuSubMenuProps {
   id?: string;
 }
 
-export function ContextMenuSubMenu({ children, label, size, id }: ContextMenuSubMenuProps) {
+export function ContextMenuSubMenu({ children, label, size }: ContextMenuSubMenuProps) {
   const container = useContainer();
   return (
     <RadixContextMenu.Sub>
