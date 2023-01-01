@@ -1,7 +1,6 @@
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import React from 'react';
 
-import { TLBounds } from '@tldraw/core';
 import { AlignStyle, ColorStyle, DashStyle, FontStyle, ShapeStyles, SizeStyle } from '@tldraw/tldraw';
 import { DMContent, DMRadioItem } from 'components/Primitives/DropdownMenu';
 import { ToolButton } from 'components/Primitives/ToolButton';
