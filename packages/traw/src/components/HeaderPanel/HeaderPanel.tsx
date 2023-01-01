@@ -1,18 +1,26 @@
 import { useTrawApp } from 'hooks';
 import SvgLogoSmall from 'icons/Logo';
-import * as React from 'react';
+import React, { useCallback, memo } from 'react';
 import { styled } from 'stitches.config';
 import { breakpoints } from 'utils/breakpoints';
 import Title from './Title';
 
-export const HeaderPanel = React.memo(function HeaderPanel() {
+interface HeaderPanelProps {
+  handleChangeTitle?: (newValue: string) => void;
+}
+
+export const HeaderPanel = memo(function HeaderPanel({ handleChangeTitle }: HeaderPanelProps) {
   const app = useTrawApp();
   const state = app.useStore();
   const { document } = state;
 
-  const handleChangeTitle = (newValue: string) => {
-    console.log('handleChangeTitle', newValue);
-  };
+  const handleTitle = useCallback(
+    (newValue: string) => {
+      handleChangeTitle?.(newValue);
+    },
+    [handleChangeTitle],
+  );
+
   return (
     <>
       <StyledHeaderPanelContainer bp={breakpoints}>
@@ -24,7 +32,7 @@ export const HeaderPanel = React.memo(function HeaderPanel() {
             {document.channelName}
           </span>
           <span className="text-traw-grey mr-1">/</span>
-          <Title title={document.name} canEdit={document.canEdit} handleChangeTitle={handleChangeTitle} />
+          <Title title={document.name} canEdit={document.canEdit} handleChangeTitle={handleTitle} />
         </div>
       </StyledHeaderPanelContainer>
     </>

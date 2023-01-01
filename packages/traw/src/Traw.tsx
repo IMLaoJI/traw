@@ -24,9 +24,12 @@ export interface TrawProps {
      */
     Cursor?: CursorComponent;
   };
+  functions?: {
+    handleChangeDocumentTitle?: (newValue: string) => void;
+  };
 }
 
-const Traw = ({ app, document, components }: TrawProps) => {
+const Traw = ({ app, document, components, functions }: TrawProps) => {
   // Create a new app when the component mounts.
   const [trawApp] = React.useState(
     app ??
@@ -77,7 +80,7 @@ const Traw = ({ app, document, components }: TrawProps) => {
       <div id="traw" data-testid="traw" className="flex flex-1 flex-col overflow-hidden ">
         <Editor components={components} readOnly={document ? !document.canEdit : false} />
         <StyledUI>
-          <HeaderPanel />
+          <HeaderPanel handleChangeTitle={functions?.handleChangeDocumentTitle} />
           <TopPanel Room={components?.TopMenu || <div />} />
           <BlockPanel handlePlayClick={handlePlayClick} onClickStartRecording={startRecording} />
 

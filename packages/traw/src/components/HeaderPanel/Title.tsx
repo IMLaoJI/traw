@@ -11,7 +11,6 @@ export const Title = ({ title, canEdit, handleChangeTitle }: TitleProps) => {
   const [name, setName] = useState(title);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    handleChangeTitle(e.target.value);
     setName(e.target.value);
   };
 
