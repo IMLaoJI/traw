@@ -7,4 +7,14 @@ export const Divider = styled('hr', {
   backgroundColor: '$hover',
   border: 'none',
   margin: '$2 -4px',
+  variants: {
+    orientation: {
+      horizontal: {},
+      vertical: {
+        width: 1,
+        height: 'calc(100%+8px)',
+        margin: '-4px $2',
+      },
+    },
+  },
 });
