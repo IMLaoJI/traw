@@ -5,21 +5,20 @@ import { TrawSnapshot } from 'types';
 import EmptyBlockPanel from './EmptyBlockPanel';
 export interface BlockListProps {
   handlePlayClick: (blockId: string) => void;
-  onClickStartRecording: () => void;
   isRecording: boolean;
+  EmptyVoiceNote?: React.ReactNode;
 }
 
-export default function BlockList({ handlePlayClick, onClickStartRecording, isRecording }: BlockListProps) {
+export default function BlockList({ handlePlayClick, isRecording, EmptyVoiceNote }: BlockListProps) {
   const app = useTrawApp();
   const blocks = app.useStore((state: TrawSnapshot) => state.blocks);
-  const document = app.useStore((state: TrawSnapshot) => state.document);
 
   const sortedBlocks = useMemo(() => {
     return Object.values(blocks).sort((a, b) => a.time - b.time);
   }, [blocks]);
 
   if (sortedBlocks.length === 0 && !isRecording) {
-    return <EmptyBlockPanel onClickStartRecording={onClickStartRecording} documentId={document.id} />;
+    return <EmptyBlockPanel EmptyVoiceNote={EmptyVoiceNote} />;
   }
 
   return (

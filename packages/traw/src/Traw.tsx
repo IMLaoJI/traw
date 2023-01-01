@@ -19,6 +19,7 @@ export interface TrawProps {
   document?: TrawDocument;
   components?: {
     TopMenu?: ReactNode;
+    EmptyVoiceNote?: ReactNode;
     /**
      * The component to render for multiplayer cursors.
      */
@@ -52,17 +53,6 @@ const Traw = ({ app, document, components, functions }: TrawProps) => {
     };
   }, [trawApp]);
 
-  const [isRecording, setIsRecording] = React.useState(false);
-  const startRecording = () => setIsRecording(true);
-
-  useEffect(() => {
-    if (isRecording) {
-      trawApp.startRecording();
-    } else {
-      trawApp.stopRecording();
-    }
-  }, [trawApp, isRecording]);
-
   const handlePlayClick = useCallback(
     (blockId?: string) => {
       if (blockId) {
@@ -82,7 +72,7 @@ const Traw = ({ app, document, components, functions }: TrawProps) => {
         <StyledUI>
           <HeaderPanel handleChangeTitle={functions?.handleChangeDocumentTitle} />
           <TopPanel Room={components?.TopMenu || <div />} />
-          <BlockPanel handlePlayClick={handlePlayClick} onClickStartRecording={startRecording} />
+          <BlockPanel handlePlayClick={handlePlayClick} components={{ EmptyVoiceNote: components?.EmptyVoiceNote }} />
 
           <SlideListPanel />
           <ToolsPanel />
