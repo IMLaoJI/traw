@@ -14,7 +14,7 @@ const EmptyBlockPanel = ({ onClickStartRecording, documentId }: EmptyBlockPanelP
     console.log('copy link', documentId);
   };
   return (
-    <div className="flex flex-col items-center justify-center h-full gap-3">
+    <div className="flex flex-col items-center justify-center h-full gap-3 select-none">
       <div className="text-traw-purple text-[15px] text-center font-['EliceDigitalBaeum']">
         From video recording to editing and sharing.
         <br />

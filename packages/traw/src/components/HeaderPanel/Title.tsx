@@ -25,7 +25,14 @@ export const Title = ({ title, canEdit, handleChangeTitle }: TitleProps) => {
   };
   return (
     <StyledInputLabel data-value={name}>
-      <input type="text" disabled={!canEdit} value={name} onChange={onChange} onBlur={onBlur} />
+      <input
+        type="text"
+        disabled={!canEdit}
+        value={name}
+        onChange={onChange}
+        onBlur={onBlur}
+        className="border-none focus:rounded-[5px] select-none"
+      />
     </StyledInputLabel>
   );
 };
@@ -36,6 +43,7 @@ const StyledInputLabel = styled('label', {
   alignItems: 'center',
   position: 'relative',
   maxWidth: 500,
+  userSelect: 'none',
 
   '&:after': {
     width: 'auto',

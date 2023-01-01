@@ -50,7 +50,7 @@ const SlideListItem = ({ page, index, viewerCount, selectState, size, setRef, ha
       >
         <div
           className={classNames(
-            'flex items-center justify-center ml-auto w-10 rounded-bl-xl rounded-tr-xl text-right text-[10px] py-0.5 gap-1',
+            'flex items-center justify-center ml-auto w-10 rounded-bl-xl rounded-tr-xl text-right text-[10px] py-0.5 gap-1 select-none',
             {
               'bg-traw-purple text-white': selectState === SlideListItemState.SELECTED,
               'bg-traw-grey-50 text-traw-grey-100 ':
@@ -58,10 +58,10 @@ const SlideListItem = ({ page, index, viewerCount, selectState, size, setRef, ha
             },
           )}
         >
-          <SvgViewer className="fill-current h-3 w-4" />
+          <SvgViewer className="fill-current h-3 w-4 " />
           {viewerCount}
         </div>
-        <div className="ml-auto text-[10px] text-traw-grey-100 pr-2 pb-1">{index}</div>
+        <div className="ml-auto text-[10px] text-traw-grey-100 pr-2 pb-1 select-none">{index}</div>
       </div>
       <SlideThumbnail page={page} />
     </li>
