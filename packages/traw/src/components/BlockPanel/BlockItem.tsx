@@ -12,9 +12,18 @@ export interface BlockItemProps {
   blockText: string;
   isVoiceBlock: boolean;
   handlePlayClick: (blockId: string) => void;
+  setRef: (ref: any) => void;
 }
 
-export const BlockItem = ({ userId, blockId, date, isVoiceBlock, blockText, handlePlayClick }: BlockItemProps) => {
+export const BlockItem = ({
+  userId,
+  blockId,
+  date,
+  isVoiceBlock,
+  blockText,
+  handlePlayClick,
+  setRef,
+}: BlockItemProps) => {
   const trawApp = useTrawApp();
 
   const user = trawApp.useStore((state: TrawSnapshot) => state.users[userId]);
@@ -47,7 +56,12 @@ export const BlockItem = ({ userId, blockId, date, isVoiceBlock, blockText, hand
   }, [trawApp, user, userId]);
 
   return (
-    <li className="bg-white w-full">
+    <li
+      className="bg-white w-full"
+      ref={(el: HTMLLIElement) => {
+        setRef(el);
+      }}
+    >
       <div className="flex flex-1 flex-row items-center w-full grow gap-1">
         <div className="flex relative">
           {user && <UserAvatar avatarUrl={user.profileUrl} userName={user.name} size={15} />}
