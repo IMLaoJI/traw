@@ -70,6 +70,11 @@ export type TrawSnapshot = {
     isLimit: boolean;
     loop: boolean;
     volume: number;
+    totalTime: number;
+    isDone: boolean;
+  };
+  editor: {
+    isPanelOpen: boolean;
   };
   viewport: TRViewport;
   records: Record<string, TRRecord>;

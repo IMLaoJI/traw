@@ -11,16 +11,20 @@ export interface BlockItemProps {
   date: string | number;
   blockText: string;
   isVoiceBlock: boolean;
+  hideUserName?: boolean;
+  isPlaying?: boolean;
   handlePlayClick: (blockId: string) => void;
   setRef: (ref: any) => void;
 }
 
 export const BlockItem = ({
+  hideUserName,
   userId,
   blockId,
   date,
   isVoiceBlock,
   blockText,
+  isPlaying,
   handlePlayClick,
   setRef,
 }: BlockItemProps) => {
@@ -62,17 +66,21 @@ export const BlockItem = ({
         setRef(el);
       }}
     >
-      <div className="flex flex-1 flex-row items-center w-full grow gap-1">
-        <div className="flex relative">
-          {user && <UserAvatar avatarUrl={user.profileUrl} userName={user.name} size={15} />}
+      {hideUserName ? null : (
+        <div className="flex flex-1 flex-row items-center w-full grow gap-1 mt-3 mb-1">
+          <div className="flex relative">
+            {user && <UserAvatar avatarUrl={user.profileUrl} userName={user.name} size={15} />}
+          </div>
+          {user && <div className="font-bold text-[13px] text-traw-grey-dark">{user.name}</div>}
+          <div className="text-traw-grey-100 text-[10px]">{dateStr}</div>
         </div>
-        {user && <div className="font-bold text-[13px] text-traw-grey-dark">{user.name}</div>}
-        <div className="text-traw-grey-100 text-[10px]">{dateStr}</div>
-      </div>
+      )}
+
       <span
-        className={classNames('mt-2', 'text-xs', 'rounded-md', 'py-1', 'px-0.5', 'transition-colors', {
+        className={classNames('mt-2', 'text-sm', 'rounded-md', 'py-1', 'px-0.5', 'transition-colors', {
           'cursor-pointer': isVoiceBlock,
           'hover:bg-traw-grey-50': isVoiceBlock,
+          'bg-traw-purple-light': isPlaying,
         })}
         onClick={onClick}
       >

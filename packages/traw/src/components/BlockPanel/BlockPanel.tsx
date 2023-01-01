@@ -1,6 +1,6 @@
 import BlockList from 'components/BlockPanel/BlockList';
 import { useTrawApp } from 'hooks';
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode } from 'react';
 import { styled } from 'stitches.config';
 import PanelFooter from './PanelFooter';
 import PanelHeader from './PanelHeader';
@@ -13,10 +13,9 @@ export interface BlockPanelProps {
 }
 
 export const BlockPanel = ({ handlePlayClick, components }: BlockPanelProps) => {
-  const [panelOpen, setPanelOpen] = useState(true);
-  const togglePanel = () => setPanelOpen(!panelOpen);
-
   const app = useTrawApp();
+  const panelOpen = app.useStore((state) => state.editor.isPanelOpen);
+  const totalTime = app.useStore((state) => state.player.totalTime);
 
   const { isRecording, isTalking, recognizedText } = app.useStore((state) => state.recording);
 
@@ -28,7 +27,8 @@ export const BlockPanel = ({ handlePlayClick, components }: BlockPanelProps) => 
             isRecording={isRecording}
             isTalking={isTalking}
             panelOpen={panelOpen}
-            togglePanel={togglePanel}
+            totalTime={totalTime}
+            togglePanel={app.togglePanel}
           />
           {panelOpen && (
             <BlockList

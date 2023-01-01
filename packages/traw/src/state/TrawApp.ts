@@ -155,12 +155,17 @@ export class TrawApp {
     this._state = {
       player: {
         mode: PlayModeType.EDIT,
-        isLimit: true,
+        isLimit: false,
         start: 0,
         end: Infinity,
         current: 0,
         volume: 1,
         loop: false,
+        totalTime: 0,
+        isDone: false,
+      },
+      editor: {
+        isPanelOpen: true,
       },
       viewport: {
         width: 0,
@@ -335,8 +340,11 @@ export class TrawApp {
   };
 
   syncCamera = () => {
-    const { viewport, camera } = this.store.getState();
-    const currentPageId = camera[this.editorId].targetSlideId;
+    const { viewport, camera, player } = this.store.getState();
+
+    const { playAs } = player;
+    const targetUserId = playAs || this.editorId;
+    const currentPageId = camera[targetUserId].targetSlideId;
     if (!currentPageId) return;
 
     if (currentPageId !== this.app.appState.currentPageId) {
@@ -347,7 +355,7 @@ export class TrawApp {
       });
     }
 
-    const trCamera = camera[this.editorId].cameras[currentPageId];
+    const trCamera = camera[targetUserId].cameras[currentPageId];
     if (!trCamera) return;
 
     const tdCamera = convertCameraTRtoTD(trCamera, viewport);
@@ -519,27 +527,6 @@ export class TrawApp {
           }, {});
 
         const bindings = patch.document.pages[pageId]?.bindings;
-        // console.log(JSON.stringify(bindings), Object.values(tlDocument.pages[pageId]?.shapes));
-        // if (bindings) {
-        //   Object.values(bindings).forEach((binding) => {
-        //     if ((binding as any) === DELETE_ID) return;
-        //     if (binding) {
-        //       if (binding.toId) {
-        //         binding.toId =
-        //           tlDocument.pages[pageId]?.shapes[binding.toId] || (shapes[binding.toId] as any) !== DELETE_ID
-        //             ? binding.toId
-        //             : binding.id;
-        //       }
-        //       if (binding.fromId) {
-        //         binding.fromId =
-        //           tlDocument.pages[pageId]?.shapes[binding.fromId] || (shapes[binding.fromId] as any) !== DELETE_ID
-        //             ? binding.fromId
-        //             : binding.id;
-        //       }
-        //     }
-        //   });
-        // }
-        // console.log(bindings);
 
         records.push({
           type: command.id as ActionType,
@@ -899,16 +886,19 @@ export class TrawApp {
   };
 
   addBlocks = (blocks: TRBlock[]) => {
+    let totalTime = 0;
     this.store.setState(
       produce((state) => {
         blocks.forEach((block) => {
           state.blocks[block.id] = block;
+          totalTime += block.voiceEnd - block.voiceStart;
         });
+        state.player.totalTime = totalTime;
       }),
     );
   };
 
-  private getPlayableVoice = (block: TRBlock | undefined): TRBlockVoice | undefined => {
+  public getPlayableVoice = (block: TRBlock | undefined): TRBlockVoice | undefined => {
     if (!block || block.voices.length === 0) return undefined;
 
     const webmVoice = block.voices.find(({ ext }) => ext === 'webm');
@@ -921,6 +911,8 @@ export class TrawApp {
     }
   };
 
+  private audioInstance: Howl | undefined;
+
   public playBlock(blockId: string) {
     const block = this.store.getState().blocks[blockId || ''];
     if (!block) return;
@@ -928,6 +920,10 @@ export class TrawApp {
 
     const playableVoice = this.getPlayableVoice(block);
     if (!playableVoice) return;
+
+    if (this.audioInstance) {
+      this.audioInstance.stop();
+    }
 
     this.app.resetDocument();
     this.pointer = -1;
@@ -938,6 +934,7 @@ export class TrawApp {
     });
     howl.seek(block.voiceStart / 1000);
     howl.play();
+    this.audioInstance = howl;
 
     this.store.setState(
       produce((state) => {
@@ -945,35 +942,98 @@ export class TrawApp {
           ...state.player,
           targetBlockId: blockId,
           mode: PlayModeType.PLAYING,
+          playAs: block.userId,
           start: Date.now(),
           end: Date.now() + (block.voiceEnd - block.voiceStart),
+          isDone: false,
         };
       }),
     );
     this._handlePlay();
   }
 
+  public playFromFirstBlock = () => {
+    const blocks = Object.values(this.store.getState().blocks).sort((a, b) => a.time - b.time);
+    if (blocks.length === 0) return;
+    const firstBlock = blocks[0];
+    this.playBlock(firstBlock.id);
+  };
+
+  public pause = () => {
+    if (this.audioInstance) {
+      this.audioInstance.pause();
+    }
+    this.store.setState(
+      produce((state) => {
+        state.player = {
+          ...state.player,
+          mode: PlayModeType.PAUSE,
+          current: Date.now() - state.player.start,
+          loop: false,
+        };
+      }),
+    );
+  };
+
+  public togglePlay = () => {
+    const { mode } = this.store.getState().player;
+    if (mode === PlayModeType.PLAYING) {
+      this.pause();
+    } else {
+      this.resume();
+    }
+  };
+
+  public resume = () => {
+    if (this.audioInstance) {
+      this.audioInstance.play();
+    }
+    this.store.setState(
+      produce((state) => {
+        state.player = {
+          ...state.player,
+          mode: PlayModeType.PLAYING,
+          start: Date.now() - state.player.current,
+          end: Date.now() + (state.player.end - state.player.start - state.player.current),
+        };
+      }),
+    );
+    this._handlePlay();
+  };
+
   private playInterval: number | undefined;
 
   private stopPlay = () => {
     if (this.playInterval) cancelAnimationFrame(this.playInterval);
+    if (this.audioInstance) {
+      this.audioInstance.stop();
+    }
 
     this.store.setState(
       produce((state) => {
         state.player = {
-          mode: PlayModeType.EDIT,
-          isLimit: true,
+          ...state.player,
+          mode: PlayModeType.STOP,
+          isLimit: false,
           start: 0,
-          end: Infinity,
           current: 0,
           volume: 1,
           loop: false,
+          playAs: undefined,
+          isDone: true,
         };
       }),
     );
     this.app.resetDocument();
 
     this.applyRecordsFromFirst();
+  };
+
+  private _getNextBlock = (blockId: string): TRBlock | undefined => {
+    const blocks = Object.values(this.store.getState().blocks);
+    const sortedBlocks = blocks.sort((a, b) => a.time - b.time);
+    const index = sortedBlocks.findIndex((b) => b.id === blockId);
+    return sortedBlocks[index + 1];
   };
 
   private _handlePlay = () => {
@@ -983,7 +1043,22 @@ export class TrawApp {
       return;
     } else {
       if (Date.now() > player.end) {
-        this.stopPlay();
+        // play next block
+        if (!player.isLimit) {
+          const nextBlock = this._getNextBlock(player.targetBlockId || '');
+          if (nextBlock) {
+            this.playBlock(nextBlock.id);
+          } else {
+            if (player.loop) {
+              this.playFromFirstBlock();
+            } else {
+              this.stopPlay();
+            }
+          }
+        } else {
+          this.stopPlay();
+        }
+
         return;
       } else {
         // update to current time
@@ -1001,6 +1076,23 @@ export class TrawApp {
         this.playInterval = requestAnimationFrame(this._handlePlay);
       }
     }
+  };
+
+  togglePanel = () => {
+    this.store.setState(
+      produce((state) => {
+        state.editor.isPanelOpen = !state.editor.isPanelOpen;
+      }),
+    );
+  };
+
+  public backToEditor = () => {
+    this.stopPlay();
+    this.store.setState(
+      produce((state) => {
+        state.player.mode = PlayModeType.EDIT;
+      }),
+    );
   };
 
   /*

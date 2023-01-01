@@ -7,6 +7,9 @@ import { breakpoints } from 'utils/breakpoints';
 import { PrimaryTools } from './PrimaryTools';
 import { StatusBar } from './StatusBar';
 import { StyleMenu } from './StyleMenu';
+import { useTrawApp } from 'hooks';
+import { PlayModeType } from 'types';
+import Player from './Player';
 
 const isDebugModeSelector = (s: TDSnapshot) => s.settings.isDebugMode;
 const dockPositionState = (s: TDSnapshot) => s.settings.dockPosition;
@@ -17,18 +20,25 @@ interface ToolsPanelProps {
 
 export const ToolsPanel = React.memo(function ToolsPanel({ onBlur }: ToolsPanelProps) {
   const app = useTldrawApp();
+  const trawApp = useTrawApp();
+  const panelOpen = trawApp.useStore((state) => state.editor.isPanelOpen);
   const side = app.useStore(dockPositionState);
   const isDebugMode = app.useStore(isDebugModeSelector);
+  const isEdit = trawApp.useStore((state) => state.player.mode) === PlayModeType.EDIT;
 
   return (
     <>
-      <StyledToolsPanelContainer side={side} onBlur={onBlur} bp={breakpoints} debug={isDebugMode}>
-        <StyledCenterWrap id="TD-Tools">
-          <StyledPrimaryTools orientation={side === 'bottom' || side === 'top' ? 'horizontal' : 'vertical'}>
-            <PrimaryTools />
-            <StyleMenu />
-          </StyledPrimaryTools>
-        </StyledCenterWrap>
+      <StyledToolsPanelContainer panelOpen={panelOpen} side={side} onBlur={onBlur} bp={breakpoints} debug={isDebugMode}>
+        {isEdit ? (
+          <StyledCenterWrap id="TD-Tools">
+            <StyledPrimaryTools orientation={side === 'bottom' || side === 'top' ? 'horizontal' : 'vertical'}>
+              <PrimaryTools />
+              <StyleMenu />
+            </StyledPrimaryTools>
+          </StyledCenterWrap>
+        ) : (
+          <Player />
+        )}
       </StyledToolsPanelContainer>
       {isDebugMode && (
         <StyledStatusWrap>
@@ -82,6 +92,14 @@ const StyledToolsPanelContainer = styled('div', {
         bottom: 4,
       },
       left: { width: 64, height: '100%', left: 0 },
+    },
+    panelOpen: {
+      true: {
+        paddingRight: '285px',
+      },
+      false: {
+        paddingRight: '0px',
+      },
     },
   },
   compoundVariants: [
