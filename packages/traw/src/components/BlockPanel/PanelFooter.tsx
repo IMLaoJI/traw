@@ -34,7 +34,7 @@ export const PanelFooter = ({ isRecording, isTalking, recognizedText, onCreate }
   };
 
   return (
-    <footer className="mt-2 mb-2 ">
+    <footer className="mt-2 mb-2 select-none">
       <div
         className={classNames(
           'flex',
