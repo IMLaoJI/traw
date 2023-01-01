@@ -64,7 +64,7 @@ export const SlideListPanel = React.memo(function SlideListPanel() {
                       page={page}
                       viewerCount={viewerCount}
                       selectState={page.id === currentPageId ? SlideListItemState.SELECTED : selectState}
-                      size="list"
+                      type="list"
                       handleClick={handleSlideClick}
                       setRef={(ref) => {
                         slideRef.current[page.id] = ref;
