@@ -252,6 +252,8 @@ const InnerTldraw = React.memo(function InnerTldraw({ id, autofocus, components,
 
   const isInSession = app.session !== undefined;
 
+  const selectedShape = selectedIds.length === 1 ? page.shapes[selectedIds[0]] : undefined;
+
   // Hide bounds when not using the select tool, or when the only selected shape has handles
   const hideBounds =
     (isInSession && app.session?.constructor.name !== 'BrushSession') ||
@@ -349,7 +351,10 @@ const InnerTldraw = React.memo(function InnerTldraw({ id, autofocus, components,
           onDragOver={app.onDragOver}
           onDrop={app.onDrop}
         />
-        {bounds && !hideBounds && <EditWidget bounds={bounds} camera={camera} />}
+        {bounds && !hideBounds && <EditWidget camera={camera} top={bounds.minY} left={bounds.minX} />}
+        {!bounds && selectedShape && selectedShape.type === 'arrow' && (
+          <EditWidget camera={camera} top={selectedShape.point[1]} left={selectedShape.point[0]} />
+        )}
       </ErrorBoundary>
 
       {/* </ContextMenu> */}

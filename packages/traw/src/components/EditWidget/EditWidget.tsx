@@ -27,14 +27,15 @@ import { breakpoints } from 'utils/breakpoints';
 import { preventEvent } from 'utils/preventEvent';
 
 interface EditWidgetProps {
-  bounds: TLBounds;
   camera: {
     point: number[];
     zoom: number;
   };
+  top: number;
+  left: number;
 }
 
-const EditWidget = ({ bounds, camera }: EditWidgetProps) => {
+const EditWidget = ({ camera, top, left }: EditWidgetProps) => {
   const app = useTldrawApp();
 
   const theme = app.useStore(themeSelector);
@@ -123,8 +124,8 @@ const EditWidget = ({ bounds, camera }: EditWidgetProps) => {
   return (
     <div
       style={{
-        top: (bounds.minY + camera.point[1]) * camera.zoom,
-        left: (bounds.minX + camera.point[0]) * camera.zoom,
+        top: (top + camera.point[1]) * camera.zoom,
+        left: (left + camera.point[0]) * camera.zoom,
       }}
       className={`z-10 absolute`}
     >
