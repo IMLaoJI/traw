@@ -21,9 +21,20 @@ interface SlideListItemProps {
   classnames?: string;
 }
 
+const slidesViewport = {
+  list: {
+    width: 105,
+    height: 59,
+  },
+  preview: {
+    width: 375,
+    height: 210,
+  },
+};
+
 const slideSizes = {
-  list: 'w-[105px] sm:w-[105px]',
-  preview: 'w-[375]',
+  list: `w-[${slidesViewport.list.width}px] `,
+  preview: `w-[${slidesViewport.preview.width}px] `,
 };
 
 export const SlideListItem = ({
@@ -77,7 +88,7 @@ export const SlideListItem = ({
         )}
         {type === 'list' && <div className="ml-auto text-[10px] text-traw-grey-100 pr-2 pb-1 select-none">{index}</div>}
       </div>
-      <SlideThumbnail page={page} />
+      <SlideThumbnail page={page} viewport={slidesViewport[type]} />
     </li>
   );
 };
