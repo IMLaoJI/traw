@@ -34,36 +34,36 @@ import { breakpoints } from 'utils/breakpoints';
 import { Divider } from 'components/Primitives/Divider';
 import { ToolButton } from 'components/Primitives/ToolButton';
 
-const currentStyleSelector = (s: TDSnapshot) => s.appState.currentStyle;
-const selectedIdsSelector = (s: TDSnapshot) => s.document.pageStates[s.appState.currentPageId].selectedIds;
+export const currentStyleSelector = (s: TDSnapshot) => s.appState.currentStyle;
+export const selectedIdsSelector = (s: TDSnapshot) => s.document.pageStates[s.appState.currentPageId].selectedIds;
 
-const STYLE_KEYS = Object.keys(defaultTextStyle) as (keyof ShapeStyles)[];
+export const STYLE_KEYS = Object.keys(defaultTextStyle) as (keyof ShapeStyles)[];
 
-const DASH_ICONS = {
+export const DASH_ICONS = {
   [DashStyle.Draw]: <DashDrawIcon />,
   [DashStyle.Solid]: <DashSolidIcon />,
   [DashStyle.Dashed]: <DashDashedIcon />,
   [DashStyle.Dotted]: <DashDottedIcon />,
 };
 
-const SIZE_ICONS = {
+export const SIZE_ICONS = {
   [SizeStyle.Small]: <SizeSmallIcon />,
   [SizeStyle.Medium]: <SizeMediumIcon />,
   [SizeStyle.Large]: <SizeLargeIcon />,
 };
 
-const ALIGN_ICONS = {
+export const ALIGN_ICONS = {
   [AlignStyle.Start]: <TextAlignLeftIcon />,
   [AlignStyle.Middle]: <TextAlignCenterIcon />,
   [AlignStyle.End]: <TextAlignRightIcon />,
   [AlignStyle.Justify]: <TextAlignJustifyIcon />,
 };
 
-const themeSelector = (s: TDSnapshot) => (s.settings.isDarkMode ? 'dark' : 'light');
+export const themeSelector = (s: TDSnapshot) => (s.settings.isDarkMode ? 'dark' : 'light');
 
-const keepOpenSelector = (s: TDSnapshot) => s.settings.keepStyleMenuOpen;
+export const keepOpenSelector = (s: TDSnapshot) => s.settings.keepStyleMenuOpen;
 
-const optionsSelector = (s: TDSnapshot) => {
+export const optionsSelector = (s: TDSnapshot) => {
   const { activeTool, currentPageId: pageId } = s.appState;
   switch (activeTool) {
     case 'select': {
@@ -328,7 +328,7 @@ export const StyleMenu = React.memo(function ColorMenu() {
   );
 });
 
-const ColorGrid = styled('div', {
+export const ColorGrid = styled('div', {
   display: 'grid',
   gridTemplateColumns: 'repeat(4, auto)',
   gap: 0,
@@ -368,15 +368,14 @@ export const StyledRow = styled('div', {
   },
 });
 
-const StyledGroup = styled(DropdownMenu.DropdownMenuRadioGroup, {
+export const StyledGroup = styled(DropdownMenu.DropdownMenuRadioGroup, {
   display: 'flex',
   flexDirection: 'row',
   gap: '$1',
 });
 
-const FontIcon = styled('div', {
+export const FontIcon = styled('div', {
   width: 32,
-  height: 32,
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
