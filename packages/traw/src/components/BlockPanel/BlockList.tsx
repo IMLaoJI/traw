@@ -21,13 +21,14 @@ export default function BlockList({ handlePlayClick, onClickStartRecording, isRe
   if (sortedBlocks.length === 0 && !isRecording) {
     return <EmptyBlockPanel onClickStartRecording={onClickStartRecording} documentId={document.id} />;
   }
+
   return (
     <div className="mt-4 flex-2 flex-auto w-full overflow-y-auto min-h-0 px-2">
       <ul className="flex flex-col gap-4">
         {sortedBlocks.map((block) => (
           <BlockItem
             key={block.id}
-            userName={'example user'}
+            userId={block.userId}
             date={block.time}
             blockId={block.id}
             blockText={block.text}

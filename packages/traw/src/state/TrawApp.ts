@@ -6,6 +6,7 @@ import {
   PlayModeType,
   TDCamera,
   TrawSnapshot,
+  TrawUser,
   TRBlock,
   TRBlockType,
   TRBlockVoice,
@@ -141,6 +142,8 @@ export class TrawApp {
    */
   public onAssetCreate?: (app: TldrawApp, file: File, id: string) => Promise<string | false>;
 
+  public requestUser?: (id: string) => Promise<TrawUser | undefined>;
+
   constructor({ user, document, records = [] }: TrawAppOptions) {
     this.editorId = user.id;
 
@@ -181,6 +184,7 @@ export class TrawApp {
       document,
       records: recordMap,
       blocks: {},
+      users: {},
     };
     this.store = createVanilla<TrawSnapshot>(() => this._state);
     if (process.env.NODE_ENV === 'development') {
@@ -436,10 +440,17 @@ export class TrawApp {
     this._actionStartTime = Date.now();
   };
 
+  addUser = (user: TrawUser) => {
+    this.store.setState(
+      produce((state) => {
+        state.users[user.id] = user;
+      }),
+    );
+  };
+
   protected recordCommand = (app: TldrawApp, command: TldrawCommand) => {
     const user = this.store.getState().user;
     const document = this.store.getState().document;
-    const tlDocument = app.document;
     const records: TRRecord[] = [];
     switch (command.id) {
       case 'change_page':
