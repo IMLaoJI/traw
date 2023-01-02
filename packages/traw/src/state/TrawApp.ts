@@ -3,6 +3,7 @@ import debounce from 'lodash/debounce';
 import { nanoid } from 'nanoid';
 import {
   ActionType,
+  AnimationType,
   PlayModeType,
   TDCamera,
   TrawRoomUser,
@@ -169,6 +170,7 @@ export class TrawApp {
         loop: false,
         totalTime: 0,
         isDone: false,
+        animations: {},
       },
       editor: {
         isPanelOpen: playerOptions?.isPlayerMode ? false : true,
@@ -582,12 +584,12 @@ export class TrawApp {
 
   applyRecordsFromFirst = () => {
     const records = Object.values(this.store.getState().records).sort((a, b) => a.start - b.start);
+
     this.applyRecords(records);
   };
 
-  applyRecords = (records: TRRecord[]) => {
+  applyRecords = (records: TRRecord[], animation?: { current: number }) => {
     let isCameraChanged = false;
-
     records
       .sort((a, b) => a.start - b.start)
       .forEach((record) => {
@@ -686,6 +688,7 @@ export class TrawApp {
           default: {
             const { data, slideId } = record;
             if (!slideId) break;
+
             if (this.app.selectedIds) {
               // deselect deleted shapes
               const nextIds = this.app.selectedIds.filter((id) => record.data.shapes[id] !== DELETE_ID);
@@ -705,6 +708,29 @@ export class TrawApp {
                 `selected`,
               );
             }
+
+            if (animation && record.type === 'create_draw') {
+              // Add path animation
+              if (animation.current > record.start && animation.current < record.end) {
+                const shapeId = Object.keys(record.data.shapes)[0];
+                this.store.setState(
+                  produce((state) => {
+                    state.player.animations = {
+                      ...state.player.animations,
+                      [shapeId]: {
+                        type: AnimationType.DRAW,
+                        start: Date.now(),
+                        end: Date.now() + (record.end - record.start),
+                        points: record.data.shapes[shapeId].points,
+                        point: record.data.shapes[shapeId].point,
+                        page: record.slideId,
+                      },
+                    };
+                  }),
+                );
+              }
+            }
+
             if (data.bindings) {
               this.app.patchState({
                 document: {
@@ -742,11 +768,54 @@ export class TrawApp {
         }
       });
 
+    if (animation) this.applyAnimation();
+
     this.removeDefaultPage();
     this.pointer += records.length;
     if (isCameraChanged) {
       this.syncCamera();
     }
+  };
+
+  private applyAnimation = () => {
+    const animations = this.store.getState().player.animations;
+    if (Object.keys(animations).length === 0) return;
+    const animationIds = Object.keys(animations);
+    animationIds.forEach((id) => {
+      const animation = animations[id];
+      const progress = (Date.now() - animation.start) / (animation.end - animation.start);
+      if (progress < 1) {
+        if (animation.type === AnimationType.DRAW) {
+          const subPoints = animation.points?.slice(0, Math.max(animation.points.length * progress, 1));
+          let minY = Infinity;
+          let minX = Infinity;
+          subPoints?.forEach(([x, y]) => {
+            if (x < minX) minX = x;
+            if (y < minY) minY = y;
+          });
+          this.app.patchState({
+            document: {
+              pages: {
+                [animation.page]: {
+                  shapes: {
+                    [id]: {
+                      points: subPoints,
+                      point: [animation.point[0] - minX, animation.point[1] - minY],
+                    },
+                  },
+                },
+              },
+            },
+          });
+        }
+      } else {
+        this.store.setState(
+          produce((state) => {
+            delete state.player.animations[id];
+          }),
+        );
+      }
+    });
   };
 
   private removeDefaultPage = () => {
@@ -1093,10 +1162,11 @@ export class TrawApp {
           .sort((a, b) => a.start - b.start)
           .filter((r) => r.start <= currentTime);
         const afterPointer = records.length;
-        this.applyRecords(records.slice(this.pointer + 1));
+        this.applyRecords(records.slice(this.pointer + 1), { current: currentTime });
         this.pointer = afterPointer - 1;
 
         this.playInterval = requestAnimationFrame(this._handlePlay);
+        this.applyAnimation();
       }
     }
   };
