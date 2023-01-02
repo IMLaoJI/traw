@@ -145,7 +145,7 @@ export class TrawApp {
 
   public requestUser?: (id: string) => Promise<TrawUser | undefined>;
 
-  constructor({ user, document, records = [] }: TrawAppOptions) {
+  constructor({ user, document, records = [], playerOptions = {} }: TrawAppOptions) {
     this.editorId = user.id;
 
     const recordMap: Record<string, TRRecord> = {};
@@ -191,6 +191,7 @@ export class TrawApp {
       records: recordMap,
       blocks: {},
       users: {},
+      playerOptions,
     };
     this.store = createVanilla<TrawSnapshot>(() => this._state);
     if (process.env.NODE_ENV === 'development') {
