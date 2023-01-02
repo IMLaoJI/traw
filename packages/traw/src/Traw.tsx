@@ -41,7 +41,7 @@ const Traw = ({ app, document, components, functions }: TrawProps) => {
   );
 
   const isPlayerMode = trawApp.useStore((state) => state.playerOptions?.isPlayerMode);
-  const readOnly = isPlayerMode || !document?.canEdit ? true : false;
+  const readOnly = isPlayerMode || (document && !document.canEdit) ? true : false;
 
   React.useLayoutEffect(() => {
     if (typeof window === 'undefined') return;
