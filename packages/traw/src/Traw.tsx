@@ -4,7 +4,7 @@ import { SlideListPanel } from 'components/SlideListPanel';
 import { ToolsPanel } from 'components/ToolsPanel';
 import { TopPanel } from 'components/TopPanel';
 import { TrawContext } from 'hooks';
-import React, { ReactNode, useCallback } from 'react';
+import React, { ReactNode, useCallback, useEffect } from 'react';
 import { TrawApp } from 'state';
 import { styled } from 'stitches.config';
 import { TrawDocument } from 'types';
@@ -40,6 +40,9 @@ const Traw = ({ app, document, components, functions }: TrawProps) => {
       }),
   );
 
+  const isPlayerMode = trawApp.useStore((state) => state.playerOptions?.isPlayerMode);
+  const readOnly = isPlayerMode || (document && !document.canEdit) ? true : false;
+
   React.useLayoutEffect(() => {
     if (typeof window === 'undefined') return;
     if (!window.document?.fonts) return;
@@ -68,13 +71,15 @@ const Traw = ({ app, document, components, functions }: TrawProps) => {
   return (
     <TrawContext.Provider value={trawApp}>
       <div id="traw" data-testid="traw" className="flex flex-1 flex-col overflow-hidden ">
-        <Editor components={components} readOnly={document ? !document.canEdit : false} />
+        <Editor components={components} readOnly={readOnly} />
         <StyledUI>
-          <HeaderPanel handleChangeTitle={functions?.handleChangeDocumentTitle} />
-          <TopPanel Room={components?.TopMenu || <div />} />
-          <BlockPanel handlePlayClick={handlePlayClick} components={{ EmptyVoiceNote: components?.EmptyVoiceNote }} />
+          {!isPlayerMode && <HeaderPanel handleChangeTitle={functions?.handleChangeDocumentTitle} />}
+          {!isPlayerMode && <TopPanel Room={components?.TopMenu || <div />} />}
+          {!isPlayerMode && (
+            <BlockPanel handlePlayClick={handlePlayClick} components={{ EmptyVoiceNote: components?.EmptyVoiceNote }} />
+          )}
 
-          <SlideListPanel />
+          {!isPlayerMode && <SlideListPanel />}
           <ToolsPanel />
         </StyledUI>
       </div>
