@@ -105,6 +105,7 @@ export type TrawSnapshot = {
 };
 
 export type TrawPlayerOptions = {
+  isPlayerMode: boolean;
   muted?: boolean;
   loop?: boolean;
   autoPlay?: boolean;
