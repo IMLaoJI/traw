@@ -1,4 +1,4 @@
-import { Record, TrawDocument, TrawUser } from 'types';
+import { Record, TrawDocument, TrawPlayerOptions, TrawUser } from 'types';
 
 export interface TrawAppOptions {
   /**
@@ -15,4 +15,6 @@ export interface TrawAppOptions {
    * Initial records
    */
   records?: Record[];
+
+  playerOptions?: TrawPlayerOptions;
 }

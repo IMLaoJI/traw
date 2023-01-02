@@ -146,17 +146,22 @@ export class TrawApp {
 
   public requestUser?: (id: string) => Promise<TrawUser | undefined>;
 
-  constructor({ user, document, records = [] }: TrawAppOptions) {
+  constructor({ user, document, records = [], playerOptions }: TrawAppOptions) {
     this.editorId = user.id;
+
+    const mode = playerOptions?.autoPlay
+      ? PlayModeType.PLAYING
+      : playerOptions?.isPlayerMode
+      ? PlayModeType.PREPARE
+      : PlayModeType.EDIT;
 
     const recordMap: Record<string, TRRecord> = {};
     records.forEach((record) => {
       recordMap[record.id] = record;
     });
-
     this._state = {
       player: {
-        mode: PlayModeType.EDIT,
+        mode,
         isLimit: false,
         start: 0,
         end: Infinity,
@@ -168,7 +173,7 @@ export class TrawApp {
         animations: {},
       },
       editor: {
-        isPanelOpen: true,
+        isPanelOpen: playerOptions?.isPlayerMode ? false : true,
       },
       viewport: {
         width: 0,
@@ -193,6 +198,7 @@ export class TrawApp {
       records: recordMap,
       blocks: {},
       users: {},
+      playerOptions,
     };
     this.store = createVanilla<TrawSnapshot>(() => this._state);
     if (process.env.NODE_ENV === 'development') {

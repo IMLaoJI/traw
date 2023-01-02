@@ -114,7 +114,15 @@ export type TrawSnapshot = {
     [userId: string]: TrawUser;
   };
   room?: TrawRoom;
+  playerOptions?: TrawPlayerOptions;
   // participants
+};
+
+export type TrawPlayerOptions = {
+  isPlayerMode: boolean;
+  muted?: boolean;
+  loop?: boolean;
+  autoPlay?: boolean;
 };
 
 export type TrawUser = {
