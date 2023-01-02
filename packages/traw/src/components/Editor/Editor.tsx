@@ -1,6 +1,6 @@
 import { shapeUtils, TDDocument, TDStatus, TLDR } from '@tldraw/tldraw';
 import { useKeyboardShortcuts, useTrawApp } from 'hooks';
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 
 import { CursorComponent, Renderer } from '@tldraw/core';
 import { TDCallbacks } from '@tldraw/tldraw/dist/state';
@@ -237,6 +237,7 @@ const InnerTldraw = React.memo(function InnerTldraw({ id, autofocus, components,
   const { selectedIds } = pageState;
   const { camera } = pageState;
   const { bounds } = useSelection(page, pageState, shapeUtils);
+  const meta = useMemo(() => ({ isDarkMode: false }), []);
 
   const isHideBoundsShape =
     selectedIds.length === 1 &&
@@ -286,7 +287,7 @@ const InnerTldraw = React.memo(function InnerTldraw({ id, autofocus, components,
             eraseLine={appState.eraseLine}
             users={room?.users}
             userId={room?.userId}
-            meta={{ isDarkMode: false }}
+            meta={meta}
             components={components}
             hideCursors={hideCursors}
             hideBounds={hideBounds}
