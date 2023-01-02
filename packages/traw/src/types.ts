@@ -99,6 +99,7 @@ export type TrawSnapshot = {
   users: {
     [userId: string]: TrawUser;
   };
+  room?: TrawRoom;
   // participants
 };
 
@@ -113,6 +114,18 @@ export type TrawDocument = {
   name: string;
   channelName: string;
   canEdit: boolean;
+};
+
+export interface TrawRoomUser {
+  id: string;
+  page: string;
+}
+
+export type TrawRoom = {
+  id: string;
+  others: {
+    [userId: string]: TrawRoomUser;
+  };
 };
 
 export enum TRBlockType {
