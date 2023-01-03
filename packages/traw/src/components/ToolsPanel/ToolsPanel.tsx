@@ -10,6 +10,7 @@ import { StyleMenu } from './StyleMenu';
 import { useTrawApp } from 'hooks';
 import { PlayModeType } from 'types';
 import Player from './Player';
+import { ActionButton } from './ActionButton';
 
 const isDebugModeSelector = (s: TDSnapshot) => s.settings.isDebugMode;
 const dockPositionState = (s: TDSnapshot) => s.settings.dockPosition;
@@ -32,6 +33,7 @@ export const ToolsPanel = React.memo(function ToolsPanel({ onBlur }: ToolsPanelP
         {isEdit ? (
           <StyledCenterWrap id="TD-Tools">
             <StyledPrimaryTools orientation={side === 'bottom' || side === 'top' ? 'horizontal' : 'vertical'}>
+              <ActionButton />
               <PrimaryTools />
               <StyleMenu />
             </StyledPrimaryTools>
