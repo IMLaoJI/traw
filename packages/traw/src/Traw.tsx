@@ -1,21 +1,21 @@
+import '@fontsource/caveat-brush';
+import '@fontsource/crimson-pro';
+import '@fontsource/recursive';
+import '@fontsource/source-code-pro';
+import '@fontsource/source-sans-pro';
 import { Editor } from 'components/Editor';
 import { HeaderPanel } from 'components/HeaderPanel';
 import { SlideListPanel } from 'components/SlideListPanel';
 import { ToolsPanel } from 'components/ToolsPanel';
 import { TopPanel } from 'components/TopPanel';
 import { TrawContext } from 'hooks';
-import React, { ReactNode, useCallback, useEffect } from 'react';
+import React, { ReactNode, useCallback } from 'react';
 import { TrawApp } from 'state';
 import { styled } from 'stitches.config';
 import { TrawDocument } from 'types';
 import { TEST_DOCUMENT_1, TEST_USER_1 } from 'utils/testUtil';
 import { BlockPanel } from './components';
 import './index.css';
-import '@fontsource/caveat-brush';
-import '@fontsource/crimson-pro';
-import '@fontsource/recursive';
-import '@fontsource/source-code-pro';
-import '@fontsource/source-sans-pro';
 
 import { CursorComponent } from '@tldraw/core';
 
@@ -79,7 +79,7 @@ const Traw = ({ app, document, components, functions }: TrawProps) => {
         <Editor components={components} readOnly={readOnly} />
         <StyledUI>
           {!isPlayerMode && <HeaderPanel handleChangeTitle={functions?.handleChangeDocumentTitle} />}
-          {!isPlayerMode && <TopPanel Room={components?.TopMenu || <div />} />}
+          {!isPlayerMode && <TopPanel Room={components?.TopMenu} />}
           {!isPlayerMode && (
             <BlockPanel handlePlayClick={handlePlayClick} components={{ EmptyVoiceNote: components?.EmptyVoiceNote }} />
           )}

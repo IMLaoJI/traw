@@ -2,15 +2,16 @@ import React, { ReactNode } from 'react';
 
 import { styled } from 'stitches.config';
 import { breakpoints } from 'utils/breakpoints';
+import TrawTopPanel from './TrawTopPanel';
 
 export interface TopPanelProps {
-  Room: ReactNode;
+  Room?: ReactNode;
 }
 
 export const TopPanel = React.memo(function TopPanel({ Room }: TopPanelProps) {
   return (
     <>
-      <StyledTopPanelContainer bp={breakpoints}>{Room}</StyledTopPanelContainer>
+      <StyledTopPanelContainer bp={breakpoints}>{Room || <TrawTopPanel />}</StyledTopPanelContainer>
     </>
   );
 });
