@@ -24,15 +24,14 @@ import {
   StretchHorizontallyIcon,
   StretchVerticallyIcon,
 } from '@radix-ui/react-icons';
-import * as React from 'react';
-import { useIntl } from 'react-intl';
+import { AlignType, DistributeType, StretchType, TDSnapshot } from '@tldraw/tldraw';
 import { Divider } from 'components/Primitives/Divider';
 import { DMContent } from 'components/Primitives/DropdownMenu';
 import { ToolButton } from 'components/Primitives/ToolButton';
 import { Tooltip } from 'components/Primitives/Tooltip/Tooltip';
 import { useTldrawApp } from 'hooks/useTldrawApp';
+import * as React from 'react';
 import { styled } from 'stitches.config';
-import { AlignType, DistributeType, StretchType, TDSnapshot } from '@tldraw/tldraw';
 
 const dockPositionState = (s: TDSnapshot) => s.settings.dockPosition;
 

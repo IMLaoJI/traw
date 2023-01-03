@@ -205,9 +205,7 @@ export const StyleMenu = React.memo(function ColorMenu() {
   return (
     <DropdownMenu.Root dir="ltr" onOpenChange={handleMenuOpenChange} open={keepOpen ? true : undefined} modal={false}>
       <DropdownMenu.Trigger asChild id="TD-Styles">
-        {/* <div className="rounded-full px-1 py-1 bg-white"> */}
         <ToolButton variant="text">Styles</ToolButton>
-        {/* </div> */}
       </DropdownMenu.Trigger>
       <DMContent id="language-menu" side="bottom" align="end" sideOffset={10} alignOffset={0}>
         <StyledRow variant="tall" id="TD-Styles-Color-Container">
