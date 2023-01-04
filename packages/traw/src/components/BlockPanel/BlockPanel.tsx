@@ -1,7 +1,8 @@
 import BlockList from 'components/BlockPanel/BlockList';
 import { useTrawApp } from 'hooks';
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import { styled } from 'stitches.config';
+import EmptyDocumentPopup from './EmptyDocumentPopup';
 import PanelFooter from './PanelFooter';
 import PanelHeader from './PanelHeader';
 
@@ -9,43 +10,67 @@ export interface BlockPanelProps {
   handlePlayClick: (blockId?: string) => void;
   components?: {
     EmptyVoiceNote?: ReactNode;
+    EmptyDocumentPopup?: ReactNode;
   };
 }
 
 export const BlockPanel = ({ handlePlayClick, components }: BlockPanelProps) => {
+  const [closeEmptyPopupForever, setCloseEmptyPopupForever] = useState(false);
+
   const app = useTrawApp();
   const panelOpen = app.useStore((state) => state.editor.isPanelOpen);
   const totalTime = app.useStore((state) => state.player.totalTime);
 
+  const blocks = app.useStore((state) => state.blocks);
+  const isEmptyBlock = Object.keys(blocks).length === 0;
   const { isRecording, isTalking, recognizedText } = app.useStore((state) => state.recording);
 
+  const showEmptyDocumentPopup = isEmptyBlock && components?.EmptyDocumentPopup && !closeEmptyPopupForever;
+
+  useEffect(() => {
+    if (isRecording) {
+      setCloseEmptyPopupForever(true);
+    }
+  }, [showEmptyDocumentPopup, isRecording]);
+
+  const closeEmptyDocumentPopup = () => {
+    setCloseEmptyPopupForever(true);
+  };
+
   return (
-    <StyledPanelContainer open={panelOpen}>
+    <StyledPanelContainer size={!panelOpen ? 'small' : showEmptyDocumentPopup ? 'medium' : 'large'}>
       <div className="flex flex-col w-full h-full p-2 bg-white rounded-xl">
-        <>
-          <PanelHeader
-            isRecording={isRecording}
-            isTalking={isTalking}
-            panelOpen={panelOpen}
-            totalTime={totalTime}
-            togglePanel={app.togglePanel}
+        {showEmptyDocumentPopup ? (
+          <EmptyDocumentPopup
+            popupContents={components?.EmptyDocumentPopup}
+            closeEmptyDocumentPopup={closeEmptyDocumentPopup}
           />
-          {panelOpen && (
-            <BlockList
-              handlePlayClick={handlePlayClick}
-              isRecording={isRecording}
-              EmptyVoiceNote={components?.EmptyVoiceNote}
-            />
-          )}
-          {panelOpen && (
-            <PanelFooter
+        ) : (
+          <>
+            <PanelHeader
               isRecording={isRecording}
               isTalking={isTalking}
-              recognizedText={recognizedText}
-              onCreate={console.log}
+              panelOpen={panelOpen}
+              totalTime={totalTime}
+              togglePanel={app.togglePanel}
             />
-          )}
-        </>
+            {panelOpen && (
+              <BlockList
+                handlePlayClick={handlePlayClick}
+                isRecording={isRecording}
+                EmptyVoiceNote={components?.EmptyVoiceNote}
+              />
+            )}
+            {panelOpen && (
+              <PanelFooter
+                isRecording={isRecording}
+                isTalking={isTalking}
+                recognizedText={recognizedText}
+                onCreate={console.log}
+              />
+            )}
+          </>
+        )}
       </div>
     </StyledPanelContainer>
   );
@@ -81,13 +106,10 @@ const StyledPanelContainer = styled('div', {
       medium: {},
       large: {},
     },
-    open: {
-      true: {
-        maxHeight: '100%',
-      },
-      false: {
-        maxHeight: 50,
-      },
+    size: {
+      large: { maxHeight: '100%' },
+      medium: { maxHeight: 330 },
+      small: { maxHeight: 50 },
     },
   },
 });
