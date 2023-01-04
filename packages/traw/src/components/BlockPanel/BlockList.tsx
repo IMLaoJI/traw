@@ -18,7 +18,9 @@ export default function BlockList({ handlePlayClick, isRecording, EmptyVoiceNote
   const blocksRef = useRef<any>({});
 
   const sortedBlocks = useMemo(() => {
-    return Object.values(blocks).sort((a, b) => a.time - b.time);
+    return Object.values(blocks)
+      .filter((block) => block.isActive)
+      .sort((a, b) => a.time - b.time);
   }, [blocks]);
 
   const [beforeBlockLength, setBeforeBlockLength] = useState(0);
@@ -48,8 +50,8 @@ export default function BlockList({ handlePlayClick, isRecording, EmptyVoiceNote
   let prevUserId = '';
 
   return (
-    <div className="mt-4 flex-2 flex-auto w-full overflow-y-auto min-h-0 px-2">
-      <ul className="flex flex-col gap-1">
+    <div className="mt-4 flex-2 flex-auto w-full overflow-y-auto min-h-0 pl-2">
+      <ul className="flex flex-col ">
         {sortedBlocks.map((block) => {
           const isUserContinue = prevUserId === block.userId;
           prevUserId = block.userId;

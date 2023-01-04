@@ -3,7 +3,7 @@ import { default as React, useEffect } from 'react';
 import { TrawApp, TrawEventType } from 'state';
 
 import { Traw } from 'Traw';
-import { EXAMPLE_RECORDS, TEST_DOCUMENT_1, TEST_USER_1, TEST_USER_2 } from 'utils/testUtil';
+import { EXAMPLE_RECORDS, TEST_DOCUMENT_1, TEST_USER_1, TEST_USER_2, EXMPLE_BLOCKS } from 'utils/testUtil';
 
 export default {
   title: 'Traw/Traw',
@@ -20,6 +20,14 @@ const Template: ComponentStory<typeof Traw> = () => {
       records: EXAMPLE_RECORDS,
     }),
   );
+
+  useEffect(() => {
+    trawApp.on(TrawEventType.CreateRecords, () => {
+      trawApp.addBlocks(EXMPLE_BLOCKS);
+      trawApp.addUser(TEST_USER_1);
+      trawApp.addUser(TEST_USER_2);
+    });
+  }, [trawApp]);
 
   return (
     <div className="h-screen flex -m-4">
