@@ -1,9 +1,12 @@
 import classNames from 'classnames';
+
 import { useTrawApp } from 'hooks';
 import moment from 'moment';
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { TrawSnapshot } from 'types';
 import { UserAvatar } from '../Avatar/Avatar';
+import BlockItemMenu from './BlockItemMenu';
+import BlockTextInput from './BlockTextInput';
 
 export interface BlockItemProps {
   userId: string;
@@ -31,6 +34,10 @@ export const BlockItem = ({
   const trawApp = useTrawApp();
 
   const user = trawApp.useStore((state: TrawSnapshot) => state.users[userId]);
+  const editorId = trawApp.useStore((state: TrawSnapshot) => state.user.id);
+  const showBlockMenu = editorId === userId;
+
+  const [editMode, setEditMode] = useState(false);
 
   const dateStr = useMemo(() => {
     if (typeof date === 'string') {
@@ -59,6 +66,14 @@ export const BlockItem = ({
     }
   }, [trawApp, user, userId]);
 
+  const handleToggleEditMode = () => {
+    setEditMode(!editMode);
+  };
+
+  const handleDeleteBlock = () => {
+    trawApp.deleteBlock(blockId);
+  };
+
   return (
     <li
       className="bg-white w-full"
@@ -76,16 +91,25 @@ export const BlockItem = ({
         </div>
       )}
 
-      <span
-        className={classNames('mt-2', 'text-sm', 'rounded-md', 'py-1', 'px-0.5', 'transition-colors', {
-          'cursor-pointer': isVoiceBlock,
-          'hover:bg-traw-grey-50': isVoiceBlock,
-          'bg-traw-purple-light': isPlaying,
-        })}
-        onClick={onClick}
-      >
-        {blockText || '[Empty]'}
-      </span>
+      <div className={classNames('flex', 'flex-1', 'align-start', 'justify-between')}>
+        {!editMode ? (
+          <span
+            className={classNames('text-sm', 'rounded-md', 'py-1', 'px-0.5', 'transition-colors', 'break-all', {
+              'cursor-pointer': isVoiceBlock,
+              'hover:bg-traw-grey-50': isVoiceBlock,
+              'bg-traw-purple-light': isPlaying,
+            })}
+            onClick={onClick}
+          >
+            {blockText || '[Empty]'}
+          </span>
+        ) : (
+          <BlockTextInput blockId={blockId} originText={blockText} endEditMode={handleToggleEditMode} />
+        )}
+        {showBlockMenu && (
+          <BlockItemMenu handleToggleEditMode={handleToggleEditMode} handleDeleteBlock={handleDeleteBlock} />
+        )}
+      </div>
     </li>
   );
 };

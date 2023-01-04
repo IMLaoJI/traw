@@ -27,11 +27,34 @@ export interface CreateBlockEvent extends TrawBaseEvent {
 
 export type CreateBlockHandler = (event: CreateBlockEvent) => void;
 
+export type CreateBlockVoiceHandler = (event: CreateBlockVoiceEvent) => void;
+
+/**
+ * Event for update block text
+ *
+ */
+
+export interface EditBlockEvent extends TrawBaseEvent {
+  blockId: string;
+  text: string;
+}
+
+export type EditBlockHandler = (event: EditBlockEvent) => void;
+
+/**
+ * Event for deactivate block
+ *
+ */
+
+export interface DeleteBlockEvent extends TrawBaseEvent {
+  blockId: string;
+}
+
+export type DeleteBlockHandler = (event: DeleteBlockEvent) => void;
+
 export interface CreateBlockVoiceEvent extends TrawBaseEvent {
   voice: TRBlockVoice;
 }
-
-export type CreateBlockVoiceHandler = (event: CreateBlockVoiceEvent) => void;
 
 /**
  * Event triggered when TldrawApp is changed.
@@ -64,6 +87,8 @@ export enum TrawEventType {
   TldrawAppChange = 'tldrawAppChange',
   PointerMove = 'pointerMove',
   CameraChange = 'cameraChange',
+  EditBlock = 'editBlock',
+  DeleteBlock = 'deleteBlock',
 }
 
 /**
@@ -76,6 +101,8 @@ export interface EventTypeHandlerMap {
   [TrawEventType.CameraChange]: CameraChangeHandler;
   [TrawEventType.CreateBlock]: CreateBlockHandler;
   [TrawEventType.CreateBlockVoice]: CreateBlockVoiceHandler;
+  [TrawEventType.EditBlock]: EditBlockHandler;
+  [TrawEventType.DeleteBlock]: DeleteBlockHandler;
 }
 
 /**
@@ -87,4 +114,6 @@ export type TrawEventHandler =
   | PointerMoveHandler
   | CameraChangeHandler
   | CreateBlockHandler
-  | CreateBlockVoiceHandler;
+  | CreateBlockVoiceHandler
+  | EditBlockHandler
+  | DeleteBlockHandler;

@@ -1,6 +1,7 @@
 import { TDAsset, TDToolType, TDUser, TldrawApp, TldrawCommand, TldrawPatch } from '@tldraw/tldraw';
 import debounce from 'lodash/debounce';
 import { nanoid } from 'nanoid';
+import { mountStoreDevtool } from 'simple-zustand-devtools';
 import {
   ActionType,
   AnimationType,
@@ -18,17 +19,16 @@ import {
 } from 'types';
 import createVanilla, { StoreApi } from 'zustand/vanilla';
 import { DEFAULT_CAMERA, DELETE_ID, SLIDE_HEIGHT, SLIDE_RATIO, SLIDE_WIDTH } from '../constants';
-import { mountStoreDevtool } from 'simple-zustand-devtools';
 
-import produce from 'immer';
-import { CreateRecordsEvent, EventTypeHandlerMap, TrawEventHandler, TrawEventType } from 'state/events';
-import create, { UseBoundStore } from 'zustand';
-import { TrawAppOptions } from './TrawAppOptions';
-import { TrawRecorder } from 'recorder/TrawRecorder';
 import { Howl } from 'howler';
+import produce from 'immer';
+import { cloneDeepWith } from 'lodash';
+import { TrawRecorder } from 'recorder/TrawRecorder';
+import { CreateRecordsEvent, EventTypeHandlerMap, TrawEventHandler, TrawEventType } from 'state/events';
 import { encodeFile } from 'utils/base64';
 import { isChrome } from 'utils/common';
-import { cloneDeepWith } from 'lodash';
+import create, { UseBoundStore } from 'zustand';
+import { TrawAppOptions } from './TrawAppOptions';
 
 export const convertCameraTRtoTD = (camera: TRCamera, viewport: TRViewport): TDCamera => {
   const ratio = viewport.width / viewport.height;
@@ -988,6 +988,24 @@ export class TrawApp {
         state.player.totalTime = totalTime;
       }),
     );
+  };
+
+  editBlock = (blockId: string, text: string) => {
+    this.store.setState(
+      produce((state) => {
+        state.blocks[blockId] = { ...state.blocks[blockId], text };
+      }),
+    );
+    this.emit(TrawEventType.EditBlock, { tldrawApp: this.app, blockId, text });
+  };
+
+  deleteBlock = (blockId: string) => {
+    this.store.setState(
+      produce((state) => {
+        state.blocks[blockId] = { ...state.blocks[blockId], isActive: false };
+      }),
+    );
+    this.emit(TrawEventType.DeleteBlock, { tldrawApp: this.app, blockId });
   };
 
   public getPlayableVoice = (block: TRBlock | undefined): TRBlockVoice | undefined => {
