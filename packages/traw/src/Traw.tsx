@@ -25,6 +25,7 @@ export interface TrawProps {
   components?: {
     TopMenu?: ReactNode;
     EmptyVoiceNote?: ReactNode;
+    EmptyDocumentPopup?: ReactNode;
     /**
      * The component to render for multiplayer cursors.
      */
@@ -81,7 +82,13 @@ const Traw = ({ app, document, components, functions }: TrawProps) => {
           {!isPlayerMode && <HeaderPanel handleChangeTitle={functions?.handleChangeDocumentTitle} />}
           {!isPlayerMode && <TopPanel Room={components?.TopMenu} />}
           {!isPlayerMode && (
-            <BlockPanel handlePlayClick={handlePlayClick} components={{ EmptyVoiceNote: components?.EmptyVoiceNote }} />
+            <BlockPanel
+              handlePlayClick={handlePlayClick}
+              components={{
+                EmptyVoiceNote: components?.EmptyVoiceNote,
+                EmptyDocumentPopup: components?.EmptyDocumentPopup,
+              }}
+            />
           )}
 
           {!isPlayerMode && <SlideListPanel />}
