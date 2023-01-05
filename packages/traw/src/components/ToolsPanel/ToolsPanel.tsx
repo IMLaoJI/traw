@@ -11,6 +11,7 @@ import { useTrawApp } from 'hooks';
 import { PlayModeType } from 'types';
 import Player from './Player';
 import { ActionButton } from './ActionButton';
+import useDeviceDetect from 'hooks/useDeviceDetect';
 
 const isDebugModeSelector = (s: TDSnapshot) => s.settings.isDebugMode;
 const dockPositionState = (s: TDSnapshot) => s.settings.dockPosition;
@@ -26,18 +27,22 @@ export const ToolsPanel = React.memo(function ToolsPanel({ onBlur }: ToolsPanelP
   const side = app.useStore(dockPositionState);
   const isDebugMode = app.useStore(isDebugModeSelector);
   const isEdit = trawApp.useStore((state) => state.player.mode) === PlayModeType.EDIT;
+  const { isBrowser } = useDeviceDetect();
 
   return (
     <>
       <StyledToolsPanelContainer panelOpen={panelOpen} side={side} onBlur={onBlur} bp={breakpoints} debug={isDebugMode}>
         {isEdit ? (
-          <StyledCenterWrap id="TD-Tools">
-            <StyledPrimaryTools orientation={side === 'bottom' || side === 'top' ? 'horizontal' : 'vertical'}>
-              <ActionButton />
+          <StyledAlignWrap id="TD-Tools" bp={breakpoints}>
+            <StyledPrimaryTools
+              orientation={side === 'bottom' || side === 'top' ? 'horizontal' : 'vertical'}
+              bp={breakpoints}
+            >
+              {isBrowser && <ActionButton />}
               <PrimaryTools />
-              <StyleMenu />
+              {isBrowser && <StyleMenu />}
             </StyledPrimaryTools>
-          </StyledCenterWrap>
+          </StyledAlignWrap>
         ) : (
           <Player />
         )}
@@ -56,7 +61,7 @@ const StyledToolsPanelContainer = styled('div', {
   width: '100%',
   minWidth: 0,
   maxWidth: '100%',
-  height: 64,
+  height: 'auto',
   gap: '$4',
   display: 'flex',
   justifyContent: 'center',
@@ -75,8 +80,9 @@ const StyledToolsPanelContainer = styled('div', {
     bp: {
       mobile: {},
       small: {},
-      medium: {},
-      large: {},
+      medium: {
+        height: 64,
+      },
     },
     side: {
       top: {
@@ -91,20 +97,34 @@ const StyledToolsPanelContainer = styled('div', {
         width: '100%',
         left: 0,
         right: 0,
-        bottom: 4,
+        bottom: 0,
       },
       left: { width: 64, height: '100%', left: 0 },
     },
     panelOpen: {
       true: {
-        paddingRight: '285px',
+        paddingRight: 0,
       },
       false: {
-        paddingRight: '0px',
+        paddingRight: 0,
       },
     },
   },
   compoundVariants: [
+    {
+      panelOpen: 'true',
+      bp: 'medium',
+      css: {
+        paddingRight: '285px',
+      },
+    },
+    {
+      panelOpen: 'false',
+      bp: 'medium',
+      css: {
+        paddingRight: '0px',
+      },
+    },
     {
       side: 'top',
       bp: 'large',
@@ -114,22 +134,37 @@ const StyledToolsPanelContainer = styled('div', {
     },
     {
       side: 'bottom',
+      bp: 'medium',
       debug: true,
       css: {
         bottom: 44,
       },
     },
+    {
+      side: 'bottom',
+      bp: 'large',
+      css: {
+        bottom: 4,
+      },
+    },
   ],
 });
 
-const StyledCenterWrap = styled('div', {
+const StyledAlignWrap = styled('div', {
   display: 'flex',
-  width: 'fit-content',
+  flex: 1,
   height: 'fit-content',
   alignItems: 'center',
   justifyContent: 'center',
   flexDirection: 'column',
   gap: '$4',
+  variants: {
+    bp: {
+      medium: {
+        flex: 0,
+      },
+    },
+  },
 });
 
 const StyledStatusWrap = styled('div', {
@@ -146,9 +181,20 @@ const StyledPrimaryTools = styled('div', {
   position: 'relative',
   display: 'flex',
   alignItems: 'center',
+  justifyContent: 'center',
   height: 'fit-content',
-  gap: '$3',
+  gap: 0,
+
+  flex: 1,
+  width: '100%',
+
   variants: {
+    bp: {
+      medium: {
+        gap: '$3',
+        width: 'auto',
+      },
+    },
     orientation: {
       horizontal: {
         flexDirection: 'row',

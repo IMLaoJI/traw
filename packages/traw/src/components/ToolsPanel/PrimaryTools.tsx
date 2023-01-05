@@ -12,12 +12,17 @@ import { EraserIcon } from 'icons/eraser';
 import { UndoIcon } from 'icons/undo';
 import { styled } from 'stitches.config';
 import { ShapesMenu } from './ShapesMenu';
+import { StyleMenu } from './StyleMenu';
+import { ActionButton } from './ActionButton';
+import useDeviceDetect from 'hooks/useDeviceDetect';
 
 const activeToolSelector = (s: TDSnapshot) => s.appState.activeTool;
 const toolLockedSelector = (s: TDSnapshot) => s.appState.isToolLocked;
 const dockPositionState = (s: TDSnapshot) => s.settings.dockPosition;
 
 export const PrimaryTools = React.memo(function PrimaryTools() {
+  const { isBrowser } = useDeviceDetect();
+
   const app = useTldrawApp();
 
   const activeTool = app.useStore(activeToolSelector);
@@ -138,16 +143,30 @@ export const PrimaryTools = React.memo(function PrimaryTools() {
       <ToolButtonWithTooltip label={'redo'} onClick={redo} id="TD-PrimaryTools-Redo" variant="undo">
         <UndoIcon flipHorizontal />
       </ToolButtonWithTooltip>
+
+      {!isBrowser && (
+        <div className="flex ml-3">
+          <StyleMenu />
+          <ActionButton />
+        </div>
+      )}
     </StyledPanel>
   );
 });
 
 const StyledPanel = styled(Panel, {
-  borderRadius: '9999px',
+  borderRadius: 0,
+  flex: 1,
+  padding: '10px 10px',
+  justifyContent: 'center',
   variants: {
     bp: {
-      small: {
-        padding: '$1 $4',
+      micro: {
+        padding: '6px 0px',
+      },
+      medium: {
+        borderRadius: '9999px',
+        padding: '$2',
       },
     },
   },

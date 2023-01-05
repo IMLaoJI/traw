@@ -33,6 +33,7 @@ import { preventEvent } from 'utils/preventEvent';
 import { breakpoints } from 'utils/breakpoints';
 import { Divider } from 'components/Primitives/Divider';
 import { ToolButton } from 'components/Primitives/ToolButton';
+import useDeviceDetect from 'hooks/useDeviceDetect';
 
 export const currentStyleSelector = (s: TDSnapshot) => s.appState.currentStyle;
 export const selectedIdsSelector = (s: TDSnapshot) => s.document.pageStates[s.appState.currentPageId].selectedIds;
@@ -101,6 +102,8 @@ export const optionsSelector = (s: TDSnapshot) => {
 };
 
 export const StyleMenu = React.memo(function ColorMenu() {
+  const { isBrowser } = useDeviceDetect();
+
   const app = useTldrawApp();
 
   const theme = app.useStore(themeSelector);
@@ -205,7 +208,7 @@ export const StyleMenu = React.memo(function ColorMenu() {
   return (
     <DropdownMenu.Root dir="ltr" onOpenChange={handleMenuOpenChange} open={keepOpen ? true : undefined} modal={false}>
       <DropdownMenu.Trigger asChild id="TD-Styles">
-        <ToolButton variant="text">Styles</ToolButton>
+        <ToolButton variant={isBrowser ? 'text' : 'primary'}>Styles</ToolButton>
       </DropdownMenu.Trigger>
       <DMContent id="language-menu" side="bottom" align="end" sideOffset={10} alignOffset={0}>
         <StyledRow variant="tall" id="TD-Styles-Color-Container">

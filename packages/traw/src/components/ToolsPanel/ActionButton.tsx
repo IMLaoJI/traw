@@ -23,12 +23,14 @@ import {
   SpaceEvenlyVerticallyIcon,
   StretchHorizontallyIcon,
   StretchVerticallyIcon,
+  DotsVerticalIcon,
 } from '@radix-ui/react-icons';
 import { AlignType, DistributeType, StretchType, TDSnapshot } from '@tldraw/tldraw';
 import { Divider } from 'components/Primitives/Divider';
 import { DMContent } from 'components/Primitives/DropdownMenu';
 import { ToolButton } from 'components/Primitives/ToolButton';
 import { Tooltip } from 'components/Primitives/Tooltip/Tooltip';
+import useDeviceDetect from 'hooks/useDeviceDetect';
 import { useTldrawApp } from 'hooks/useTldrawApp';
 import * as React from 'react';
 import { styled } from 'stitches.config';
@@ -72,6 +74,8 @@ const hasMultipleSelectionSelector = (s: TDSnapshot) => {
 };
 
 export function ActionButton() {
+  const { isBrowser } = useDeviceDetect();
+
   const app = useTldrawApp();
 
   const isAllLocked = app.useStore(isAllLockedSelector);
@@ -184,8 +188,8 @@ export function ActionButton() {
   return (
     <DropdownMenu.Root dir="ltr" onOpenChange={handleMenuOpenChange}>
       <DropdownMenu.Trigger dir="ltr" asChild id="TD-Tools-Dots">
-        <ToolButton variant="circle">
-          <DotsHorizontalIcon />
+        <ToolButton variant={isBrowser ? 'circle' : 'primary'}>
+          {isBrowser ? <DotsHorizontalIcon /> : <DotsVerticalIcon />}
         </ToolButton>
       </DropdownMenu.Trigger>
       <DMContent sideOffset={16} side={contentSide}>
