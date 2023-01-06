@@ -1,7 +1,10 @@
 import { SpeakingIndicator } from 'components/Indicator';
+import useDeviceDetect from 'hooks/useDeviceDetect';
 import { DoubleArrowLeftIcon } from 'icons/DoubleArrowLeft';
+import { Cross2Icon, DotFilledIcon } from '@radix-ui/react-icons';
 import React from 'react';
 import RecordingTimer from './RecordingTimer';
+import SvgRecording from 'icons/recording';
 
 export interface PanelHeaderProps {
   isRecording?: boolean;
@@ -19,37 +22,67 @@ const formatTime = (time: number) => {
 };
 
 export const PanelHeader = ({ isRecording, isTalking, panelOpen, togglePanel, totalTime }: PanelHeaderProps) => {
+  const { isBrowser } = useDeviceDetect();
+
   return (
-    <header className="flex mt-2 w-full gap-2 pl-2 items-center select-none">
+    <header className="flex mt-2 w-full gap-2  items-center select-none">
       {!isRecording && (
         <>
-          <div className="text-traw-grey-dark text-[13px] font-bold ">Voice note</div>
-          {/* Todo. total record time */}
-          <div className="text-traw-grey-100 font-[12px]">{formatTime(totalTime)}</div>
-          <button onClick={togglePanel} className=" ml-auto">
-            {panelOpen ? (
-              <DoubleArrowLeftIcon flipHorizontal className="text-traw-grey-100 transition-transform" />
-            ) : (
-              <DoubleArrowLeftIcon className="text-traw-grey-100 transition-transform" />
-            )}
-          </button>
+          {isBrowser ? (
+            <>
+              <div className="text-traw-grey-dark text-[13px] font-bold pl-2">Voice note</div>
+              <div className="text-traw-grey-100 font-[12px]">{formatTime(totalTime)}</div>
+              <button onClick={togglePanel} className=" ml-auto">
+                {panelOpen ? (
+                  <DoubleArrowLeftIcon flipHorizontal className="text-traw-grey-100 transition-transform" />
+                ) : (
+                  <DoubleArrowLeftIcon className="text-traw-grey-100 transition-transform" />
+                )}
+              </button>
+            </>
+          ) : (
+            <>
+              <div className="text-traw-grey-dark text-[13px] font-bold " onClick={togglePanel}>
+                Voice note
+              </div>
+              {panelOpen && (
+                <button onClick={togglePanel} className="ml-auto mr-1">
+                  <Cross2Icon className="text-traw-grey-100 transition-transform w-4 h-4" />
+                </button>
+              )}
+            </>
+          )}
         </>
       )}
       {isRecording && (
         <>
           {panelOpen ? (
             <>
-              <div className="text-traw-grey-dark text-[13px] font-bold ">Voice note</div>
+              <div className="text-traw-grey-dark text-[13px] font-bold pl-2 flex items-center">
+                <div>Voice note</div>
+                {!isBrowser && <RecordingTimer className="flex-1 ml-1.5" />}
+              </div>
               <button onClick={togglePanel} className=" ml-auto">
-                <DoubleArrowLeftIcon flipHorizontal className="text-traw-grey-100 " />
+                {isBrowser ? (
+                  <DoubleArrowLeftIcon flipHorizontal className="text-traw-grey-100 current" />
+                ) : (
+                  <Cross2Icon className="text-traw-grey-100 current w-4 h-4 mr-1" />
+                )}
               </button>
             </>
           ) : (
             <>
-              <div className="flex flex-1  items-end cursor-pointer" onClick={togglePanel}>
-                <RecordingTimer className="flex-1" />
-                <SpeakingIndicator size={17} isSpeaking={isTalking} />
-              </div>
+              {isBrowser ? (
+                <div className="flex flex-1  items-end cursor-pointer pl-2" onClick={togglePanel}>
+                  <RecordingTimer className="flex-1" />
+                  <SpeakingIndicator size={17} isSpeaking={isTalking} />
+                </div>
+              ) : (
+                <div className="text-traw-grey-dark text-[13px] font-bold  flex items-center" onClick={togglePanel}>
+                  <SvgRecording className="text-traw-red mr-1.5" width="10" height="10" />
+                  <div>Voice note</div>
+                </div>
+              )}
             </>
           )}
         </>

@@ -113,7 +113,6 @@ const StyledUI = styled('div', {
   alignItems: 'flex-start',
   justifyContent: 'flex-start',
   pointerEvents: 'none',
-  zIndex: 2,
   '& > *': {
     pointerEvents: 'all',
   },
