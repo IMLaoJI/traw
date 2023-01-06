@@ -50,7 +50,7 @@ export default function BlockList({ handlePlayClick, isRecording, EmptyVoiceNote
   let prevUserId = '';
 
   return (
-    <div className="mt-4 flex-2 flex-auto w-full overflow-y-auto min-h-0 pl-2">
+    <div className="mt-2 md:mt-4 flex-2 flex-auto w-full overflow-y-auto min-h-0 pl-0 md:pl-2">
       <ul className="flex flex-col ">
         {sortedBlocks.map((block) => {
           const isUserContinue = prevUserId === block.userId;

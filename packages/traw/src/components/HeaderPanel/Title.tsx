@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { styled } from 'stitches.config';
+import { breakpoints } from 'utils/breakpoints';
 
 export interface TitleProps {
   title: string;
   canEdit: boolean;
-  handleChangeTitle: (title: string) => void;
+  handleChangeTitle?: (title: string) => void;
 }
 
 export const Title = ({ title, canEdit, handleChangeTitle }: TitleProps) => {
@@ -15,6 +16,7 @@ export const Title = ({ title, canEdit, handleChangeTitle }: TitleProps) => {
   };
 
   const onBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    if (!handleChangeTitle) return;
     const newTitle = e.target.value.trim();
     if (newTitle.length === 0) {
       setName(title);
@@ -24,7 +26,7 @@ export const Title = ({ title, canEdit, handleChangeTitle }: TitleProps) => {
     handleChangeTitle(newTitle);
   };
   return (
-    <StyledInputLabel data-value={name}>
+    <StyledInputLabel data-value={name} bp={breakpoints}>
       <input
         type="text"
         disabled={!canEdit}
@@ -42,8 +44,16 @@ const StyledInputLabel = styled('label', {
   verticalAlign: 'top',
   alignItems: 'center',
   position: 'relative',
-  maxWidth: 500,
+  maxWidth: 130,
   userSelect: 'none',
+
+  variants: {
+    bp: {
+      medium: {
+        maxWidth: 500,
+      },
+    },
+  },
 
   '&:after': {
     width: 'auto',

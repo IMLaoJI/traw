@@ -19,10 +19,12 @@ module.exports = {
           grey: '#5B5F80', //text.secondary
           'grey-dark': '#2B2B59', //text.primary
           divider: '#EDEFF6',
+          red: '#FF0000',
         },
       },
       boxShadow: {
         '3xl': '0px 0px 60px 0px #bdbcf980',
+        '4xl': '0px 4px 20px rgba(0, 0, 0, 0.25)',
       },
       borderRadius: {
         xl: '10px',

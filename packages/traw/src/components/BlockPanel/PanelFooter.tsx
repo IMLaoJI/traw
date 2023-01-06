@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import SvgSend from '../../icons/send';
 import classNames from 'classnames';
-import { SpeakingIndicator } from 'components/Indicator';
 import RecordingTimer from 'components/BlockPanel/RecordingTimer';
 import SpeechViewer from 'components/BlockPanel/SpeechViewer';
+import { SpeakingIndicator } from 'components/Indicator';
+import React, { useState } from 'react';
+import SvgSend from '../../icons/send';
 
 export interface PanelFooterProps {
   isRecording: boolean;
