@@ -28,10 +28,6 @@ export const HeaderPanel = memo(function HeaderPanel({ handleChangeTitle }: Head
           <SvgLogoSmall className="w-6 h-6" />
         </button>
         <div className="flex items-center">
-          {/* <span className="text-traw-grey mr-1.5 max-w-[80px] w-auto overflow-hidden text-ellipsis whitespace-nowrap">
-            {document.channelName}
-          </span> */}
-          {/* <span className="text-traw-grey mr-1">/</span> */}
           <Title title={document.name} canEdit={document.canEdit} handleChangeTitle={handleTitle} />
         </div>
       </StyledHeaderPanelContainer>

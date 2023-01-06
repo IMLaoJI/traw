@@ -85,7 +85,7 @@ const StyledPanelContainer = styled('div', {
   marginLeft: 16,
   minHeight: 0,
   width: 269,
-  height: 'calc(100vh - 91px)',
+  height: 'calc(100% - 91px)',
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',

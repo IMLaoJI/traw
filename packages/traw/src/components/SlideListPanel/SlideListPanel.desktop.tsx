@@ -103,7 +103,7 @@ const StyledSlideListPanelContainer = styled('div', {
   borderRadius: 15,
   transition: 'all 0.15s  cubic-bezier(0.4, 0, 0.2, 1)',
   fontSize: 13,
-  height: 'calc(100vh - 91px)',
+  height: 'calc(100% - 91px)',
 
   '& > div > *': {
     pointerEvents: 'all',
@@ -159,5 +159,6 @@ const StyledSlideList = styled('ul', {
   display: 'flex',
   flexDirection: 'column',
   gap: '10px',
-  overflow: 'auto',
+  maxHeight: 'calc(100%)',
+  overflowY: 'scroll',
 });

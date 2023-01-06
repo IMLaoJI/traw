@@ -4,7 +4,6 @@ import '@fontsource/recursive';
 import '@fontsource/source-code-pro';
 import '@fontsource/source-sans-pro';
 import { Editor } from 'components/Editor';
-import { HeaderPanel } from 'components/HeaderPanel';
 import { SlideListPanel } from 'components/SlideListPanel';
 import { ToolsPanel } from 'components/ToolsPanel';
 import { TopPanel } from 'components/TopPanel';
@@ -18,6 +17,7 @@ import { BlockPanel } from './components';
 import './index.css';
 
 import { CursorComponent } from '@tldraw/core';
+import { breakpoints } from 'utils/breakpoints';
 
 export interface TrawProps {
   app?: TrawApp;
@@ -78,9 +78,10 @@ const Traw = ({ app, document, components, functions }: TrawProps) => {
     <TrawContext.Provider value={trawApp}>
       <div id="traw" data-testid="traw" className="flex flex-1 flex-col overflow-hidden ">
         <Editor components={components} readOnly={readOnly} />
-        <StyledUI>
-          {!isPlayerMode && <HeaderPanel handleChangeTitle={functions?.handleChangeDocumentTitle} />}
-          {!isPlayerMode && <TopPanel Room={components?.TopMenu} />}
+        <StyledUI bp={breakpoints}>
+          {!isPlayerMode && (
+            <TopPanel Room={components?.TopMenu} handleChangeTitle={functions?.handleChangeDocumentTitle} />
+          )}
           {!isPlayerMode && (
             <BlockPanel
               handlePlayClick={handlePlayClick}
@@ -108,12 +109,20 @@ const StyledUI = styled('div', {
   left: 0,
   height: '100%',
   width: '100%',
-  padding: '8px 8px 0 8px',
   display: 'flex',
   alignItems: 'flex-start',
   justifyContent: 'flex-start',
   pointerEvents: 'none',
   '& > *': {
     pointerEvents: 'all',
+  },
+
+  padding: 0,
+  variants: {
+    bp: {
+      medium: {
+        padding: 8,
+      },
+    },
   },
 });
