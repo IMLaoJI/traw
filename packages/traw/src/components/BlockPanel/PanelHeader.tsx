@@ -1,10 +1,10 @@
+import { Cross2Icon } from '@radix-ui/react-icons';
 import { SpeakingIndicator } from 'components/Indicator';
 import useDeviceDetect from 'hooks/useDeviceDetect';
 import { DoubleArrowLeftIcon } from 'icons/DoubleArrowLeft';
-import { Cross2Icon, DotFilledIcon } from '@radix-ui/react-icons';
+import SvgRecording from 'icons/recording';
 import React from 'react';
 import RecordingTimer from './RecordingTimer';
-import SvgRecording from 'icons/recording';
 
 export interface PanelHeaderProps {
   isRecording?: boolean;
