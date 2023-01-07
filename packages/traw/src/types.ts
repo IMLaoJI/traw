@@ -161,6 +161,7 @@ export type TRBlock = {
   type: TRBlockType;
   userId: string;
   time: number;
+  lang: string;
   text: string;
   isActive: boolean;
   voices: TRBlockVoice[];

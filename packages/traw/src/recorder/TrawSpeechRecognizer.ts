@@ -11,7 +11,7 @@ export type onRecognizedHandler = (action: 'add' | 'update', result: SpeechRecog
 const SpeechRecognition = self.SpeechRecognition || self.webkitSpeechRecognition;
 
 export interface TrawSpeechRecognizerOptions {
-  lang?: string;
+  lang: string;
   onRecognized?: onRecognizedHandler;
 }
 
@@ -29,7 +29,7 @@ export class TrawSpeechRecognizer {
 
   public onRecognized?: onRecognizedHandler;
 
-  constructor({ lang = 'en-US', onRecognized }: TrawSpeechRecognizerOptions) {
+  constructor({ lang, onRecognized }: TrawSpeechRecognizerOptions) {
     if (!TrawSpeechRecognizer.isSupported()) {
       throw new UnsupportedBrowserException('SpeechRecognition is not supported');
     }

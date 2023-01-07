@@ -146,7 +146,7 @@ export class TrawApp {
 
   public requestUser?: (id: string) => Promise<TrawUser | undefined>;
 
-  constructor({ user, document, records = [], playerOptions }: TrawAppOptions) {
+  constructor({ user, document, records = [], speechRecognitionLanguage = 'ko-KR', playerOptions }: TrawAppOptions) {
     this.editorId = user.id;
 
     const mode = playerOptions?.autoPlay
@@ -173,7 +173,7 @@ export class TrawApp {
         animations: {},
       },
       editor: {
-        isPanelOpen: playerOptions?.isPlayerMode ? false : true,
+        isPanelOpen: !playerOptions?.isPlayerMode,
       },
       viewport: {
         width: 0,
@@ -215,7 +215,7 @@ export class TrawApp {
 
     if (TrawRecorder.isSupported()) {
       this._trawRecorder = new TrawRecorder({
-        lang: 'ko-KR',
+        speechRecognitionLanguage,
         onCreatingBlockUpdate: (text) => {
           this.store.setState(
             produce((state) => {
@@ -223,12 +223,13 @@ export class TrawApp {
             }),
           );
         },
-        onBlockCreated: ({ blockId, text, time, voiceStart, voiceEnd }) => {
+        onBlockCreated: ({ blockId, lang, text, time, voiceStart, voiceEnd }) => {
           const block: TRBlock = {
             id: blockId,
             time,
             voiceStart,
             voiceEnd,
+            lang,
             text,
             isActive: true,
             type: TRBlockType.TALK,

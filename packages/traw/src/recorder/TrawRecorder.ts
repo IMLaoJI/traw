@@ -12,7 +12,7 @@ import {
 export interface TrawRecorderOptions {
   audioDeviceId?: string;
   audioBitsPerSecond?: number;
-  lang?: string;
+  speechRecognitionLanguage: string;
   audioContext?: AudioContext;
   silenceTimeout?: number;
 
@@ -39,7 +39,7 @@ export class TrawRecorder {
   constructor({
     audioDeviceId,
     audioBitsPerSecond,
-    lang,
+    speechRecognitionLanguage,
     audioContext,
     silenceTimeout,
     onTalking,
@@ -58,6 +58,7 @@ export class TrawRecorder {
       onChangeMediaStream: this._onChangeMediaStream,
     });
     this._trawVoiceBlockGenerator = new TrawVoiceBlockGenerator({
+      speechRecognitionLanguage,
       onCreatingBlockUpdated: this.onCreatingBlockUpdate,
       onBlockCreated: this.onBlockCreated,
       onVoiceCreated: this.onVoiceCreated,
@@ -73,7 +74,7 @@ export class TrawRecorder {
       silenceTimeout,
     });
     this._trawSpeechRecognizer = new TrawSpeechRecognizer({
-      lang,
+      lang: speechRecognitionLanguage,
       onRecognized: this._onRecognized,
     });
   }

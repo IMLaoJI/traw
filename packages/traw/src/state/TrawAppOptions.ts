@@ -1,4 +1,4 @@
-import { Record, TrawDocument, TrawPlayerOptions, TrawUser } from 'types';
+import { TRRecord, TrawDocument, TrawPlayerOptions, TrawUser } from 'types';
 
 export interface TrawAppOptions {
   /**
@@ -14,7 +14,13 @@ export interface TrawAppOptions {
   /**
    * Initial records
    */
-  records?: Record[];
+  records?: TRRecord[];
+
+  /**
+   * Speech Recognition Language
+   * @default 'en-US'
+   */
+  speechRecognitionLanguage?: string;
 
   playerOptions?: TrawPlayerOptions;
 }

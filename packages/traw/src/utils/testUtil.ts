@@ -50,6 +50,7 @@ export const EXMPLE_BLOCKS: TRBlock[] = [
     type: TRBlockType.TALK,
     userId: TEST_USER_1.id,
     time: 0,
+    lang: 'ko-KR',
     text: '동구밖 과수원길 아카시아 꽃이 활짝폈네 동구밖 과수원길 아카시아 꽃이 활짝폈네',
     isActive: true,
     voices: [
@@ -68,6 +69,7 @@ export const EXMPLE_BLOCKS: TRBlock[] = [
     type: TRBlockType.TALK,
     userId: TEST_USER_1.id,
     time: 0,
+    lang: 'ko-KR',
     text: '동구밖 과수원길 ',
     isActive: true,
     voices: [
@@ -86,6 +88,7 @@ export const EXMPLE_BLOCKS: TRBlock[] = [
     type: TRBlockType.TALK,
     userId: TEST_USER_2.id,
     time: 0,
+    lang: 'ko-KR',
     text: '아카시아 꽃이',
     isActive: true,
     voices: [
@@ -104,6 +107,7 @@ export const EXMPLE_BLOCKS: TRBlock[] = [
     type: TRBlockType.TALK,
     userId: TEST_USER_1.id,
     time: 0,
+    lang: 'ko-KR',
     text: '',
     isActive: true,
     voices: [
