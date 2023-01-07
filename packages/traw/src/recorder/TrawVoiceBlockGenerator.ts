@@ -5,6 +5,7 @@ export type onCreatingBlockUpdatedHandler = (text: string) => void;
 export type onBlockCreatedHandler = (payload: {
   blockId: string;
   time: number;
+  lang: string;
   text: string;
   voiceStart: number;
   voiceEnd: number;
@@ -28,6 +29,11 @@ export interface TrawVoiceBlockGeneratorOptions {
    * @default 3500
    */
   emptyBlockThreshold?: number;
+
+  /**
+   * Speech recognition language
+   */
+  speechRecognitionLanguage: string;
 
   /**
    * Called when a creating block is edited (text is changed)
@@ -82,6 +88,11 @@ export class TrawVoiceBlockGenerator {
    */
   private _emptyBlockThreshold: number;
 
+  /**
+   * Speech recognition language
+   */
+  private _speechRecognitionLanguage: string;
+
   /*
    * Public callbacks
    */
@@ -92,6 +103,7 @@ export class TrawVoiceBlockGenerator {
   constructor({
     voiceStartAdjustment = 500,
     emptyBlockThreshold = 3500,
+    speechRecognitionLanguage,
     onCreatingBlockUpdated,
     onBlockCreated,
     onVoiceCreated,
@@ -102,6 +114,7 @@ export class TrawVoiceBlockGenerator {
     this._blockStartedAt = 0;
     this._speakingStartedAt = 0;
     this._recognitions = [];
+    this._speechRecognitionLanguage = speechRecognitionLanguage;
 
     this.onCreatingBlockUpdated = onCreatingBlockUpdated;
     this.onBlockCreated = onBlockCreated;
@@ -146,6 +159,7 @@ export class TrawVoiceBlockGenerator {
     const now = Date.now();
     const blockId = nanoid();
     const time = this._speakingStartedAt;
+    const lang = this._speechRecognitionLanguage;
     const text = this._recognitions
       .map((r) => r.text.trim())
       .join(' ')
@@ -164,6 +178,7 @@ export class TrawVoiceBlockGenerator {
     this.onBlockCreated?.({
       blockId,
       time,
+      lang,
       text,
       voiceStart,
       voiceEnd,
