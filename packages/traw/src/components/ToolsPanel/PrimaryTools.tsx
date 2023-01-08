@@ -1,4 +1,4 @@
-import { ArrowTopRightIcon, CursorArrowIcon, ImageIcon, Pencil1Icon, TextIcon } from '@radix-ui/react-icons';
+import { ArrowTopRightIcon, CursorArrowIcon, Pencil1Icon, PlusIcon, TextIcon } from '@radix-ui/react-icons';
 import * as React from 'react';
 import { breakpoints } from 'utils/breakpoints';
 
@@ -8,13 +8,14 @@ import { useTldrawApp } from 'hooks/useTldrawApp';
 import { TDShapeType, TDSnapshot } from '@tldraw/tldraw';
 import { Panel } from 'components/Primitives/Panel';
 import { ToolButtonWithTooltip } from 'components/Primitives/ToolButton';
+import { useTrawApp } from 'hooks';
+import useDeviceDetect from 'hooks/useDeviceDetect';
 import { EraserIcon } from 'icons/eraser';
 import { UndoIcon } from 'icons/undo';
 import { styled } from 'stitches.config';
+import { ActionButton } from './ActionButton';
 import { ShapesMenu } from './ShapesMenu';
 import { StyleMenu } from './StyleMenu';
-import { ActionButton } from './ActionButton';
-import useDeviceDetect from 'hooks/useDeviceDetect';
 
 const activeToolSelector = (s: TDSnapshot) => s.appState.activeTool;
 const toolLockedSelector = (s: TDSnapshot) => s.appState.isToolLocked;
@@ -23,6 +24,7 @@ const dockPositionState = (s: TDSnapshot) => s.settings.dockPosition;
 export const PrimaryTools = React.memo(function PrimaryTools() {
   const { isBrowser } = useDeviceDetect();
 
+  const trawApp = useTrawApp();
   const app = useTldrawApp();
 
   const activeTool = app.useStore(activeToolSelector);
@@ -55,8 +57,8 @@ export const PrimaryTools = React.memo(function PrimaryTools() {
   // }, [app]);
 
   const uploadMedias = React.useCallback(async () => {
-    app.openAsset();
-  }, [app]);
+    trawApp.openAsset();
+  }, [trawApp]);
 
   const undo = React.useCallback(() => {
     app.undo();
@@ -134,7 +136,7 @@ export const PrimaryTools = React.memo(function PrimaryTools() {
         <Pencil2Icon />
       </ToolButtonWithTooltip> */}
       <ToolButtonWithTooltip variant="primary" label={'image'} onClick={uploadMedias} id="TD-PrimaryTools-Image">
-        <ImageIcon />
+        <PlusIcon />
       </ToolButtonWithTooltip>
       <Separator.Root className="SeparatorRoot mx-2 my-1 w-[2px]  bg-traw-grey" decorative orientation="vertical" />
       <ToolButtonWithTooltip label={'undo'} onClick={undo} id="TD-PrimaryTools-Undo" variant="undo">
