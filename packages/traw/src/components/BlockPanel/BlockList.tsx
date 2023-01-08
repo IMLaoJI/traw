@@ -3,6 +3,8 @@ import { useTrawApp } from 'hooks';
 import { PlayModeType, TrawSnapshot } from 'types';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import EmptyBlockPanel from './EmptyBlockPanel';
+import { Virtuoso } from 'react-virtuoso';
+import { useEventListener, useIsomorphicLayoutEffect } from 'usehooks-ts';
 export interface BlockListProps {
   handlePlayClick: (blockId: string) => void;
   isRecording: boolean;
@@ -15,7 +17,10 @@ export default function BlockList({ handlePlayClick, isRecording, EmptyVoiceNote
   const targetBlockId = app.useStore((state: TrawSnapshot) =>
     state.player.mode === PlayModeType.PLAYING ? state.player.targetBlockId : undefined,
   );
-  const blocksRef = useRef<any>({});
+  const virtuosoRef = useRef(null);
+  const domRef = useRef<HTMLDivElement>(null);
+
+  const [height, setHeight] = useState(0);
 
   const sortedBlocks = useMemo(() => {
     return Object.values(blocks)
@@ -25,14 +30,24 @@ export default function BlockList({ handlePlayClick, isRecording, EmptyVoiceNote
 
   const [beforeBlockLength, setBeforeBlockLength] = useState(0);
 
-  const scrollTo = useCallback(
-    (index: number) => {
+  const handleResize = useCallback(() => {
+    const height = domRef.current?.offsetHeight || 0;
+
+    setHeight(height);
+  }, []);
+  useEventListener('resize', handleResize);
+  useIsomorphicLayoutEffect(() => {
+    handleResize();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [domRef.current]);
+
+  const scrollTo = useCallback((index: number) => {
+    if (virtuosoRef.current) {
       setTimeout(() => {
-        blocksRef.current[sortedBlocks[index].id].scrollIntoView({ behavior: 'smooth' });
-      });
-    },
-    [sortedBlocks],
-  );
+        (virtuosoRef.current as any).scrollToIndex({ index, align: 'center', behavior: 'smooth' });
+      }, 100);
+    }
+  }, []);
 
   useEffect(() => {
     const newBlockLength = sortedBlocks.length;
@@ -47,32 +62,30 @@ export default function BlockList({ handlePlayClick, isRecording, EmptyVoiceNote
     return <EmptyBlockPanel EmptyVoiceNote={EmptyVoiceNote} />;
   }
 
-  let prevUserId = '';
-
   return (
-    <div className="mt-2 md:mt-4 flex-2 flex-auto w-full overflow-y-auto min-h-0 pl-0 md:pl-2">
-      <ul className="flex flex-col ">
-        {sortedBlocks.map((block) => {
-          const isUserContinue = prevUserId === block.userId;
-          prevUserId = block.userId;
+    <div className="mt-2 md:mt-4 flex-2 flex-auto w-full overflow-y-auto min-h-0 pl-0 md:pl-2" ref={domRef}>
+      <Virtuoso
+        data={sortedBlocks}
+        style={{ height: `${height}px`, minHeight: '100%' }}
+        totalCount={sortedBlocks.length}
+        overscan={5}
+        ref={virtuosoRef}
+        itemContent={(index, block) => {
           return (
             <BlockItem
               key={block.id}
-              setRef={(ref) => {
-                blocksRef.current[block.id] = ref;
-              }}
               userId={block.userId}
-              hideUserName={isUserContinue}
               date={block.time}
               blockId={block.id}
               blockText={block.text}
               isPlaying={targetBlockId === block.id}
               isVoiceBlock={block.voices.length > 0}
               handlePlayClick={handlePlayClick}
+              beforeBlockUserId={sortedBlocks[index - 1]?.userId}
             />
           );
-        })}
-      </ul>
+        }}
+      />
     </div>
   );
 }
