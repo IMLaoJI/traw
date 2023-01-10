@@ -20,17 +20,18 @@ export const PanelFooter = ({ isRecording, isTalking, recognizedText, onCreate }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      if (!text) return;
-      onCreate(text);
-      setText(undefined);
-    }
+    if (e.key !== 'Enter') return;
+    if (e.shiftKey) return;
+    e.preventDefault();
+    if (!text) return;
+    onCreate(text);
+    setText('');
   };
 
   const handleClick = () => {
     if (!text) return;
     onCreate(text);
-    setText(undefined);
+    setText('');
   };
 
   return (

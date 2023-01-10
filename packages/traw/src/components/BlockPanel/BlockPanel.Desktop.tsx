@@ -8,13 +8,14 @@ import PanelHeader from './PanelHeader';
 
 export interface BlockPanelProps {
   handlePlayClick: (blockId?: string) => void;
+  handleCreateTextBlock: (text: string) => void;
   components?: {
     EmptyVoiceNote?: ReactNode;
     EmptyDocumentPopup?: ReactNode;
   };
 }
 
-export const BlockPanelDesktop = ({ handlePlayClick, components }: BlockPanelProps) => {
+export const BlockPanelDesktop = ({ handlePlayClick, handleCreateTextBlock, components }: BlockPanelProps) => {
   const [closeEmptyPopupForever, setCloseEmptyPopupForever] = useState(false);
 
   const app = useTrawApp();
@@ -74,7 +75,7 @@ export const BlockPanelDesktop = ({ handlePlayClick, components }: BlockPanelPro
                 isRecording={isRecording}
                 isTalking={isTalking}
                 recognizedText={recognizedText}
-                onCreate={console.log}
+                onCreate={handleCreateTextBlock}
               />
             )}
           </>

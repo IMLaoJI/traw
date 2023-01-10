@@ -1,5 +1,8 @@
+import { useTrawApp } from 'hooks';
 import useDeviceDetect from 'hooks/useDeviceDetect';
+import { nanoid } from 'nanoid';
 import React, { ReactNode } from 'react';
+import { TRBlock, TRBlockType } from 'types';
 import BlockPanelDesktop from './BlockPanel.Desktop';
 import BlockPanelMobile from './BlockPanel.Mobile';
 
@@ -14,10 +17,37 @@ export interface BlockPanelProps {
 export const BlockPanel = ({ handlePlayClick, components }: BlockPanelProps) => {
   const { isBrowser } = useDeviceDetect();
 
+  const app = useTrawApp();
+
+  const handleCreateTextBlock = (text: string) => {
+    const block: TRBlock = {
+      id: nanoid(),
+      type: TRBlockType.TALK,
+      time: Date.now(),
+      userId: app.editorId,
+      lang: app.speechRecognitionLanguage,
+
+      text,
+      isActive: true,
+      voices: [],
+      voiceStart: 0,
+      voiceEnd: 0,
+    };
+    app.createBlock(block);
+  };
+
   return isBrowser ? (
-    <BlockPanelDesktop handlePlayClick={handlePlayClick} components={components} />
+    <BlockPanelDesktop
+      handlePlayClick={handlePlayClick}
+      handleCreateTextBlock={handleCreateTextBlock}
+      components={components}
+    />
   ) : (
-    <BlockPanelMobile handlePlayClick={handlePlayClick} components={components} />
+    <BlockPanelMobile
+      handlePlayClick={handlePlayClick}
+      handleCreateTextBlock={handleCreateTextBlock}
+      components={components}
+    />
   );
 };
 
