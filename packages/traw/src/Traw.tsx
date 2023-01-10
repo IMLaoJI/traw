@@ -33,6 +33,7 @@ export interface TrawProps {
   };
   functions?: {
     handleChangeDocumentTitle?: (newValue: string) => void;
+    handleNavigateHome?: () => void;
   };
 }
 
@@ -80,7 +81,11 @@ const Traw = ({ app, document, components, functions }: TrawProps) => {
         <Editor components={components} readOnly={readOnly} />
         <StyledUI bp={breakpoints}>
           {!isPlayerMode && (
-            <TopPanel Room={components?.TopMenu} handleChangeTitle={functions?.handleChangeDocumentTitle} />
+            <TopPanel
+              Room={components?.TopMenu}
+              handleChangeTitle={functions?.handleChangeDocumentTitle}
+              handleNavigateHome={functions?.handleNavigateHome}
+            />
           )}
           {!isPlayerMode && (
             <BlockPanel
