@@ -58,7 +58,9 @@ export const SlideListItem = ({
       }}
       key={page.id}
       onClick={handleSelectSlide}
-      className={classNames(`flex aspect-video  relative cursor-pointer rounded-xl ${slideSizes[type]} ${classnames}}`)}
+      className={classNames(
+        `flex aspect-video flex-1 relative cursor-pointer rounded-xl ${slideSizes[type]} ${classnames}}`,
+      )}
     >
       <div
         className={classNames(
