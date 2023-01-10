@@ -15,22 +15,23 @@ export interface PanelFooterProps {
 export const PanelFooter = ({ isRecording, isTalking, recognizedText, onCreate }: PanelFooterProps) => {
   const [text, setText] = useState<string | undefined>(undefined);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setText(e.target.value);
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      if (!text) return;
-      onCreate(text);
-      setText(undefined);
-    }
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key !== 'Enter') return;
+    if (e.shiftKey) return;
+    e.preventDefault();
+    if (!text) return;
+    onCreate(text);
+    setText('');
   };
 
   const handleClick = () => {
     if (!text) return;
     onCreate(text);
-    setText(undefined);
+    setText('');
   };
 
   return (
@@ -66,10 +67,10 @@ export const PanelFooter = ({ isRecording, isTalking, recognizedText, onCreate }
             'bg-traw-sky': isRecording,
           })}
         >
-          <input
+          <textarea
             className={classNames(
               'w-full',
-              'rounded-full',
+              'resize-none',
               'bg-transparent',
               'text-traw-grey-dark',
               'text-xs',
@@ -78,6 +79,7 @@ export const PanelFooter = ({ isRecording, isTalking, recognizedText, onCreate }
               'focus-visible:outline-0',
               'gap-2',
             )}
+            rows={1}
             placeholder="Enter messages here."
             value={text}
             onChange={handleInputChange}
