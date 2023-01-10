@@ -8,13 +8,14 @@ import PanelHeader from './PanelHeader';
 
 export interface BlockPanelProps {
   handlePlayClick: (blockId?: string) => void;
+  handleCreateTextBlock: (text: string) => void;
   components?: {
     EmptyVoiceNote?: ReactNode;
     EmptyDocumentPopup?: ReactNode;
   };
 }
 
-export const BlockPanelMobile = ({ handlePlayClick, components }: BlockPanelProps) => {
+export const BlockPanelMobile = ({ handlePlayClick, handleCreateTextBlock, components }: BlockPanelProps) => {
   const app = useTrawApp();
   const panelOpen = app.useStore((state) => state.editor.isPanelOpen);
   const totalTime = app.useStore((state) => state.player.totalTime);
@@ -55,7 +56,7 @@ export const BlockPanelMobile = ({ handlePlayClick, components }: BlockPanelProp
               isRecording={isRecording}
               isTalking={isTalking}
               recognizedText={recognizedText}
-              onCreate={console.log}
+              onCreate={handleCreateTextBlock}
             />
           )}
         </>

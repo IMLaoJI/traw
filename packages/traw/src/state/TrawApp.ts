@@ -103,6 +103,8 @@ export class TrawApp {
 
   editorId: string;
 
+  speechRecognitionLanguage: string;
+
   viewportSize = {
     width: 0,
     height: 0,
@@ -163,6 +165,7 @@ export class TrawApp {
 
   constructor({ user, document, records = [], speechRecognitionLanguage = 'ko-KR', playerOptions }: TrawAppOptions) {
     this.editorId = user.id;
+    this.speechRecognitionLanguage = speechRecognitionLanguage;
 
     const mode = playerOptions?.autoPlay
       ? PlayModeType.PLAYING

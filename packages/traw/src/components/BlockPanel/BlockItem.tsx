@@ -89,14 +89,23 @@ export const BlockItem = memo(
         <div className={classNames('flex', 'flex-1', 'align-start', 'justify-between')}>
           {!editMode ? (
             <span
-              className={classNames('text-sm', 'rounded-md', 'py-1', 'px-0.5', 'transition-colors', 'break-all', {
-                'cursor-pointer': isVoiceBlock,
-                'hover:bg-traw-grey-50': isVoiceBlock,
-                'bg-traw-purple-light': isPlaying,
-              })}
+              className={classNames(
+                'text-sm',
+                'rounded-md',
+                'py-1',
+                'px-0.5',
+                'transition-colors',
+                'break-all',
+                'whitespace-pre-wrap	',
+                {
+                  'cursor-pointer': isVoiceBlock,
+                  'hover:bg-traw-grey-50': isVoiceBlock,
+                  'bg-traw-purple-light': isPlaying,
+                },
+              )}
               onClick={onClick}
             >
-              {blockText || '[Empty]'}
+              {`${blockText}` || '[Empty]'}
             </span>
           ) : (
             <BlockTextInput blockId={blockId} originText={blockText} endEditMode={handleToggleEditMode} />
