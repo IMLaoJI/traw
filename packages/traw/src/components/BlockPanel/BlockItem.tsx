@@ -96,7 +96,7 @@ export const BlockItem = memo(
                 'px-0.5',
                 'transition-colors',
                 'break-all',
-                'whitespace-pre-wrap	',
+                'whitespace-pre-wrap',
                 {
                   'cursor-pointer': isVoiceBlock,
                   'hover:bg-traw-grey-50': isVoiceBlock,
