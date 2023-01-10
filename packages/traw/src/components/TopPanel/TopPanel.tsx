@@ -7,14 +7,15 @@ import { TopPanelMobile } from './TopPanel.mobile';
 export interface TopPanelProps {
   Room?: ReactNode;
   handleChangeTitle?: (newValue: string) => void;
+  handleNavigateHome?: () => void;
 }
 
-export const TopPanel = React.memo(function TopPanel({ Room, handleChangeTitle }: TopPanelProps) {
+export const TopPanel = React.memo(function TopPanel({ Room, handleChangeTitle, handleNavigateHome }: TopPanelProps) {
   const { isBrowser } = useDeviceDetect();
 
   return isBrowser ? (
-    <TopPanelDesktop Room={Room} handleChangeTitle={handleChangeTitle} />
+    <TopPanelDesktop Room={Room} handleChangeTitle={handleChangeTitle} handleNavigateHome={handleNavigateHome} />
   ) : (
-    <TopPanelMobile Room={Room} handleChangeTitle={handleChangeTitle} />
+    <TopPanelMobile Room={Room} handleChangeTitle={handleChangeTitle} handleNavigateHome={handleNavigateHome} />
   );
 });

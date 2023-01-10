@@ -8,12 +8,17 @@ import TrawTopPanel from './TrawTopPanel';
 export interface TopPanelProps {
   Room?: ReactNode;
   handleChangeTitle?: (newValue: string) => void;
+  handleNavigateHome?: () => void;
 }
 
-export const TopPanelDesktop = React.memo(function TopPanelDesktop({ Room, handleChangeTitle }: TopPanelProps) {
+export const TopPanelDesktop = React.memo(function TopPanelDesktop({
+  Room,
+  handleChangeTitle,
+  handleNavigateHome,
+}: TopPanelProps) {
   return (
     <>
-      <HeaderPanel handleChangeTitle={handleChangeTitle} />
+      <HeaderPanel handleChangeTitle={handleChangeTitle} handleNavigateHome={handleNavigateHome} />
       <StyledTopPanelContainer bp={breakpoints}>{Room || <TrawTopPanel />}</StyledTopPanelContainer>
     </>
   );

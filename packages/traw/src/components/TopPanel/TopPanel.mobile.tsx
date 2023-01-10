@@ -9,18 +9,27 @@ import TrawTopPanel from './TrawTopPanel';
 export interface TopPanelProps {
   Room?: ReactNode;
   handleChangeTitle?: (newValue: string) => void;
+  handleNavigateHome?: () => void;
 }
 
-export const TopPanelMobile = React.memo(function TopPanelMobile({ Room, handleChangeTitle }: TopPanelProps) {
+export const TopPanelMobile = React.memo(function TopPanelMobile({
+  Room,
+  handleChangeTitle,
+  handleNavigateHome,
+}: TopPanelProps) {
   const app = useTrawApp();
   const state = app.useStore();
   const { document } = state;
+
+  const handleClickLogo = () => {
+    handleNavigateHome ? handleNavigateHome() : window.open('https://app.traw.io', '_blank');
+  };
 
   return (
     <>
       <StyledTopPanelContainer>
         <StyledLeftPanelContainer>
-          <button>
+          <button onClick={handleClickLogo}>
             <SvgLogoSmall className="w-6 h-6" />
           </button>
           <div className="flex items-center">

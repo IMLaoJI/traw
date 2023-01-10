@@ -7,9 +7,10 @@ import Title from './Title';
 
 interface HeaderPanelProps {
   handleChangeTitle?: (newValue: string) => void;
+  handleNavigateHome?: () => void;
 }
 
-export const HeaderPanel = memo(function HeaderPanel({ handleChangeTitle }: HeaderPanelProps) {
+export const HeaderPanel = memo(function HeaderPanel({ handleChangeTitle, handleNavigateHome }: HeaderPanelProps) {
   const app = useTrawApp();
   const state = app.useStore();
   const { document } = state;
@@ -21,10 +22,14 @@ export const HeaderPanel = memo(function HeaderPanel({ handleChangeTitle }: Head
     [handleChangeTitle],
   );
 
+  const handleClickLogo = () => {
+    handleNavigateHome ? handleNavigateHome() : window.open('https://app.traw.io', '_blank');
+  };
+
   return (
     <>
       <StyledHeaderPanelContainer bp={breakpoints}>
-        <button>
+        <button onClick={handleClickLogo}>
           <SvgLogoSmall className="w-6 h-6" />
         </button>
         <div className="flex items-center">
@@ -59,6 +64,9 @@ const StyledHeaderPanelContainer = styled('div', {
   boxShadow: '0px 10px 30px rgba(189, 188, 249, 0.3)',
 
   '& > div > *': {
+    pointerEvents: 'all',
+  },
+  '& > button': {
     pointerEvents: 'all',
   },
   variants: {
