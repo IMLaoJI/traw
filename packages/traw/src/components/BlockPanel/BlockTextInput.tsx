@@ -1,5 +1,5 @@
 import { useTrawApp } from 'hooks';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 interface BlockTextInputProps {
   blockId: string;
@@ -11,28 +11,54 @@ const BlockTextInput = ({ blockId, originText, endEditMode }: BlockTextInputProp
   const trawApp = useTrawApp();
   const [newValue, setNewValue] = useState(originText);
 
-  const handleBlockTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  const handleBlockTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setNewValue(e.target.value);
   };
 
-  const handleBlockTextBlur = () => {
+  const handleEditEnd = () => {
     endEditMode();
     trawApp.editBlock(blockId, newValue);
   };
 
+  useEffect(() => {
+    setTimeout(() => {
+      if (!textareaRef.current) return;
+      textareaRef.current.style.cssText = 'height:auto; padding:0';
+
+      textareaRef.current.style.cssText = `height: calc(${textareaRef.current.scrollHeight}px + 1rem)`;
+    }, 0);
+  }, [textareaRef, newValue]);
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Escape') {
+      setNewValue(originText);
+      endEditMode();
+      return;
+    }
+    if (e.key !== 'Enter') return;
+    if (e.shiftKey) return;
+    handleEditEnd();
+  };
+
+  useEffect(() => {
+    if (!textareaRef.current) return;
+    textareaRef.current.focus();
+    textareaRef.current.selectionStart = textareaRef.current.value.length;
+  }, [textareaRef]);
+
   return (
-    <input
-      className="text-sm rounded-md px-0.5 transition-colors bg-traw-grey-50 w-full"
-      value={newValue}
-      onChange={handleBlockTextChange}
-      onBlur={handleBlockTextBlur}
-      onKeyDown={(e) => {
-        if (e.key === 'Enter') {
-          handleBlockTextBlur();
-        }
-      }}
-      autoFocus
-    />
+    <>
+      <textarea
+        ref={textareaRef}
+        className="text-sm rounded-md m-1 transition-colors bg-traw-grey-50 w-full resize-none"
+        value={newValue}
+        onChange={handleBlockTextChange}
+        onBlur={handleEditEnd}
+        onKeyDown={handleKeyDown}
+      />
+    </>
   );
 };
 
