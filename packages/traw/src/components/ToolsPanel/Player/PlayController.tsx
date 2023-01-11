@@ -30,19 +30,19 @@ const PlayController = () => {
       {isDone ? (
         <Tooltip label="play">
           <TrawIconButton variant="primary" onClick={handlePlay}>
-            <SvgPlayArrow className="fill-current w-full-h-full" />
+            <SvgPlayArrow className="fill-current w-full-h-full absolute" />
           </TrawIconButton>
         </Tooltip>
       ) : mode === PlayModeType.PLAYING ? (
         <Tooltip label="pause">
           <TrawIconButton variant="secondary" onClick={handlePlay}>
-            <SvgPause className="fill-current w-full-h-full" />
+            <SvgPause className="fill-current w-full-h-full absolute" />
           </TrawIconButton>
         </Tooltip>
       ) : (
         <Tooltip label="play">
           <TrawIconButton variant="primary" onClick={handlePlay}>
-            <SvgPlayArrow className="fill-current w-full-h-full" />
+            <SvgPlayArrow className="fill-current w-full-h-full absolute" />
           </TrawIconButton>
         </Tooltip>
       )}

@@ -64,6 +64,7 @@ export const TrawIconButton = styled('button', {
   justifyContent: 'center',
   position: 'relative',
   width: '100%',
+  height: '100%',
   cursor: 'pointer',
   fontFamily: '$ui',
   fontWeight: 700,
