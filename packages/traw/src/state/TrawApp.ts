@@ -480,6 +480,7 @@ export class TrawApp {
     const { padding } = editor;
 
     if (currentPageId !== this.app.appState.currentPageId) {
+      if (this.app.getPage(currentPageId) === undefined) return;
       this.app.patchState({
         appState: {
           currentPageId,
