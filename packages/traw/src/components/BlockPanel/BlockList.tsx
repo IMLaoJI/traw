@@ -62,6 +62,10 @@ export default function BlockList({ handlePlayClick, isRecording, EmptyVoiceNote
     return <EmptyBlockPanel EmptyVoiceNote={EmptyVoiceNote} />;
   }
 
+  const Footer = () => {
+    return <div className="h-[15px]"></div>;
+  };
+
   return (
     <div className="mt-2 md:mt-4 flex-2 flex-auto w-full overflow-y-auto min-h-0 pl-0 md:pl-2" ref={domRef}>
       <Virtuoso
@@ -70,19 +74,22 @@ export default function BlockList({ handlePlayClick, isRecording, EmptyVoiceNote
         totalCount={sortedBlocks.length}
         overscan={5}
         ref={virtuosoRef}
+        components={{ Footer }}
         itemContent={(index, block) => {
           return (
-            <BlockItem
-              key={block.id}
-              userId={block.userId}
-              date={block.time}
-              blockId={block.id}
-              blockText={block.text}
-              isPlaying={targetBlockId === block.id}
-              isVoiceBlock={block.voices.length > 0}
-              handlePlayClick={handlePlayClick}
-              beforeBlockUserId={sortedBlocks[index - 1]?.userId}
-            />
+            <>
+              <BlockItem
+                key={block.id}
+                userId={block.userId}
+                date={block.time}
+                blockId={block.id}
+                blockText={block.text}
+                isPlaying={targetBlockId === block.id}
+                isVoiceBlock={block.voices.length > 0}
+                handlePlayClick={handlePlayClick}
+                beforeBlockUserId={sortedBlocks[index - 1]?.userId}
+              />
+            </>
           );
         }}
       />
