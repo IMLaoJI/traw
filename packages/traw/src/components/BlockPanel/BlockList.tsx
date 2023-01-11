@@ -14,9 +14,12 @@ export interface BlockListProps {
 export default function BlockList({ handlePlayClick, isRecording, EmptyVoiceNote }: BlockListProps) {
   const app = useTrawApp();
   const blocks = app.useStore((state: TrawSnapshot) => state.blocks);
+
+  const mode = app.useStore((state: TrawSnapshot) => state.player.mode);
   const targetBlockId = app.useStore((state: TrawSnapshot) =>
     state.player.mode === PlayModeType.PLAYING ? state.player.targetBlockId : undefined,
   );
+  console.log(mode, targetBlockId);
   const virtuosoRef = useRef(null);
   const domRef = useRef<HTMLDivElement>(null);
 
@@ -35,7 +38,9 @@ export default function BlockList({ handlePlayClick, isRecording, EmptyVoiceNote
 
     setHeight(height);
   }, []);
+
   useEventListener('resize', handleResize);
+
   useIsomorphicLayoutEffect(() => {
     handleResize();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -49,6 +54,9 @@ export default function BlockList({ handlePlayClick, isRecording, EmptyVoiceNote
     }
   }, []);
 
+  /**
+   * Scroll to last block when new block is added
+   */
   useEffect(() => {
     const newBlockLength = sortedBlocks.length;
 
@@ -57,6 +65,18 @@ export default function BlockList({ handlePlayClick, isRecording, EmptyVoiceNote
     }
     setBeforeBlockLength(newBlockLength);
   }, [sortedBlocks, beforeBlockLength, scrollTo]);
+
+  /**
+   * Scroll to target block when playing
+   */
+  useEffect(() => {
+    if (mode === PlayModeType.PLAYING && targetBlockId) {
+      const index = sortedBlocks.findIndex((block) => block.id === targetBlockId);
+      if (index !== -1) {
+        scrollTo(index);
+      }
+    }
+  }, [sortedBlocks, mode, scrollTo, targetBlockId]);
 
   if (sortedBlocks.length === 0 && !isRecording) {
     return <EmptyBlockPanel EmptyVoiceNote={EmptyVoiceNote} />;
