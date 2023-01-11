@@ -1,6 +1,6 @@
-import React, { useCallback, useMemo } from 'react';
 import { styled } from '@stitches/react';
 import { useTrawApp } from 'hooks';
+import React from 'react';
 import { TRBlock } from 'types';
 
 export type BlockProgressProps = {
