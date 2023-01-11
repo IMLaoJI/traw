@@ -1324,7 +1324,7 @@ export class TrawApp {
   };
 
   private _getNextBlock = (blockId: string): TRBlock | undefined => {
-    const blocks = Object.values(this.store.getState().blocks).filter((b) => this.getPlayableVoice(b));
+    const blocks = Object.values(this.store.getState().blocks);
     const sortedBlocks = blocks.sort((a, b) => a.time - b.time);
     const index = sortedBlocks.findIndex((b) => b.id === blockId);
     return sortedBlocks[index + 1];
