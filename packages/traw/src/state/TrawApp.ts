@@ -1137,14 +1137,17 @@ export class TrawApp {
   public getPlayableVoice = (block: TRBlock | undefined): TRBlockVoice | undefined => {
     if (!block || block.voices.length === 0) return undefined;
 
+    const mp3Voice = block.voices.find(({ ext }) => ext === 'mp3');
+    if (mp3Voice) {
+      return mp3Voice;
+    }
+
     const webmVoice = block.voices.find(({ ext }) => ext === 'webm');
     const mp4Voice = block.voices.find(({ ext }) => ext === 'mp4');
-
     if (isChrome()) {
       return webmVoice ?? mp4Voice;
-    } else {
-      return mp4Voice;
     }
+    return mp4Voice;
   };
 
   private audioInstance: Howl | undefined;
