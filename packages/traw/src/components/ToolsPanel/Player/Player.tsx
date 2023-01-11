@@ -60,7 +60,7 @@ const Player = () => {
   }, [targetBlockId, sortedBlocks, getBlockDuration, isPlaying]);
 
   return (
-    <div className="w-full pb-[27px] flex flex-row px-8 ">
+    <div className="w-full pb-[27px] flex flex-row px-2 sm:px-8 ">
       <PlayController />
 
       <Spacer />
