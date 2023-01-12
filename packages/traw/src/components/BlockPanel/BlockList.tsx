@@ -14,7 +14,6 @@ export interface BlockListProps {
 
 export default function BlockList({ handlePlayClick, isRecording, EmptyVoiceNote }: BlockListProps) {
   const app = useTrawApp();
-  const blocks = app.useStore((state: TrawSnapshot) => state.blocks);
 
   const mode = app.useStore((state: TrawSnapshot) => state.player.mode);
   const targetBlockId = app.useStore((state: TrawSnapshot) =>
@@ -30,10 +29,8 @@ export default function BlockList({ handlePlayClick, isRecording, EmptyVoiceNote
   const [height, setHeight] = useState(0);
 
   const sortedBlocks = useMemo(() => {
-    return Object.values(blocks)
-      .filter((block) => block.isActive)
-      .sort((a, b) => a.time - b.time);
-  }, [blocks]);
+    return app.sortedBlocks;
+  }, [app.sortedBlocks]);
 
   const [beforeBlockLength, setBeforeBlockLength] = useState(sortedBlocks.length);
 

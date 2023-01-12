@@ -696,7 +696,6 @@ export class TrawApp {
   };
 
   addRecords = (records: TRRecord[]) => {
-    records = records.sort((a, b) => a.start - b.start);
     const newRecords = records.filter((record) => !this.store.getState().records[record.id]);
     this.store.setState(
       produce((state) => {
@@ -712,8 +711,22 @@ export class TrawApp {
     return Object.values(this.store.getState().records).sort((a, b) => a.start - b.start);
   }
 
+  private _sortedBlocks: TRBlock[] | undefined;
+
+  clearCachedSortedBlocks = () => {
+    this._sortedBlocks = undefined;
+  };
+
   get sortedBlocks() {
-    return Object.values(this.store.getState().blocks).sort((a, b) => a.time - b.time);
+    if (this._sortedBlocks) return this._sortedBlocks;
+
+    const sortedBlocks = Object.values(this.store.getState().blocks)
+      .filter((block) => block.isActive)
+      .sort((a, b) => a.time - b.time);
+
+    this._sortedBlocks = sortedBlocks;
+
+    return sortedBlocks;
   }
 
   applyRecords = (pointer?: number, animation?: { current: number }) => {
@@ -729,182 +742,180 @@ export class TrawApp {
     const records = sortedRecords.slice(startIndex, endIndex);
 
     let isCameraChanged = false;
-    records
-      .sort((a, b) => a.start - b.start)
-      .forEach((record) => {
-        switch (record.type) {
-          case 'create_page':
-            this.app.patchState({
-              document: {
-                pageStates: {
-                  [record.data.id]: {
-                    id: record.data.id,
-                    selectedIds: [],
-                    camera: { point: [0, 0], zoom: 1 },
-                  },
-                },
-                pages: {
-                  [record.data.id]: {
-                    id: record.data.id,
-                    name: 'Page',
-                    childIndex: 2,
-                    shapes: {},
-                    bindings: {},
-                  },
+    records.forEach((record) => {
+      switch (record.type) {
+        case 'create_page':
+          this.app.patchState({
+            document: {
+              pageStates: {
+                [record.data.id]: {
+                  id: record.data.id,
+                  selectedIds: [],
+                  camera: { point: [0, 0], zoom: 1 },
                 },
               },
-            });
-            this.store.setState(
-              produce((state) => {
-                if (state.camera[record.user]) {
-                  state.camera[record.user].cameras[record.data.id] = DEFAULT_CAMERA;
-                } else {
-                  state.camera[record.user] = {
-                    targetSlideId: record.data.id,
-                    cameras: {
-                      [record.data.id]: DEFAULT_CAMERA,
-                    },
-                  };
-                }
-                state.camera[this.editorId].cameras[record.data.id] = DEFAULT_CAMERA;
-              }),
-            );
-            isCameraChanged = true;
-            break;
-          case 'change_page':
-            this.store.setState(
-              produce((state) => {
-                if (state.camera[record.user]) {
-                  state.camera[record.user].targetSlideId = record.data.id;
-                } else {
-                  state.camera[record.user] = {
-                    targetSlideId: record.data.id,
-                    cameras: {
-                      [record.data.id]: DEFAULT_CAMERA,
-                    },
-                  };
-                }
-              }),
-            );
-            if (this.editorId === record.user) {
-              isCameraChanged = true;
-            }
-            break;
-          case 'delete_page':
-            this.app.patchState({
-              document: {
-                pageStates: {
-                  [record.data.id]: undefined,
-                },
-                pages: {
-                  [record.data.id]: undefined,
+              pages: {
+                [record.data.id]: {
+                  id: record.data.id,
+                  name: 'Page',
+                  childIndex: 2,
+                  shapes: {},
+                  bindings: {},
                 },
               },
-            });
-            break;
-          case 'zoom':
-            if (!record.slideId) break;
-            if (!this.app.state.document.pageStates[record.slideId]) break;
-            this.store.setState(
-              produce((state) => {
-                if (state.camera[record.user]) {
-                  state.camera[record.user].cameras = {
-                    ...state.camera[record.user].cameras,
-                    [record.slideId || '']: record.data.camera,
-                  };
-                } else {
-                  state.camera[record.user] = {
-                    targetSlideId: record.slideId,
-                    cameras: {
-                      [record.slideId || '']: record.data.camera,
-                    },
-                  };
-                }
-              }),
-            );
+            },
+          });
+          this.store.setState(
+            produce((state) => {
+              if (state.camera[record.user]) {
+                state.camera[record.user].cameras[record.data.id] = DEFAULT_CAMERA;
+              } else {
+                state.camera[record.user] = {
+                  targetSlideId: record.data.id,
+                  cameras: {
+                    [record.data.id]: DEFAULT_CAMERA,
+                  },
+                };
+              }
+              state.camera[this.editorId].cameras[record.data.id] = DEFAULT_CAMERA;
+            }),
+          );
+          isCameraChanged = true;
+          break;
+        case 'change_page':
+          this.store.setState(
+            produce((state) => {
+              if (state.camera[record.user]) {
+                state.camera[record.user].targetSlideId = record.data.id;
+              } else {
+                state.camera[record.user] = {
+                  targetSlideId: record.data.id,
+                  cameras: {
+                    [record.data.id]: DEFAULT_CAMERA,
+                  },
+                };
+              }
+            }),
+          );
+          if (this.editorId === record.user) {
             isCameraChanged = true;
-            break;
-          default: {
-            const { data, slideId } = record;
-            if (!slideId) break;
-
-            if (this.app.selectedIds) {
-              // deselect deleted shapes
-              const nextIds = this.app.selectedIds.filter((id) => record.data.shapes[id] !== DELETE_ID);
-              if (this.app.selectedIds.length !== nextIds.length) {
-                this.app.patchState(
-                  {
-                    document: {
-                      pageStates: {
-                        [this.app.currentPageId]: {
-                          selectedIds: nextIds,
-                        },
-                      },
-                    },
-                  },
-                  `selected`,
-                );
-              }
-            }
-
-            if (animation && record.type === 'create_draw') {
-              // Add path animation
-              if (animation.current > record.start && animation.current < record.end) {
-                const shapeId = Object.keys(record.data.shapes)[0];
-                this.store.setState(
-                  produce((state) => {
-                    state.player.animations = {
-                      ...state.player.animations,
-                      [shapeId]: {
-                        type: AnimationType.DRAW,
-                        start: Date.now(),
-                        end: Date.now() + (record.end - record.start),
-                        points: record.data.shapes[shapeId].points,
-                        point: record.data.shapes[shapeId].point,
-                        page: record.slideId,
-                      },
-                    };
-                  }),
-                );
-              }
-            }
-
-            if (data.bindings) {
-              this.app.patchState({
-                document: {
-                  pages: {
-                    [slideId]: {
-                      shapes: {
-                        ...this.convertDeleteToUndefined(data.shapes),
-                      },
-                      bindings: data.bindings ? { ...this.convertDeleteToUndefined(data.bindings) } : undefined,
-                    },
-                  },
-                  assets: {
-                    ...this.convertDeleteToUndefined(data.assets),
-                  },
-                },
-              });
-            } else {
-              this.app.patchState({
-                document: {
-                  pages: {
-                    [slideId]: {
-                      shapes: {
-                        ...this.convertDeleteToUndefined(data.shapes),
-                      },
-                    },
-                  },
-                  assets: {
-                    ...this.convertDeleteToUndefined(data.assets),
-                  },
-                },
-              });
-            }
-            break;
           }
+          break;
+        case 'delete_page':
+          this.app.patchState({
+            document: {
+              pageStates: {
+                [record.data.id]: undefined,
+              },
+              pages: {
+                [record.data.id]: undefined,
+              },
+            },
+          });
+          break;
+        case 'zoom':
+          if (!record.slideId) break;
+          if (!this.app.state.document.pageStates[record.slideId]) break;
+          this.store.setState(
+            produce((state) => {
+              if (state.camera[record.user]) {
+                state.camera[record.user].cameras = {
+                  ...state.camera[record.user].cameras,
+                  [record.slideId || '']: record.data.camera,
+                };
+              } else {
+                state.camera[record.user] = {
+                  targetSlideId: record.slideId,
+                  cameras: {
+                    [record.slideId || '']: record.data.camera,
+                  },
+                };
+              }
+            }),
+          );
+          isCameraChanged = true;
+          break;
+        default: {
+          const { data, slideId } = record;
+          if (!slideId) break;
+
+          if (this.app.selectedIds) {
+            // deselect deleted shapes
+            const nextIds = this.app.selectedIds.filter((id) => record.data.shapes[id] !== DELETE_ID);
+            if (this.app.selectedIds.length !== nextIds.length) {
+              this.app.patchState(
+                {
+                  document: {
+                    pageStates: {
+                      [this.app.currentPageId]: {
+                        selectedIds: nextIds,
+                      },
+                    },
+                  },
+                },
+                `selected`,
+              );
+            }
+          }
+
+          if (animation && record.type === 'create_draw') {
+            // Add path animation
+            if (animation.current > record.start && animation.current < record.end) {
+              const shapeId = Object.keys(record.data.shapes)[0];
+              this.store.setState(
+                produce((state) => {
+                  state.player.animations = {
+                    ...state.player.animations,
+                    [shapeId]: {
+                      type: AnimationType.DRAW,
+                      start: Date.now(),
+                      end: Date.now() + (record.end - record.start),
+                      points: record.data.shapes[shapeId].points,
+                      point: record.data.shapes[shapeId].point,
+                      page: record.slideId,
+                    },
+                  };
+                }),
+              );
+            }
+          }
+
+          if (data.bindings) {
+            this.app.patchState({
+              document: {
+                pages: {
+                  [slideId]: {
+                    shapes: {
+                      ...this.convertDeleteToUndefined(data.shapes),
+                    },
+                    bindings: data.bindings ? { ...this.convertDeleteToUndefined(data.bindings) } : undefined,
+                  },
+                },
+                assets: {
+                  ...this.convertDeleteToUndefined(data.assets),
+                },
+              },
+            });
+          } else {
+            this.app.patchState({
+              document: {
+                pages: {
+                  [slideId]: {
+                    shapes: {
+                      ...this.convertDeleteToUndefined(data.shapes),
+                    },
+                  },
+                },
+                assets: {
+                  ...this.convertDeleteToUndefined(data.assets),
+                },
+              },
+            });
+          }
+          break;
         }
-      });
+      }
+    });
 
     if (animation) this.applyAnimation();
 
@@ -1128,6 +1139,9 @@ export class TrawApp {
   };
 
   createBlock = (block: TRBlock) => {
+    this.clearCachedSortedBlocks();
+    this._sortedBlocks = [];
+
     this.store.setState(
       produce((state) => {
         state.blocks[block.id] = block;
@@ -1146,6 +1160,7 @@ export class TrawApp {
   };
 
   addBlocks = (blocks: TRBlock[]) => {
+    this.clearCachedSortedBlocks();
     let totalTime = 0;
     this.store.setState(
       produce((state) => {
@@ -1159,6 +1174,8 @@ export class TrawApp {
   };
 
   editBlock = (blockId: string, text: string) => {
+    this.clearCachedSortedBlocks();
+
     this.store.setState(
       produce((state) => {
         state.blocks[blockId] = { ...state.blocks[blockId], text };
@@ -1168,6 +1185,7 @@ export class TrawApp {
   };
 
   deleteBlock = (blockId: string) => {
+    this.clearCachedSortedBlocks();
     this.store.setState(
       produce((state) => {
         state.blocks[blockId] = { ...state.blocks[blockId], isActive: false };
@@ -1322,8 +1340,7 @@ export class TrawApp {
   };
 
   private _getNextBlock = (blockId: string): TRBlock | undefined => {
-    const blocks = Object.values(this.store.getState().blocks);
-    const sortedBlocks = blocks.sort((a, b) => a.time - b.time);
+    const sortedBlocks = this.sortedBlocks;
     const index = sortedBlocks.findIndex((b) => b.id === blockId);
     return sortedBlocks[index + 1];
   };
