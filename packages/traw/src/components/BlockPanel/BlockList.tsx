@@ -14,8 +14,8 @@ export interface BlockListProps {
 
 export default function BlockList({ handlePlayClick, isRecording, EmptyVoiceNote }: BlockListProps) {
   const app = useTrawApp();
-  const blocks = app.useStore((state: TrawSnapshot) => state.blocks);
 
+  const blocks = app.useStore((state: TrawSnapshot) => state.blocks);
   const mode = app.useStore((state: TrawSnapshot) => state.player.mode);
   const targetBlockId = app.useStore((state: TrawSnapshot) =>
     state.player.mode === PlayModeType.PLAYING ? state.player.targetBlockId : undefined,
@@ -34,6 +34,8 @@ export default function BlockList({ handlePlayClick, isRecording, EmptyVoiceNote
       .filter((block) => block.isActive)
       .sort((a, b) => a.time - b.time);
   }, [blocks]);
+
+  const [beforeBlockLength, setBeforeBlockLength] = useState(sortedBlocks.length);
 
   const handleResize = useCallback(() => {
     const height = domRef.current?.offsetHeight || 0;
@@ -54,7 +56,7 @@ export default function BlockList({ handlePlayClick, isRecording, EmptyVoiceNote
         (virtuosoRef.current as any).scrollToIndex({ index, align: 'center', behavior: 'smooth' });
         setNeedToScroll(false);
         setIsScrolled(false);
-      }, 100);
+      }, 50);
     }
   }, []);
 
@@ -70,10 +72,28 @@ export default function BlockList({ handlePlayClick, isRecording, EmptyVoiceNote
   const handleAtBottomStateChange = (atBottom: boolean) => {
     if (atBottom) {
       setIsScrolled(false);
+      setNeedToScroll(false);
     } else {
       setIsScrolled(true);
     }
   };
+
+  /**
+   * When voice recognition becomes longer, the height of panel decreases.
+   * At this time, scroll to the bottom so that the scrollToBottom button is not visible
+   */
+  useEffect(() => {
+    if (needToScroll) return;
+
+    const newBlockLength = sortedBlocks.length;
+    const newHeight = domRef.current?.offsetHeight;
+    if (!newHeight) return;
+    if (height < newHeight && newBlockLength > beforeBlockLength) {
+      scrollTo(newBlockLength - 1);
+      setHeight(newHeight);
+    }
+    setBeforeBlockLength(newBlockLength);
+  }, [beforeBlockLength, needToScroll, scrollTo, sortedBlocks.length, height]);
 
   /**
    * Scroll to target block when playing
@@ -96,7 +116,10 @@ export default function BlockList({ handlePlayClick, isRecording, EmptyVoiceNote
   };
 
   return (
-    <div className="mt-2 md:mt-4 flex-2 flex-auto w-full overflow-y-auto min-h-0 pl-0 md:pl-2 relative" ref={domRef}>
+    <div
+      className="mt-2 md:mt-4 flex-2 flex-auto w-full overflow-y-auto min-h-0 pl-0 md:pl-2 relative overscroll-y-none"
+      ref={domRef}
+    >
       <Virtuoso
         data={sortedBlocks}
         style={{ height: `${height}px`, minHeight: '100%' }}
