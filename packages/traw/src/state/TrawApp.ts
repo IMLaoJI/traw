@@ -716,19 +716,18 @@ export class TrawApp {
     return Object.values(this.store.getState().blocks).sort((a, b) => a.time - b.time);
   }
 
-  applyRecords = (index?: number, animation?: { current: number }) => {
+  applyRecords = (pointer?: number, animation?: { current: number }) => {
     const sortedRecords = this.sortedRecords;
+    const endIndex = pointer ?? sortedRecords.length;
 
-    if (!index) index = sortedRecords.length - 1;
-
-    let startIndex = this.pointer;
-    if (this.pointer > index) {
+    let startIndex = this.pointer + 1;
+    if (endIndex < startIndex) {
       this.app.resetDocument();
       startIndex = -1;
       console.log('reset');
     }
 
-    const records = sortedRecords.slice(startIndex + 1, index);
+    const records = sortedRecords.slice(startIndex, endIndex);
 
     let isCameraChanged = false;
     records
@@ -912,7 +911,7 @@ export class TrawApp {
 
     this.removeDefaultPage();
 
-    this.pointer = index;
+    this.pointer = endIndex - 1;
 
     if (isCameraChanged) {
       this.syncCamera();
