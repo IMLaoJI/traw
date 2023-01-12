@@ -718,13 +718,12 @@ export class TrawApp {
 
   applyRecords = (pointer?: number, animation?: { current: number }) => {
     const sortedRecords = this.sortedRecords;
-    const endIndex = pointer ?? sortedRecords.length;
+    const endIndex = pointer ? pointer + 1 : sortedRecords.length;
 
     let startIndex = this.pointer + 1;
     if (endIndex < startIndex) {
       this.app.resetDocument();
-      startIndex = -1;
-      console.log('reset');
+      startIndex = 0;
     }
 
     const records = sortedRecords.slice(startIndex, endIndex);
